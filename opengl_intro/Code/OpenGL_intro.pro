@@ -15,10 +15,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
     mainwindow.cpp \
     mainview.cpp \
-    user_input.cpp
+    user_input.cpp \
+    vertex.cpp
 
 HEADERS  += mainwindow.h \
-    mainview.h
+    mainview.h \
+    vertex.h
 
 FORMS    += mainwindow.ui
 

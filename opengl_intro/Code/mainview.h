@@ -1,6 +1,8 @@
 #ifndef MAINVIEW_H
 #define MAINVIEW_H
 
+#include "vertex.h"
+
 #include <QKeyEvent>
 #include <QMouseEvent>
 #include <QOpenGLWidget>
@@ -14,7 +16,7 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     Q_OBJECT
 
 public:
-    MainView(QWidget *parent = 0);
+    MainView(QWidget *parent = nullptr);
     ~MainView();
 
 protected:
@@ -37,6 +39,10 @@ private:
     QOpenGLDebugLogger *debugLogger;
 
     QTimer timer; // timer used for animation
+
+    GLuint vbo, vao;
+
+    QOpenGLShaderProgram *shaderProgram;
 
 private slots:
     void onMessageLogged( QOpenGLDebugMessage Message );
