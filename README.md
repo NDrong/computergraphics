@@ -1,2 +1,1 @@
-# computergraphics
-Computer Graphics
+# Computer Graphics
