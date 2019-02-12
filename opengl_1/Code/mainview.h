@@ -13,6 +13,7 @@
 #include <QTimer>
 #include <QVector3D>
 #include <memory>
+#include <QMatrix4x4>
 
 class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     Q_OBJECT
@@ -35,6 +36,9 @@ public:
     void setRotation(int rotateX, int rotateY, int rotateZ);
     void setScale(int scale);
     void setShadingMode(ShadingMode shading);
+
+    QMatrix4x4 projection;
+    GLint sLocModelTransform, sLocProjectionTransform;
 
 protected:
     void initializeGL();

@@ -61,7 +61,7 @@ void MainView::initializeGL() {
     glEnable(GL_DEPTH_TEST);
 
     // Enable backface culling
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
 
     // Default is GL_LESS
     glDepthFunc(GL_LEQUAL);
@@ -86,6 +86,9 @@ void MainView::createShaderProgram()
     shaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment,
                                            ":/shaders/fragshader.glsl");
     shaderProgram.link();
+
+    sLocModelTransform = shaderProgram.uniformLocation("modelTransform");
+    sLocProjectionTransform = shaderProgram.uniformLocation("projectionTransform");
 }
 
 // --- OpenGL drawing
@@ -102,11 +105,14 @@ void MainView::paintGL() {
 
     shaderProgram.bind();
 
+    glUniformMatrix4fv(sLocProjectionTransform, 1, false, projection.data());
+
     // Draw here
-    objects[0]->bind();
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-    objects[1]->bind();
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    for (auto& object : objects) {
+        object->bind();
+        glUniformMatrix4fv(sLocModelTransform, 1, false, object->transform.data());
+        glDrawArrays(GL_TRIANGLES, 0, object->numVertices());
+    }
 
     shaderProgram.release();
 }
@@ -121,9 +127,7 @@ void MainView::paintGL() {
  */
 void MainView::resizeGL(int newWidth, int newHeight) 
 {
-    // TODO: Update projection to fit the new aspect ratio
-    Q_UNUSED(newWidth)
-    Q_UNUSED(newHeight)
+    projection.perspective(60, float(newWidth) / float(newHeight), 0.01f, 10000.0f);
 }
 
 // --- Public interface
@@ -131,7 +135,10 @@ void MainView::resizeGL(int newWidth, int newHeight)
 void MainView::setRotation(int rotateX, int rotateY, int rotateZ)
 {
     qDebug() << "Rotation changed to (" << rotateX << "," << rotateY << "," << rotateZ << ")";
-    Q_UNIMPLEMENTED();
+    for (auto& object : objects) {
+        object->rotate(rotateX * 3.14 / 180, rotateY * 3.14 / 180, rotateZ * 3.14 / 180);
+    }
+    update();
 }
 
 void MainView::setScale(int scale)
