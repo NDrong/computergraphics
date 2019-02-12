@@ -1,5 +1,6 @@
 #include "mainview.h"
 #include "math.h"
+#include "vertex.h"
 
 #include <QDateTime>
 
@@ -68,6 +69,12 @@ void MainView::initializeGL() {
     // Set the color of the screen to be black on clear (new frame)
     glClearColor(0.2f, 0.5f, 0.7f, 0.0f);
 
+    objects.push_back(std::make_unique<SceneObject>());
+    objects.push_back(std::make_unique<SceneObject>());
+
+    objects[0]->createCube();
+    objects[1]->createPyramid();
+
     createShaderProgram();
 }
 
@@ -96,6 +103,10 @@ void MainView::paintGL() {
     shaderProgram.bind();
 
     // Draw here
+    objects[0]->bind();
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    objects[1]->bind();
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 
     shaderProgram.release();
 }

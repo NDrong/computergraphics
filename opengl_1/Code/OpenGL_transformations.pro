@@ -16,11 +16,15 @@ SOURCES += main.cpp\
     mainwindow.cpp \
     mainview.cpp \
     user_input.cpp \
-    model.cpp
+    model.cpp \
+    vertex.cpp \
+    sceneobject.cpp
 
 HEADERS  += mainwindow.h \
     mainview.h \
-    model.h
+    model.h \
+    vertex.h \
+    sceneobject.h
 
 FORMS    += mainwindow.ui
 

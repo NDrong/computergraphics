@@ -2,6 +2,7 @@
 #define MAINVIEW_H
 
 #include "model.h"
+#include "sceneobject.h"
 
 #include <QKeyEvent>
 #include <QMouseEvent>
@@ -56,6 +57,7 @@ private slots:
 
 private:
     void createShaderProgram();
+    std::vector<std::unique_ptr<SceneObject>> objects;
 
 };
 
