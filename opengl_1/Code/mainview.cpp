@@ -61,7 +61,7 @@ void MainView::initializeGL() {
     glEnable(GL_DEPTH_TEST);
 
     // Enable backface culling
-    //glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
 
     // Default is GL_LESS
     glDepthFunc(GL_LEQUAL);
@@ -89,6 +89,7 @@ void MainView::createShaderProgram()
 
     sLocModelTransform = shaderProgram.uniformLocation("modelTransform");
     sLocProjectionTransform = shaderProgram.uniformLocation("projectionTransform");
+    sLocRotationTransform = shaderProgram.uniformLocation("rotationTransform");
 }
 
 // --- OpenGL drawing
@@ -110,8 +111,9 @@ void MainView::paintGL() {
     // Draw here
     for (auto& object : objects) {
         object->bind();
+        glUniformMatrix4fv(sLocRotationTransform, 1, false, object->rotation.data());
         glUniformMatrix4fv(sLocModelTransform, 1, false, object->transform.data());
-        glDrawArrays(GL_TRIANGLES, 0, object->numVertices());
+        glDrawArrays(GL_TRIANGLES, 0, GLsizei(object->numVertices()));
     }
 
     shaderProgram.release();
@@ -136,7 +138,7 @@ void MainView::setRotation(int rotateX, int rotateY, int rotateZ)
 {
     qDebug() << "Rotation changed to (" << rotateX << "," << rotateY << "," << rotateZ << ")";
     for (auto& object : objects) {
-        object->rotate(rotateX * 3.14 / 180, rotateY * 3.14 / 180, rotateZ * 3.14 / 180);
+        object->rotate(rotateX, rotateY, rotateZ);
     }
     update();
 }

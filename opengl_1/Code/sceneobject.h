@@ -19,6 +19,7 @@ public:
     size_t numVertices();
 
     QMatrix4x4 transform;
+    QMatrix4x4 rotation;
 
 private:
     size_t _numVertices;
