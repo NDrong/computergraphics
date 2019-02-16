@@ -94,34 +94,28 @@ void SceneObject::createPyramid() {
 
     std::vector<Vertex> pyramid;
 
-    // Poging 2 tot het maken van een piramide.
-    // Bottom face 1 (OK)
-    pyramid.push_back({-1, -1, 1, 1.0, 0, 0.0});
-    pyramid.push_back({1, -1, -1, 1.0, 0, 0.0});
-    pyramid.push_back({-1, -1, -1, 1.0, 0, 0.0});
-    pyramid.push_back({-1, -1, 1, 1.0, 0, 0.0});
-    pyramid.push_back({1, -1, 1, 1.0, 0, 0.0});
-    pyramid.push_back({1, -1, -1, 1.0, 0, 0.0});
+    pyramid.push_back({0, 1, 0, 1, 0, 0});
+    pyramid.push_back({-1, -1, 1, 0, 1, 0});
+    pyramid.push_back({1, -1, 1, 0, 0, 1});
 
-    // Right face (OK)
-    pyramid.push_back({0, 1, 0, 0, 0.25, 0.75});
-    pyramid.push_back({1, -1, -1, 0, 0.25, 0.75});
-    pyramid.push_back({1, -1, 1, 0, 0.25, 0.75});
+    pyramid.push_back({0, 1, 0, 1, 0, 0});
+    pyramid.push_back({1, -1, 1, 0, 0, 1});
+    pyramid.push_back({1, -1, -1, 0, 1, 0});
 
-    // Left face (OK)
-    pyramid.push_back({0, 1, 0, 0.25, 0, 0.25});
-    pyramid.push_back({-1, -1, 1, 0.25, 0, 0.25});
-    pyramid.push_back({-1, -1, -1, 0.25, 0, 0.25});
+    pyramid.push_back({0, 1, 0, 1, 0, 0});
+    pyramid.push_back({1, -1, -1, 0, 1, 0});
+    pyramid.push_back({-1, -1, -1, 0, 0, 1});
 
-    // Front face (OK)
-    pyramid.push_back({0, 1, 0, 0.25, 0.25, 0});
-    pyramid.push_back({-1, -1, -1, 0.25, 0.25, 0});
-    pyramid.push_back({1, -1, -1, 0.25, 0.25, 0});
+    pyramid.push_back({0, 1, 0, 1, 0, 0});
+    pyramid.push_back({-1, -1, -1, 0, 0, 1});
+    pyramid.push_back({-1, -1, 1, 0, 1, 0});
 
-    // Back face (OK)
-    pyramid.push_back({0, 1, 0, 0, 0.25, 0.25});
-    pyramid.push_back({1, -1, 1, 0, 0.25, 0.25});
-    pyramid.push_back({-1, -1, 1, 0, 0.25, 0.25});
+    pyramid.push_back({-1, -1, 1, 1, 0, 0});
+    pyramid.push_back({-1, -1, -1, 0, 1, 0});
+    pyramid.push_back({1, -1, -1, 0, 0, 1});
+    pyramid.push_back({1, -1, -1, 0, 0, 1});
+    pyramid.push_back({1, -1, 1, 0, 1, 0});
+    pyramid.push_back({-1, -1, 1, 1, 0, 0});
 
     glGenBuffers(1, &this->vbo);
     glGenVertexArrays(1, &this->vao);
