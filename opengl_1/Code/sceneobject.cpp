@@ -151,7 +151,8 @@ void SceneObject::createPyramid() {
 }
 
 void SceneObject::createSphere() {
-    auto model = Model(":/models/sphere.obj");
+    initializeOpenGLFunctions();
+    Model model(":/models/sphere.obj");
     auto vertices = model.getVertices();
     std::vector<ColoredVertex> sphere;
     float r, g, b;
@@ -178,6 +179,7 @@ void SceneObject::createSphere() {
 
     _numVertices = sphere.size();
     translation = {0, 0, -10};
+    scaling = 0.04f;
     updateTransformationMatrix();
 
 }

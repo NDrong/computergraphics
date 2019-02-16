@@ -144,9 +144,14 @@ void MainView::setRotation(int rotateX, int rotateY, int rotateZ)
 
 void MainView::setScale(int scale)
 {
+    objects[0]->setScaling(scale / 100.0f);
+    objects[1]->setScaling(scale / 100.0f);
+    objects[2]->setScaling(scale / 100.0f * 0.04f);
+    /*
     for (auto& object : objects) {
         object->setScaling(scale / 100.0f);
     }
+    */
     update();
 }
 
