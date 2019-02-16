@@ -12,7 +12,7 @@ SceneObject::~SceneObject() {
 }
 
 void SceneObject::rotate(float rX, float rY, float rZ) {
-    rotation = QMatrix4x4();
+    rotation.setToIdentity();
     rotation.rotate(rX, 1, 0, 0);
     rotation.rotate(rY, 0, 1, 0);
     rotation.rotate(rZ, 0, 0, 1);
