@@ -23,49 +23,53 @@ void SceneObject::createCube() {
 
     std::vector<Vertex> cube;
 
-        // Kubus in normale volgorde van het wereldwijde web.
-// Back face
-   cube.push_back( {-0.5f, -0.5f, -0.5f,  1, 0, 0}); // Bottom-left
-   cube.push_back( { 0.5f, -0.5f, -0.5f,   1, 0, 0}); // bottom-right
-   cube.push_back( { 0.5f,  0.5f, -0.5f,   1, 0, 0}); // top-right
-   cube.push_back( { 0.5f,  0.5f, -0.5f,  1, 0, 0 }); // top-right
-   cube.push_back( {-0.5f,  0.5f, -0.5f,  1, 0, 0 }); // top-left
-   cube.push_back( {-0.5f, -0.5f, -0.5f,  1, 0, 0 }) ;// bottom-left
-// Front face
-   cube.push_back( {-0.5f, -0.5f,  0.5f,   0, 1, 0}); // bottom-left
-   cube.push_back( { 0.5f,  0.5f,  0.5f,  0, 1, 0}); // top-right
-   cube.push_back( { 0.5f, -0.5f,  0.5f,  0, 1, 0}); // bottom-right
-   cube.push_back( { 0.5f,  0.5f,  0.5f,  0, 1, 0}); // top-right
-   cube.push_back( {-0.5f, -0.5f,  0.5f,  0, 1, 0}); // bottom-left
-   cube.push_back( {-0.5f,  0.5f,  0.5f,  0, 1, 0}); // top-left
- // Left face
-   cube.push_back( {-0.5f,  0.5f,  0.5f,  0, 0, 1}); // top-right
-   cube.push_back( {-0.5f, -0.5f, -0.5f,  0, 0, 1}) ;// bottom-left
-   cube.push_back( {-0.5f,  0.5f, -0.5f,  0, 0, 1}) ;//top-left
-   cube.push_back( {-0.5f, -0.5f, -0.5f,  0, 0, 1}) ;// bottom-left
-   cube.push_back( {-0.5f,  0.5f,  0.5f,  0, 0, 1}) ; // top-right
-   cube.push_back( {-0.5f, -0.5f,  0.5f,  0, 0, 1}); // bottom-right
- // Right face
-   cube.push_back( { 0.5f,  0.5f,  0.5f,  0, 1, 1}); // top-left
-   cube.push_back( { 0.5f,  0.5f, -0.5f,  0, 1, 1}); // top-right
-   cube.push_back( { 0.5f, -0.5f, -0.5f,  0, 1, 1}); // bottom-right
-   cube.push_back( { 0.5f, -0.5f, -0.5f,  0, 1, 1}); // bottom-right
-   cube.push_back( { 0.5f, -0.5f,  0.5f,  0, 1, 1}); // bottom-left
-   cube.push_back( { 0.5f,  0.5f,  0.5f,  0, 1, 1}); // top-left
- // Bottom face
-   cube.push_back( {-0.5f, -0.5f, -0.5f,  1, 0, 1}) ;// top-right
-   cube.push_back( { 0.5f, -0.5f,  0.5f,  1, 0, 1}) ;// bottom-left
-   cube.push_back( { 0.5f, -0.5f, -0.5f,  1, 0, 1}) ;// top-left
-   cube.push_back( { 0.5f, -0.5f,  0.5f,  1, 0, 1}) ;// bottom-left
-   cube.push_back( {-0.5f, -0.5f, -0.5f,  1, 0, 1}) ;// top-right
-   cube.push_back( {-0.5f, -0.5f,  0.5f,  1, 0, 1}) ;// bottom-right
- // Top face
-   cube.push_back( {-0.5f,  0.5f, -0.5f,  1, 1, 0}) ;// top-left
-   cube.push_back( { 0.5f,  0.5f, -0.5f,  1, 1, 0}) ;// top-right
-   cube.push_back( { 0.5f,  0.5f,  0.5f,  1, 1, 0}) ;// bottom-right
-   cube.push_back( { 0.5f,  0.5f,  0.5f,  1, 1, 0}) ;// bottom-right
-   cube.push_back( {-0.5f,  0.5f,  0.5f,  1, 1, 0}) ;// bottom-left
-   cube.push_back( {-0.5f,  0.5f, -0.5f,  1, 1, 0}) ;// top-left
+    cube.push_back({ -1.0f,-1.0f,-1.0f,1,0,0});
+    cube.push_back({ -1.0f,-1.0f, 1.0f,1,0,0});
+    cube.push_back({ -1.0f, 1.0f, 1.0f,1,0,0});
+
+    cube.push_back({ 1.0f, 1.0f,-1.0f, 1,0,0});
+    cube.push_back({ -1.0f,-1.0f,-1.0f,1,0,0});
+    cube.push_back({ -1.0f, 1.0f,-1.0f,1,0,0});
+
+    cube.push_back({ 1.0f,-1.0f, 1.0f, 0,0,1});
+    cube.push_back({ -1.0f,-1.0f,-1.0f,0,0,1});
+    cube.push_back({ 1.0f,-1.0f,-1.0f, 0,0,1});
+
+    cube.push_back({ 1.0f, 1.0f,-1.0f, 0,0,1});
+    cube.push_back({ 1.0f,-1.0f,-1.0f, 0,0,1});
+    cube.push_back({ -1.0f,-1.0f,-1.0f,0,0,1});
+
+    cube.push_back({ -1.0f,-1.0f,-1.0f,0,1,0});
+    cube.push_back({ -1.0f, 1.0f, 1.0f,0,1,0});
+    cube.push_back({ -1.0f, 1.0f,-1.0f,0,1,0});
+
+    cube.push_back({ 1.0f,-1.0f, 1.0f, 0,1,0});
+    cube.push_back({ -1.0f,-1.0f, 1.0f,0,1,0});
+    cube.push_back({ -1.0f,-1.0f,-1.0f,0,1,0});
+
+    cube.push_back({ -1.0f, 1.0f, 1.0f,1,1,0});
+    cube.push_back({ -1.0f,-1.0f, 1.0f,1,1,0});
+    cube.push_back({ 1.0f,-1.0f, 1.0f, 1,1,0});
+
+    cube.push_back({ 1.0f, 1.0f, 1.0f, 1,1,0});
+    cube.push_back({ 1.0f,-1.0f,-1.0f, 1,1,0});
+    cube.push_back({ 1.0f, 1.0f,-1.0f, 1,1,0});
+
+    cube.push_back({ 1.0f,-1.0f,-1.0f, 1,0,1});
+    cube.push_back({ 1.0f, 1.0f, 1.0f, 1,0,1});
+    cube.push_back({ 1.0f,-1.0f, 1.0f, 1,0,1});
+
+    cube.push_back({ 1.0f, 1.0f, 1.0f, 1,0,1});
+    cube.push_back({ 1.0f, 1.0f,-1.0f, 1,0,1});
+    cube.push_back({ -1.0f, 1.0f,-1.0f,1,0,1});
+
+    cube.push_back({ 1.0f, 1.0f, 1.0f,0,1,1});
+    cube.push_back({ -1.0f, 1.0f,-1.0f,0,1,1});
+    cube.push_back({ -1.0f, 1.0f, 1.0f,0,1,1});
+
+    cube.push_back({ 1.0f, 1.0f, 1.0f,0,1,1});
+    cube.push_back({ -1.0f, 1.0f, 1.0f,0,1,1});
+    cube.push_back({ 1.0f,-1.0f, 1.0f, 0,1,1});
 
     glGenBuffers(1, &this->vbo);
     glGenVertexArrays(1, &this->vao);
