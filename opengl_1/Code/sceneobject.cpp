@@ -67,58 +67,6 @@ void SceneObject::createCube() {
    cube.push_back( {-0.5f,  0.5f,  0.5f,  1, 1, 0}) ;// bottom-left
    cube.push_back( {-0.5f,  0.5f, -0.5f,  1, 1, 0}) ;// top-left
 
-
-
-    /*
-    cube.push_back({ -1.0f,-1.0f,-1.0f,1,0,0});
-    cube.push_back({ -1.0f, 1.0f, 1.0f,1,0,0});
-    cube.push_back({ -1.0f,-1.0f, 1.0f,1,0,0});
-
-    cube.push_back({ 1.0f, 1.0f,-1.0f, 1,0,0});
-    cube.push_back({ -1.0f, 1.0f,-1.0f,1,0,0});
-    cube.push_back({ -1.0f,-1.0f,-1.0f,1,0,0});
-
-    cube.push_back({ 1.0f,-1.0f, 1.0f, 0,0,1});
-    cube.push_back({ 1.0f,-1.0f,-1.0f, 0,0,1});
-    cube.push_back({ -1.0f,-1.0f,-1.0f,0,0,1});
-
-    cube.push_back({ 1.0f, 1.0f,-1.0f, 0,0,1});
-    cube.push_back({ -1.0f,-1.0f,-1.0f,0,0,1});
-    cube.push_back({ 1.0f,-1.0f,-1.0f, 0,0,1});
-
-    cube.push_back({ -1.0f,-1.0f,-1.0f,0,1,0});
-    cube.push_back({ -1.0f, 1.0f,-1.0f,0,1,0});
-    cube.push_back({ -1.0f, 1.0f, 1.0f,0,1,0});
-
-    cube.push_back({ 1.0f,-1.0f, 1.0f, 0,1,0});
-    cube.push_back({ -1.0f,-1.0f,-1.0f,0,1,0});
-    cube.push_back({ -1.0f,-1.0f, 1.0f,0,1,0});
-
-    cube.push_back({ -1.0f, 1.0f, 1.0f,1,1,0});
-    cube.push_back({ 1.0f,-1.0f, 1.0f, 1,1,0});
-    cube.push_back({ -1.0f,-1.0f, 1.0f,1,1,0});
-
-    cube.push_back({ 1.0f, 1.0f, 1.0f, 1,1,0});
-    cube.push_back({ 1.0f, 1.0f,-1.0f, 1,1,0});
-    cube.push_back({ 1.0f,-1.0f,-1.0f, 1,1,0});
-
-    cube.push_back({ 1.0f,-1.0f,-1.0f, 1,0,1});
-    cube.push_back({ 1.0f,-1.0f, 1.0f, 1,0,1});
-    cube.push_back({ 1.0f, 1.0f, 1.0f, 1,0,1});
-
-    cube.push_back({ 1.0f, 1.0f, 1.0f, 1,0,1});
-    cube.push_back({ -1.0f, 1.0f,-1.0f,1,0,1});
-    cube.push_back({ 1.0f, 1.0f,-1.0f, 1,0,1});
-
-    cube.push_back({ 1.0f, 1.0f, 1.0f,0,1,1});
-    cube.push_back({ -1.0f, 1.0f, 1.0f,0,1,1});
-    cube.push_back({ -1.0f, 1.0f,-1.0f,0,1,1});
-
-    cube.push_back({ 1.0f, 1.0f, 1.0f,0,1,1});
-    cube.push_back({ 1.0f,-1.0f, 1.0f, 0,1,1});
-    cube.push_back({ -1.0f, 1.0f, 1.0f,0,1,1});
-    */
-
     glGenBuffers(1, &this->vbo);
     glGenVertexArrays(1, &this->vao);
 
@@ -128,7 +76,7 @@ void SceneObject::createCube() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * cube.size(), &cube[0], GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
 
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<GLvoid*>(2 * sizeof(float)));
