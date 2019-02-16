@@ -19,8 +19,9 @@ void SceneObject::rotate(float rX, float rY, float rZ) {
 }
 
 void SceneObject::createCube() {
-    std::vector<Vertex> cube;
+    initializeOpenGLFunctions();
 
+    std::vector<Vertex> cube;
 
         // Kubus in normale volgorde van het wereldwijde web.
 // Back face
@@ -118,8 +119,6 @@ void SceneObject::createCube() {
     cube.push_back({ -1.0f, 1.0f, 1.0f,0,1,1});
     */
 
-
-
     glGenBuffers(1, &this->vbo);
     glGenVertexArrays(1, &this->vao);
 
@@ -139,9 +138,9 @@ void SceneObject::createCube() {
 }
 
 void SceneObject::createPyramid() {
+    initializeOpenGLFunctions();
+
     std::vector<Vertex> pyramid;
-
-
 
     // Poging 2 tot het maken van een piramide.
     // Bottom face 1 (OK)

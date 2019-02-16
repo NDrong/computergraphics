@@ -1,6 +1,7 @@
 #ifndef SCENEOBJECT_H
 #define SCENEOBJECT_H
 
+#include <QOpenGLWidget>
 #include <QOpenGLFunctions_3_3_Core>
 #include <QMatrix4x4>
 
@@ -21,9 +22,9 @@ public:
     QMatrix4x4 transform;
     QMatrix4x4 rotation;
 
+    GLuint vbo, vao;
 private:
     size_t _numVertices;
-    GLuint vbo, vao;
     float oldRX, oldRY, oldRZ;
 };
 

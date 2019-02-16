@@ -69,11 +69,11 @@ void MainView::initializeGL() {
     // Set the color of the screen to be black on clear (new frame)
     glClearColor(0.2f, 0.5f, 0.7f, 0.0f);
 
-    //objects.push_back(std::make_unique<SceneObject>());
-    //objects.push_back(std::make_unique<SceneObject>());
+    objects.push_back(std::make_unique<SceneObject>());
+    objects.push_back(std::make_unique<SceneObject>());
 
-    //objects[0]->createCube();
-    //objects[1]->createPyramid();
+    objects[0]->createCube();
+    objects[1]->createPyramid();
 
     createShaderProgram();
 }
