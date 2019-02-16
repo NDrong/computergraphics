@@ -4,7 +4,7 @@
 #include <QOpenGLFunctions_3_3_Core>
 #include <QMatrix4x4>
 
-class SceneObject
+class SceneObject : protected QOpenGLFunctions_3_3_Core
 {
 public:
     SceneObject();
