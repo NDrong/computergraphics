@@ -18,7 +18,11 @@ void SceneObject::updateTransformationMatrix() {
     transform.rotate(rotation.x(), 1, 0, 0);
     transform.rotate(rotation.y(), 0, 1, 0);
     transform.rotate(rotation.z(), 0, 0, 1);
-    transform.scale(scaling);
+    if (objectType == ObjectType::Sphere)
+        transform.scale(scaling * 0.04f);
+    else {
+        transform.scale(scaling);
+    }
 }
 
 void SceneObject::setScaling(float s) {
@@ -33,6 +37,7 @@ void SceneObject::setRotation(float rX, float rY, float rZ) {
 
 void SceneObject::createCube() {
     initializeOpenGLFunctions();
+    objectType = ObjectType::Cube;
 
     std::vector<ColoredVertex> cube;
 
@@ -105,6 +110,7 @@ void SceneObject::createCube() {
 
 void SceneObject::createPyramid() {
     initializeOpenGLFunctions();
+    objectType = ObjectType::Pyramid;
 
     std::vector<ColoredVertex> pyramid;
 
@@ -152,6 +158,8 @@ void SceneObject::createPyramid() {
 
 void SceneObject::createSphere() {
     initializeOpenGLFunctions();
+    objectType = ObjectType::Sphere;
+
     Model model(":/models/sphere.obj");
     auto vertices = model.getVertices();
     std::vector<ColoredVertex> sphere;
@@ -160,6 +168,7 @@ void SceneObject::createSphere() {
         r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         g = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         b = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        // printf("Vertex colors: r: %.3f g: %.3f b: %.3f\n", r, g, b);
         sphere.push_back(ColoredVertex(vertex, r, g, b));
     }
 
@@ -179,7 +188,6 @@ void SceneObject::createSphere() {
 
     _numVertices = sphere.size();
     translation = {0, 0, -10};
-    scaling = 0.04f;
     updateTransformationMatrix();
 
 }

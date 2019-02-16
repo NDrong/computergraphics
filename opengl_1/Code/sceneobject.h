@@ -26,6 +26,13 @@ public:
 
     GLuint vbo, vao;
 private:
+    enum ObjectType
+    {
+        Cube,
+        Pyramid,
+        Sphere,
+    };
+    ObjectType objectType;
     size_t _numVertices;
     float oldRX, oldRY, oldRZ;
 
