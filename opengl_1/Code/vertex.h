@@ -3,11 +3,11 @@
 
 #include <QVector3D>
 
-class Vertex
+class ColoredVertex
 {
 public:
-    Vertex(float posX, float posY, float posZ, float r, float g, float b);
-    Vertex(QVector3D const &vector);
+    ColoredVertex(float posX, float posY, float posZ, float r, float g, float b);
+    ColoredVertex(QVector3D const &vector, float r, float g, float b);
     float x,y,z;
     float r,g,b;
 };

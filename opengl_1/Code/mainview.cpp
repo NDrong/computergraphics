@@ -71,9 +71,11 @@ void MainView::initializeGL() {
 
     objects.push_back(std::make_unique<SceneObject>());
     objects.push_back(std::make_unique<SceneObject>());
+    objects.push_back(std::make_unique<SceneObject>());
 
     objects[0]->createCube();
     objects[1]->createPyramid();
+    objects[2]->createSphere();
 
     createShaderProgram();
 }

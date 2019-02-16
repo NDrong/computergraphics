@@ -34,7 +34,7 @@ void SceneObject::setRotation(float rX, float rY, float rZ) {
 void SceneObject::createCube() {
     initializeOpenGLFunctions();
 
-    std::vector<Vertex> cube;
+    std::vector<ColoredVertex> cube;
 
     cube.push_back({ -1.0f,-1.0f,-1.0f,1,0,0});
     cube.push_back({ -1.0f,-1.0f, 1.0f,1,0,0});
@@ -90,13 +90,13 @@ void SceneObject::createCube() {
     glBindVertexArray(this->vao);
     glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
 
-    glBufferData(GL_ARRAY_BUFFER, GLsizeiptr(sizeof(Vertex) * cube.size()), &cube[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, GLsizeiptr(sizeof(ColoredVertex) * cube.size()), &cube[0], GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ColoredVertex), nullptr);
 
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<GLvoid*>(2 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ColoredVertex), reinterpret_cast<GLvoid*>(2 * sizeof(float)));
 
     _numVertices = cube.size();
     translation = {2, 0, -6};
@@ -106,7 +106,7 @@ void SceneObject::createCube() {
 void SceneObject::createPyramid() {
     initializeOpenGLFunctions();
 
-    std::vector<Vertex> pyramid;
+    std::vector<ColoredVertex> pyramid;
 
     pyramid.push_back({0, 1, 0, 1, 0, 0});
     pyramid.push_back({-1, -1, 1, 0, 1, 0});
@@ -137,13 +137,13 @@ void SceneObject::createPyramid() {
     glBindVertexArray(this->vao);
     glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
 
-    glBufferData(GL_ARRAY_BUFFER, GLsizeiptr(sizeof(Vertex) * pyramid.size()), &pyramid[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, GLsizeiptr(sizeof(ColoredVertex) * pyramid.size()), &pyramid[0], GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ColoredVertex), nullptr);
 
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<GLvoid*>(2 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ColoredVertex), reinterpret_cast<GLvoid*>(2 * sizeof(float)));
 
     _numVertices = pyramid.size();
     translation = {-2, 0, -6};
@@ -153,13 +153,13 @@ void SceneObject::createPyramid() {
 void SceneObject::createSphere() {
     auto model = Model(":/models/sphere.obj");
     auto vertices = model.getVertices();
-    std::vector<Vertex> sphere;
+    std::vector<ColoredVertex> sphere;
     float r, g, b;
-    for (const auto &vertex : vertices) {
+    for (auto const &vertex : vertices) {
         r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         g = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         b = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-        sphere.push_back(Vertex(vertex, r, g, b));
+        sphere.push_back(ColoredVertex(vertex, r, g, b));
     }
 
     glGenBuffers(1, &this->vbo);
@@ -168,13 +168,13 @@ void SceneObject::createSphere() {
     glBindVertexArray(this->vao);
     glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
 
-    glBufferData(GL_ARRAY_BUFFER, GLsizeiptr(sizeof(Vertex) * sphere.size()), &sphere[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, GLsizeiptr(sizeof(ColoredVertex) * sphere.size()), &sphere[0], GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ColoredVertex), nullptr);
 
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<GLvoid*>(2 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ColoredVertex), reinterpret_cast<GLvoid*>(2 * sizeof(float)));
 
     _numVertices = sphere.size();
     translation = {0, 0, -10};
