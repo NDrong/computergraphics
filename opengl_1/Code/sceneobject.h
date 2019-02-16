@@ -4,6 +4,7 @@
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions_3_3_Core>
 #include <QMatrix4x4>
+#include <QVector3D>
 
 class SceneObject : protected QOpenGLFunctions_3_3_Core
 {
@@ -15,17 +16,21 @@ public:
     void createCube();
     void createPyramid();
 
-    void rotate(float rX, float rY, float rZ);
+    void setRotation(float rX, float rY, float rZ);
+    void setScaling(float s);
 
     size_t numVertices();
 
     QMatrix4x4 transform;
-    QMatrix4x4 rotation;
 
     GLuint vbo, vao;
 private:
     size_t _numVertices;
     float oldRX, oldRY, oldRZ;
+
+    void updateTransformationMatrix();
+    QVector3D translation, rotation;
+    float scaling;
 };
 
 #endif // SCENEOBJECT_H

@@ -89,7 +89,6 @@ void MainView::createShaderProgram()
 
     sLocModelTransform = shaderProgram.uniformLocation("modelTransform");
     sLocProjectionTransform = shaderProgram.uniformLocation("projectionTransform");
-    sLocRotationTransform = shaderProgram.uniformLocation("rotationTransform");
 }
 
 // --- OpenGL drawing
@@ -111,7 +110,6 @@ void MainView::paintGL() {
     // Draw here
     for (auto& object : objects) {
         object->bind();
-        glUniformMatrix4fv(sLocRotationTransform, 1, false, object->rotation.data());
         glUniformMatrix4fv(sLocModelTransform, 1, false, object->transform.data());
         glDrawArrays(GL_TRIANGLES, 0, GLsizei(object->numVertices()));
     }
@@ -136,17 +134,18 @@ void MainView::resizeGL(int newWidth, int newHeight)
 
 void MainView::setRotation(int rotateX, int rotateY, int rotateZ)
 {
-    qDebug() << "Rotation changed to (" << rotateX << "," << rotateY << "," << rotateZ << ")";
     for (auto& object : objects) {
-        object->rotate(rotateX, rotateY, rotateZ);
+        object->setRotation(rotateX, rotateY, rotateZ);
     }
     update();
 }
 
 void MainView::setScale(int scale)
 {
-    qDebug() << "Scale changed to " << scale;
-    Q_UNIMPLEMENTED();
+    for (auto& object : objects) {
+        object->setScaling(scale / 100.0f);
+    }
+    update();
 }
 
 void MainView::setShadingMode(ShadingMode shading)

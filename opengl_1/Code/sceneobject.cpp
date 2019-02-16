@@ -3,7 +3,7 @@
 
 SceneObject::SceneObject()
 {
-    oldRX = oldRY = oldRZ = 0;
+    scaling = 1.0f;
 }
 
 SceneObject::~SceneObject() {
@@ -11,11 +11,23 @@ SceneObject::~SceneObject() {
     glDeleteVertexArrays(1, &this->vao);
 }
 
-void SceneObject::rotate(float rX, float rY, float rZ) {
-    rotation.setToIdentity();
-    rotation.rotate(rX, 1, 0, 0);
-    rotation.rotate(rY, 0, 1, 0);
-    rotation.rotate(rZ, 0, 0, 1);
+void SceneObject::updateTransformationMatrix() {
+    transform.setToIdentity();
+    transform.translate(translation);
+    transform.rotate(rotation.x(), 1, 0, 0);
+    transform.rotate(rotation.y(), 0, 1, 0);
+    transform.rotate(rotation.z(), 0, 0, 1);
+    transform.scale(scaling);
+}
+
+void SceneObject::setScaling(float s) {
+    scaling = s;
+    updateTransformationMatrix();
+}
+
+void SceneObject::setRotation(float rX, float rY, float rZ) {
+    rotation = {rX, rY, rZ};
+    updateTransformationMatrix();
 }
 
 void SceneObject::createCube() {
@@ -86,7 +98,8 @@ void SceneObject::createCube() {
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<GLvoid*>(2 * sizeof(float)));
 
     _numVertices = cube.size();
-    transform.translate(2, 0, -6);
+    translation = {2, 0, -6};
+    updateTransformationMatrix();
 }
 
 void SceneObject::createPyramid() {
@@ -132,7 +145,8 @@ void SceneObject::createPyramid() {
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<GLvoid*>(2 * sizeof(float)));
 
     _numVertices = pyramid.size();
-    transform.translate(-2, 0, -6);
+    translation = {-2, 0, -6};
+    updateTransformationMatrix();
 }
 
 void SceneObject::bind() {
