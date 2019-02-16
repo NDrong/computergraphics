@@ -1,5 +1,6 @@
 #include "sceneobject.h"
 #include "vertex.h"
+#include "model.h"
 
 SceneObject::SceneObject()
 {
@@ -89,7 +90,7 @@ void SceneObject::createCube() {
     glBindVertexArray(this->vao);
     glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
 
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * cube.size(), &cube[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, GLsizeiptr(sizeof(Vertex) * cube.size()), &cube[0], GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
@@ -147,6 +148,38 @@ void SceneObject::createPyramid() {
     _numVertices = pyramid.size();
     translation = {-2, 0, -6};
     updateTransformationMatrix();
+}
+
+void SceneObject::createSphere() {
+    auto model = Model(":/models/sphere.obj");
+    auto vertices = model.getVertices();
+    std::vector<Vertex> sphere;
+    float r, g, b;
+    for (const auto &vertex : vertices) {
+        r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        g = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        b = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        sphere.push_back(Vertex(vertex, r, g, b));
+    }
+
+    glGenBuffers(1, &this->vbo);
+    glGenVertexArrays(1, &this->vao);
+
+    glBindVertexArray(this->vao);
+    glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+
+    glBufferData(GL_ARRAY_BUFFER, GLsizeiptr(sizeof(Vertex) * sphere.size()), &sphere[0], GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
+
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<GLvoid*>(2 * sizeof(float)));
+
+    _numVertices = sphere.size();
+    translation = {0, 0, -10};
+    updateTransformationMatrix();
+
 }
 
 void SceneObject::bind() {

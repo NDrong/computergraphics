@@ -15,6 +15,7 @@ public:
     void bind();
     void createCube();
     void createPyramid();
+    void createSphere();
 
     void setRotation(float rX, float rY, float rZ);
     void setScaling(float s);
