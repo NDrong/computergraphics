@@ -82,13 +82,13 @@ void MainView::initializeGL() {
 
 void MainView::createShaderProgram()
 {
-    // Create shader program
     shaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex,
                                            ":/shaders/vertshader.glsl");
     shaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment,
                                            ":/shaders/fragshader.glsl");
     shaderProgram.link();
 
+    // Link the variables to the shaders.
     sLocModelTransform = shaderProgram.uniformLocation("modelTransform");
     sLocProjectionTransform = shaderProgram.uniformLocation("projectionTransform");
 }

@@ -36,6 +36,7 @@ void SceneObject::setRotation(float rX, float rY, float rZ) {
 void SceneObject::createCube() {
     std::vector<ColoredVertex> cube;
 
+    // Define the vertices in counter-clockwise order as to allow backface culling.
     cube.emplace_back( -1.0f,-1.0f,-1.0f,1,0,0);
     cube.emplace_back( -1.0f,-1.0f, 1.0f,1,0,0);
     cube.emplace_back( -1.0f, 1.0f, 1.0f,1,0,0);
@@ -90,6 +91,7 @@ void SceneObject::createCube() {
 void SceneObject::createPyramid() {
     std::vector<ColoredVertex> pyramid;
 
+    // Define the vertices in counter-clockwise order as to allow backface culling.
     pyramid.emplace_back(0, 1, 0, 1, 0, 0);
     pyramid.emplace_back(-1, -1, 1, 0, 1, 0);
     pyramid.emplace_back(1, -1, 1, 0, 0, 1);
@@ -147,7 +149,7 @@ void SceneObject::createSphere() {
 void SceneObject::loadMesh(QString filename, const QVector3D& translation) {
     initializeOpenGLFunctions();
 
-    Model model(std::move(filename));
+    Model model(filename);
     auto vertices = model.getVertices();
     std::vector<ColoredVertex> object;
     float r, g, b;
