@@ -26,7 +26,7 @@ struct Vertex {
     }
 };
 
-Model::Model(QString filename) {
+Model::Model(const QString& filename) {
     hNorms = false;
     hTexs = false;
 

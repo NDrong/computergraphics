@@ -19,7 +19,7 @@
 class Model
 {
 public:
-    Model(QString filename);
+    Model(const QString& filename);
 
     // Used for glDrawArrays()
     QVector<QVector3D> getVertices();

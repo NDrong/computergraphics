@@ -1,5 +1,5 @@
 #include "mainview.h"
-#include "math.h"
+#include <cmath>
 #include "vertex.h"
 
 #include <QDateTime>
@@ -165,6 +165,6 @@ void MainView::setShadingMode(ShadingMode shading)
  *
  * @param Message
  */
-void MainView::onMessageLogged( QOpenGLDebugMessage Message ) {
+void MainView::onMessageLogged( const QOpenGLDebugMessage& Message ) {
     qDebug() << " → Log:" << Message;
 }

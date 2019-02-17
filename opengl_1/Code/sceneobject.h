@@ -6,6 +6,7 @@
 #include <QMatrix4x4>
 #include <QVector3D>
 #include <cmath>
+#include "vertex.h"
 
 class SceneObject : protected QOpenGLFunctions_3_3_Core
 {
@@ -17,8 +18,9 @@ public:
     void createCube();
     void createPyramid();
     void createSphere();
+    void createObject(const std::vector<ColoredVertex>& vertices,const QVector3D& translation);
 
-    void loadMesh(QString filename);
+    void loadMesh(QString filename, const QVector3D& translation);
 
     void setRotation(float rX, float rY, float rZ);
     void setScaling(float s);

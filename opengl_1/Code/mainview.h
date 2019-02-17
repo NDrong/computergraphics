@@ -18,7 +18,7 @@
 class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     Q_OBJECT
 
-    QOpenGLDebugLogger *debugLogger;
+    QOpenGLDebugLogger *debugLogger{};
     QTimer timer; // timer used for animation
 
     QOpenGLShaderProgram shaderProgram;
@@ -38,7 +38,7 @@ public:
     void setShadingMode(ShadingMode shading);
 
     QMatrix4x4 projection;
-    GLint sLocModelTransform, sLocProjectionTransform;
+    GLint sLocModelTransform{}, sLocProjectionTransform{};
 
 protected:
     void initializeGL();
@@ -57,7 +57,7 @@ protected:
     void wheelEvent(QWheelEvent *ev);
 
 private slots:
-    void onMessageLogged( QOpenGLDebugMessage Message );
+    void onMessageLogged( const QOpenGLDebugMessage& Message );
 
 private:
     void createShaderProgram();
