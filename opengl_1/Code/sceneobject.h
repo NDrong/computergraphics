@@ -5,6 +5,7 @@
 #include <QOpenGLFunctions_3_3_Core>
 #include <QMatrix4x4>
 #include <QVector3D>
+#include <cmath>
 
 class SceneObject : protected QOpenGLFunctions_3_3_Core
 {

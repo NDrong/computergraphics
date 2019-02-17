@@ -8,6 +8,7 @@ class ColoredVertex
 public:
     ColoredVertex(float posX, float posY, float posZ, float r, float g, float b);
     ColoredVertex(QVector3D const &vector, float r, float g, float b);
+
     float x,y,z;
     float r,g,b;
 };

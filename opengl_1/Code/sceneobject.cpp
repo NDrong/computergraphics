@@ -152,7 +152,6 @@ void SceneObject::createPyramid() {
 }
 
 void SceneObject::createSphere() {
-    scalingFactor = 0.04f;
     loadMesh(":/models/sphere.obj");
 }
 
@@ -163,7 +162,18 @@ void SceneObject::loadMesh(QString filename) {
     auto vertices = model.getVertices();
     std::vector<ColoredVertex> object;
     float r, g, b;
+    float minX = std::numeric_limits<float>::infinity(), minY = std::numeric_limits<float>::infinity(), minZ = std::numeric_limits<float>::infinity();
+    float maxX = -std::numeric_limits<float>::infinity(), maxY = -std::numeric_limits<float>::infinity(), maxZ = -std::numeric_limits<float>::infinity();
     for (auto const &vertex : vertices) {
+        // Find the minimum and maximum values for x, y, z, as to determine the required scaling.
+        if (vertex.x() < minX) minX = vertex.x();
+        if (vertex.y() < minY) minY = vertex.y();
+        if (vertex.z() < minZ) minZ = vertex.z();
+
+        if (vertex.x() > maxX) maxX = vertex.x();
+        if (vertex.y() > maxY) maxY = vertex.y();
+        if (vertex.z() > maxZ) maxZ = vertex.z();
+
         r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         g = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         b = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
@@ -187,8 +197,12 @@ void SceneObject::loadMesh(QString filename) {
     _numVertices = object.size();
     translation = {0, 0, -10};
 
-    // Determine scaling factor based on max. width and height of the vertices.
-
+    // Determine scaling factor based on the extremes x, y, z of the vertices.
+    float scaleX, scaleY, scaleZ;
+    scaleX = 2.0f / std::abs(maxX - minX);
+    scaleY = 2.0f / std::abs(maxY - minY);
+    scaleZ = 2.0f / std::abs(maxZ - minZ);
+    scalingFactor = (scaleX + scaleY + scaleZ) / 3.0f;
 
     updateTransformationMatrix();
 }
