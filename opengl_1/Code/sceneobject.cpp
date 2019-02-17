@@ -5,6 +5,7 @@
 SceneObject::SceneObject()
 {
     scaling = 1.0f;
+    scalingFactor = 1.0f;
 }
 
 SceneObject::~SceneObject() {
@@ -18,11 +19,7 @@ void SceneObject::updateTransformationMatrix() {
     transform.rotate(rotation.x(), 1, 0, 0);
     transform.rotate(rotation.y(), 0, 1, 0);
     transform.rotate(rotation.z(), 0, 0, 1);
-    if (objectType == ObjectType::Sphere)
-        transform.scale(scaling * 0.04f);
-    else {
-        transform.scale(scaling);
-    }
+    transform.scale(scaling * scalingFactor);
 }
 
 void SceneObject::setScaling(float s) {
@@ -37,7 +34,6 @@ void SceneObject::setRotation(float rX, float rY, float rZ) {
 
 void SceneObject::createCube() {
     initializeOpenGLFunctions();
-    objectType = ObjectType::Cube;
 
     std::vector<ColoredVertex> cube;
 
@@ -110,7 +106,6 @@ void SceneObject::createCube() {
 
 void SceneObject::createPyramid() {
     initializeOpenGLFunctions();
-    objectType = ObjectType::Pyramid;
 
     std::vector<ColoredVertex> pyramid;
 
@@ -157,19 +152,22 @@ void SceneObject::createPyramid() {
 }
 
 void SceneObject::createSphere() {
-    initializeOpenGLFunctions();
-    objectType = ObjectType::Sphere;
+    scalingFactor = 0.04f;
+    loadMesh(":/models/sphere.obj");
+}
 
-    Model model(":/models/sphere.obj");
+void SceneObject::loadMesh(QString filename) {
+    initializeOpenGLFunctions();
+
+    Model model(filename);
     auto vertices = model.getVertices();
-    std::vector<ColoredVertex> sphere;
+    std::vector<ColoredVertex> object;
     float r, g, b;
     for (auto const &vertex : vertices) {
         r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         g = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         b = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-        // printf("Vertex colors: r: %.3f g: %.3f b: %.3f\n", r, g, b);
-        sphere.push_back(ColoredVertex(vertex, r, g, b));
+        object.push_back(ColoredVertex(vertex, r, g, b));
     }
 
     glGenBuffers(1, &this->vbo);
@@ -178,7 +176,7 @@ void SceneObject::createSphere() {
     glBindVertexArray(this->vao);
     glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
 
-    glBufferData(GL_ARRAY_BUFFER, GLsizeiptr(sizeof(ColoredVertex) * sphere.size()), &sphere[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, GLsizeiptr(sizeof(ColoredVertex) * object.size()), &object[0], GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ColoredVertex), nullptr);
@@ -186,10 +184,13 @@ void SceneObject::createSphere() {
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ColoredVertex), reinterpret_cast<GLvoid*>(3 * sizeof(float)));
 
-    _numVertices = sphere.size();
+    _numVertices = object.size();
     translation = {0, 0, -10};
-    updateTransformationMatrix();
 
+    // Determine scaling factor based on max. width and height of the vertices.
+
+
+    updateTransformationMatrix();
 }
 
 void SceneObject::bind() {

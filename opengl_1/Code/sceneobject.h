@@ -17,6 +17,8 @@ public:
     void createPyramid();
     void createSphere();
 
+    void loadMesh(QString filename);
+
     void setRotation(float rX, float rY, float rZ);
     void setScaling(float s);
 
@@ -26,19 +28,14 @@ public:
 
     GLuint vbo, vao;
 private:
-    enum ObjectType
-    {
-        Cube,
-        Pyramid,
-        Sphere,
-    };
-    ObjectType objectType;
     size_t _numVertices;
-    float oldRX, oldRY, oldRZ;
 
     void updateTransformationMatrix();
+
     QVector3D translation, rotation;
+
     float scaling;
+    float scalingFactor;
 };
 
 #endif // SCENEOBJECT_H
