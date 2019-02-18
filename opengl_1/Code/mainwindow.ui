@@ -20,7 +20,7 @@
       <x>12</x>
       <y>0</y>
       <width>220</width>
-      <height>558</height>
+      <height>408</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -47,8 +47,8 @@
     <widget class="QGroupBox" name="scalingBox">
      <property name="geometry">
       <rect>
-       <x>15</x>
-       <y>197</y>
+       <x>10</x>
+       <y>200</y>
        <width>205</width>
        <height>98</height>
       </rect>
@@ -113,7 +113,7 @@
      <property name="geometry">
       <rect>
        <x>15</x>
-       <y>289</y>
+       <y>300</y>
        <width>205</width>
        <height>101</height>
       </rect>
@@ -170,7 +170,7 @@
      <property name="geometry">
       <rect>
        <x>15</x>
-       <y>18</y>
+       <y>20</y>
        <width>205</width>
        <height>185</height>
       </rect>

@@ -1,8 +1,14 @@
-This is a README file
+OpenGL - Assignment 1
+------------------------
+For this assignment, we implemented all features mentioned in the requirements, namely:
 
-When submitting your assignment, describe (briefly) the changes you made and what difficulties you encountered in this file.
+- Shape drawing
+- Transformations
+- Scaling and rotation
+- Object loading
 
-Also describe what controls (key short-cuts, mouse clicks, mouse movement etc) and possible bonus assignments you implemented, so we can check them more easily.
+The three objects can be scaled and rotated using the controls provided in the GUI.
+We implemented these features mostly in our SceneObject class, such that code can be reused easily.
 
-If you have any suggestions/feedback for improving the practical assignments or support from teaching assistants, you may include it here OR post in anonymously on Nestor under Feedback.
-
+Futhermore, as a bonus, we implemented unitization in the Model class, allowing models to be unitized
+automatically when loaded through our SceneObject class method createFromModelResource.

@@ -75,7 +75,7 @@ void MainView::initializeGL() {
 
     objects[0]->createCube();
     objects[1]->createPyramid();
-    objects[2]->createFromModelResource(":/models/cat.obj", {0, 0, -10});
+    objects[2]->createFromModelResource(":/models/sphere.obj", {0, 0, -10});
 
     createShaderProgram();
 }
