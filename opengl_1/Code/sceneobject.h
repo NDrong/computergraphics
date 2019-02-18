@@ -17,10 +17,8 @@ public:
     void bind();
     void createCube();
     void createPyramid();
-    void createSphere();
     void createObject(const std::vector<ColoredVertex>& vertices,const QVector3D& translation);
-
-    void loadMesh(QString filename, const QVector3D& translation);
+    void createFromModelResource(QString filename, const QVector3D& translation);
 
     void setRotation(float rX, float rY, float rZ);
     void setScaling(float s);
@@ -38,7 +36,6 @@ private:
     QVector3D translation, rotation;
 
     float scaling;
-    float scalingFactor;
 };
 
 #endif // SCENEOBJECT_H

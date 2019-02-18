@@ -6,7 +6,6 @@
 SceneObject::SceneObject()
 {
     scaling = 1.0f;
-    scalingFactor = 1.0f;
 }
 
 SceneObject::~SceneObject() {
@@ -20,7 +19,7 @@ void SceneObject::updateTransformationMatrix() {
     transform.rotate(rotation.x(), 1, 0, 0);
     transform.rotate(rotation.y(), 0, 1, 0);
     transform.rotate(rotation.z(), 0, 0, 1);
-    transform.scale(scaling * scalingFactor);
+    transform.scale(scaling);
 }
 
 void SceneObject::setScaling(float s) {
@@ -142,11 +141,7 @@ void SceneObject::createObject(const std::vector<ColoredVertex>& vertices, const
     updateTransformationMatrix();
 }
 
-void SceneObject::createSphere() {
-    loadMesh(":/models/sphere.obj", {0, 0, -10});
-}
-
-void SceneObject::loadMesh(QString filename, const QVector3D& translation) {
+void SceneObject::createFromModelResource(QString filename, const QVector3D& translation) {
     initializeOpenGLFunctions();
 
     Model model(filename);
@@ -157,13 +152,13 @@ void SceneObject::loadMesh(QString filename, const QVector3D& translation) {
     float maxX = -std::numeric_limits<float>::infinity(), maxY = -std::numeric_limits<float>::infinity(), maxZ = -std::numeric_limits<float>::infinity();
     for (auto const &vertex : vertices) {
         // Find the minimum and maximum values for x, y, z, as to determine the optimal scaling factor.
-        if (vertex.x() < minX) minX = vertex.x();
-        if (vertex.y() < minY) minY = vertex.y();
-        if (vertex.z() < minZ) minZ = vertex.z();
+        minX = std::min(minX, vertex.x());
+        minY = std::min(minY, vertex.y());
+        minZ = std::min(minZ, vertex.z());
 
-        if (vertex.x() > maxX) maxX = vertex.x();
-        if (vertex.y() > maxY) maxY = vertex.y();
-        if (vertex.z() > maxZ) maxZ = vertex.z();
+        maxX = std::max(maxX, vertex.x());
+        maxY = std::max(maxY, vertex.y());
+        maxZ = std::max(maxZ, vertex.z());
 
         // Generate (pseudo)random colors for the vertices.
         r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
@@ -173,11 +168,12 @@ void SceneObject::loadMesh(QString filename, const QVector3D& translation) {
     }
 
     // Determine scaling factor based on the extremes x, y, z of the vertices.
-    float scaleX, scaleY, scaleZ;
-    scaleX = 2.0f / std::abs(maxX - minX);
-    scaleY = 2.0f / std::abs(maxY - minY);
-    scaleZ = 2.0f / std::abs(maxZ - minZ);
-    scalingFactor = (scaleX + scaleY + scaleZ) / 3.0f;
+    float scalingFactor = 2.0f / std::abs(std::max(maxX, std::max(maxY, maxZ)) - std::min(minX, std::min(minY, minZ)));
+    for (auto& vertex : object) {
+        vertex.x *= scalingFactor;
+        vertex.y *= scalingFactor;
+        vertex.z *= scalingFactor;
+    }
 
     createObject(object, translation);
 }
