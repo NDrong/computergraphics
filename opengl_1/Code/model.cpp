@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QTextStream>
+#include <cmath>
 
 // A Private Vertex class for vertex comparison
 // DO NOT include "vertex.h" or something similar in this file
@@ -73,15 +74,31 @@ Model::Model(const QString& filename) {
 }
 
 /**
- * @brief Model::unitze Not Implemented yet!
- *
  * Unitize the model by scaling so that it fits a box with sides 1
- * and origin at 0,0,0
- * Usefull for models with different scales
- *
+ * and origin at 0,0,0.
+ * Useful for models with different scales.
  */
 void Model::unitize() {
-    qDebug() << "TODO: implement this yourself";
+    float minX = std::numeric_limits<float>::infinity(), minY = std::numeric_limits<float>::infinity(), minZ = std::numeric_limits<float>::infinity();
+    float maxX = -std::numeric_limits<float>::infinity(), maxY = -std::numeric_limits<float>::infinity(), maxZ = -std::numeric_limits<float>::infinity();
+    for (auto const &vertex : vertices) {
+        // Find the minimum and maximum values for x, y, z, as to determine the optimal scaling factor.
+        minX = std::min(minX, vertex.x());
+        minY = std::min(minY, vertex.y());
+        minZ = std::min(minZ, vertex.z());
+
+        maxX = std::max(maxX, vertex.x());
+        maxY = std::max(maxY, vertex.y());
+        maxZ = std::max(maxZ, vertex.z());
+    }
+
+    // Determine scaling factor based on the extremes x, y, z of the vertices.
+    float scalingFactor = 2.0f / std::abs(std::max(maxX, std::max(maxY, maxZ)) - std::min(minX, std::min(minY, minZ)));
+    for (auto& vertex : vertices) {
+        vertex.setX(vertex.x() * scalingFactor);
+        vertex.setY(vertex.y() * scalingFactor);
+        vertex.setZ(vertex.z() * scalingFactor);
+    }
 }
 
 QVector<QVector3D> Model::getVertices() {

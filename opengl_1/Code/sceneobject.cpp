@@ -145,34 +145,17 @@ void SceneObject::createFromModelResource(QString filename, const QVector3D& tra
     initializeOpenGLFunctions();
 
     Model model(filename);
+    model.unitize();
     auto vertices = model.getVertices();
+
     std::vector<ColoredVertex> object;
     float r, g, b;
-    float minX = std::numeric_limits<float>::infinity(), minY = std::numeric_limits<float>::infinity(), minZ = std::numeric_limits<float>::infinity();
-    float maxX = -std::numeric_limits<float>::infinity(), maxY = -std::numeric_limits<float>::infinity(), maxZ = -std::numeric_limits<float>::infinity();
     for (auto const &vertex : vertices) {
-        // Find the minimum and maximum values for x, y, z, as to determine the optimal scaling factor.
-        minX = std::min(minX, vertex.x());
-        minY = std::min(minY, vertex.y());
-        minZ = std::min(minZ, vertex.z());
-
-        maxX = std::max(maxX, vertex.x());
-        maxY = std::max(maxY, vertex.y());
-        maxZ = std::max(maxZ, vertex.z());
-
         // Generate (pseudo)random colors for the vertices.
         r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         g = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         b = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         object.emplace_back(vertex, r, g, b);
-    }
-
-    // Determine scaling factor based on the extremes x, y, z of the vertices.
-    float scalingFactor = 2.0f / std::abs(std::max(maxX, std::max(maxY, maxZ)) - std::min(minX, std::min(minY, minZ)));
-    for (auto& vertex : object) {
-        vertex.x *= scalingFactor;
-        vertex.y *= scalingFactor;
-        vertex.z *= scalingFactor;
     }
 
     createObject(object, translation);
