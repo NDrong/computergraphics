@@ -51,7 +51,19 @@ Color Scene::trace(Ray const &ray)
     *        pow(a,b)           a to the power of b
     ****************************************************/
 
-    Color color = material.color;                  // place holder
+    Color color = material.color;
+    double Id = 0;
+    Color Is;
+    for (const auto& light : lights) {
+        Vector L = (light->position - hit).normalized();
+        Vector R =  -L - 2 * (-L).dot(N) * N;
+
+        Id += std::max(0.0, N.dot(L));
+        Is += material.ks * pow(std::max(0.0, R.dot(V)), 10) * light->color;
+    }
+    double I = material.ka * 1.0 + material.kd * Id;
+    color *= I;
+    color += Is;
 
     return color;
 }

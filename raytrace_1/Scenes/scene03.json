@@ -1,0 +1,25 @@
+{
+    "Eye": [200, 200, 1000],
+    "Lights": [
+        {
+            "position": [-200, 600, 1500],
+            "color": [1.0, 1.0, 1.0]
+        }
+    ],
+    "Objects": [
+        {
+            "type": "mesh",
+            "comment": "Driehoek",
+            "filename": "../../opengl_1/Code/models/cat.obj",
+            "position": [110, 130, 200],
+            "material":
+            {
+                "color": [1.0, 0.5, 0.4],
+                "ka": 0.9,
+                "kd": 0.5,
+                "ks": 0.5,
+                "n": 32
+            }
+        }
+    ]
+}

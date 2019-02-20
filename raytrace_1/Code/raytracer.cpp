@@ -4,12 +4,14 @@
 #include "light.h"
 #include "material.h"
 #include "triple.h"
+#include "objloader.h"
 
 // =============================================================================
 // -- Include all your shapes here ---------------------------------------------
 // =============================================================================
 
 #include "shapes/sphere.h"
+#include "shapes/triangle.h"
 
 // =============================================================================
 // -- End of shape includes ----------------------------------------------------
@@ -37,6 +39,39 @@ bool Raytracer::parseObjectNode(json const &node)
         Point pos(node["position"]);
         double radius = node["radius"];
         obj = ObjectPtr(new Sphere(pos, radius));
+    }
+    else if (node["type"] == "triangle")
+    {
+        Point va(node["vertex_a"]);
+        Point vb(node["vertex_b"]);
+        Point vc(node["vertex_c"]);
+        obj = ObjectPtr(new Triangle(va, vb, vc));
+    }
+    else if (node["type"] == "mesh") {
+        std::string filename = node["filename"];
+        OBJLoader loader(filename);
+        auto vertices = loader.vertex_data();
+        printf("Number of triangles: %ld\n", vertices.size() / 3);
+        for (int i = 0; i < vertices.size() / 3; i++) {
+            double scale = 50;
+            Point pos(node["position"]);
+            Point a(vertices[i*3].x, vertices[i*3].y, vertices[i*3].z);
+            Point b(vertices[i*3 + 1].x, vertices[i*3 + 1].y, vertices[i*3 + 1].z);
+            Point c(vertices[i*3 + 2].x, vertices[i*3 + 2].y, vertices[i*3 + 2].z);
+
+            a *= scale;
+            b *= scale;
+            c *= scale;
+
+            a += pos;
+            b += pos;
+            c += pos;
+
+            ObjectPtr o(new Triangle(a, b, c));
+            o->material = parseMaterialNode(node["material"]);
+            scene.addObject(o);
+        }
+        return true;
     }
     else
     {
