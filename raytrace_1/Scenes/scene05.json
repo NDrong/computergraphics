@@ -8,8 +8,8 @@
     "type": "cone",
     "comment": "Cone",
     "position": [200, 250, 100],
-    "radius": 500.0,
-    "height": 100.0,
+    "radius": 100.0,
+    "height": 200.0,
     "material": {
       "color": [0.0, 0.5, 0.7],
       "ka": 0.2,
