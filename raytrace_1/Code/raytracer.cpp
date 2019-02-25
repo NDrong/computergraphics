@@ -53,7 +53,7 @@ bool Raytracer::parseObjectNode(json const &node)
         auto vertices = loader.vertex_data();
         printf("Number of triangles: %ld\n", vertices.size() / 3);
         for (int i = 0; i < vertices.size() / 3; i++) {
-            double scale = 50;
+            double scale(node["scale"]);
             Point pos(node["position"]);
             Point a(vertices[i*3].x, vertices[i*3].y, vertices[i*3].z);
             Point b(vertices[i*3 + 1].x, vertices[i*3 + 1].y, vertices[i*3 + 1].z);

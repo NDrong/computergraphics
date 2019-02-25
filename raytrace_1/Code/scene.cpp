@@ -61,7 +61,7 @@ Color Scene::trace(Ray const &ray)
         Id += std::max(0.0, N.dot(L));
         Is += material.ks * pow(std::max(0.0, R.dot(V)), 10) * light->color;
     }
-    double I = material.ka * 1.0 + material.kd * Id;
+    double I = material.ka + material.kd * Id;
     color *= I;
     color += Is;
 

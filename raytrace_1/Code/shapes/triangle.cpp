@@ -6,46 +6,28 @@ Hit Triangle::intersect(Ray const &ray)
 {
     /* Your intersect calculation goes here */
 
-    Vector U = vb - va;
-    Vector V = vc - va;
-    Vector N = U.cross(V);
+    Vector v0v1 = vb - va;
+    Vector v0v2 = vc - va;
+    Vector pvec = ray.D.cross(v0v2);
+    double det = v0v1.dot(pvec);
 
-    double nd = N.dot(ray.D);
+    if (fabs(det) < 0.001) return Hit::NO_HIT();
 
-    if (nd < 0.001) {
-        return Hit::NO_HIT();
-    }
+    double invDet = 1 / det;
 
-    double D = N.dot(va);
-    double t = -(N.dot(ray.O) + D) / nd;
+    Vector tvec = ray.O - va;
+    double u = tvec.dot(pvec) * invDet;
 
-    if (t < 0) {
-        return Hit::NO_HIT();
-    }
+    if (u < 0 || u > 1) return Hit::NO_HIT();
 
-    Vector pHit = ray.at(t);
-    Vector C;
+    Vector qvec = tvec.cross(v0v1);
+    double v = ray.D.dot(qvec) * invDet;
 
-    Vector edge0 = vb - va;
-    Vector vp0 = pHit - va;
-    C = edge0.cross(vp0);
-    if (N.dot(C) < 0) {
-        return Hit::NO_HIT();
-    }
+    if (v < 0 || (u + v) > 1) return Hit::NO_HIT();
 
-    Vector edge1 = vc - vb;
-    Vector vp1 = pHit - vb;
-    C = edge1.cross(vp1);
-    if (N.dot(C) < 0) {
-        return Hit::NO_HIT();
-    }
-
-    Vector edge2 = va - vc;
-    Vector vp2 = pHit - vc;
-    C = edge2.cross(vp2);
-    if (N.dot(C) < 0) {
-        return Hit::NO_HIT();
-    }
+    double t = v0v2.dot(qvec) * invDet;
+    Vector N = v0v1.cross(v0v2);
+    N.normalize();
 
     return Hit(t, N);
 }
