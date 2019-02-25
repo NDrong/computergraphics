@@ -12,7 +12,7 @@ The following shapes are currently implemented:
 - Cylinders
 - Cones
 
-Using our triangle implementation, our program can trace object files (i.e. bags of triangles).
+Using our triangle implementation, the program can trace object files (i.e. bags of triangles).
 An example of this feature is shown in one of the screenshots, where a cat is traced.
 
 Lastly, we added screenshots of all shapes, as well as a few scenes combining various shapes in
