@@ -7,7 +7,7 @@ Hit Cylinder::intersect(Ray const &ray)
     Point diff = ray.O - center;
 
     double a = ray.D.x * ray.D.x + ray.D.z * ray.D.z;
-    double b = 2 * ray.D.x * diff.x + ray.D.z * diff.x;
+    double b = 2 * (ray.D.x * diff.x + ray.D.z * diff.z);
     double c = diff.x * diff.x + diff.z * diff.z - (radius * radius);
 
     double delta = b*b - 4 * a * c;
@@ -15,8 +15,8 @@ Hit Cylinder::intersect(Ray const &ray)
         return Hit::NO_HIT();
     }
 
-    double t1 = (-b - sqrt(delta)) / 2;
-    double t2 = (-b + sqrt(delta)) / 2;
+    double t1 = (-b - sqrt(delta)) / (2 * a);
+    double t2 = (-b + sqrt(delta)) / (2 * a);
 
     if (t1 > t2) {
         std::swap(t1, t2);

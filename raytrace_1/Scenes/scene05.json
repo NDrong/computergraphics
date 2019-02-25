@@ -5,10 +5,10 @@
     "color": [1.0, 1.0, 1.0]
   }],
   "Objects": [{
-    "type": "cylinder",
-    "comment": "Cylinder",
-    "position": [200, 200, 500],
-    "radius": 50.0,
+    "type": "cone",
+    "comment": "Cone",
+    "position": [200, 250, 100],
+    "radius": 500.0,
     "height": 100.0,
     "material": {
       "color": [0.0, 0.5, 0.7],

@@ -12,7 +12,7 @@
             "comment": "Cat",
             "filename": "../../opengl_1/Code/models/cat.obj",
             "position": [200, 100, 10],
-            "scale": 450,
+            "scale": 400,
             "material":
             {
                 "color": [1.0, 0.8, 0.0],

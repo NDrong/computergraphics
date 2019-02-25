@@ -13,6 +13,7 @@
 #include "shapes/sphere.h"
 #include "shapes/triangle.h"
 #include "shapes/cylinder.h"
+#include "shapes/cone.h"
 
 // =============================================================================
 // -- End of shape includes ----------------------------------------------------
@@ -54,6 +55,13 @@ bool Raytracer::parseObjectNode(json const &node)
         double radius(node["radius"]);
         double height(node["height"]);
         obj = ObjectPtr(new Cylinder(position, radius, height));
+    }
+    else if (node["type"] == "cone")
+    {
+        Point position(node["position"]);
+        double radius(node["radius"]);
+        double height(node["height"]);
+        obj = ObjectPtr(new Cone(position, radius, height));
     }
     else if (node["type"] == "mesh") {
         std::string filename = node["filename"];

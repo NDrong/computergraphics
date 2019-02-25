@@ -1,12 +1,12 @@
-#ifndef CYLINDER_H_
-#define CYLINDER_H_
+#ifndef CONE_H_
+#define CONE_H_
 
 #include "../object.h"
 
-class Cylinder: public Object
+class Cone: public Object
 {
     public:
-        Cylinder(Point center, double radius, double height);
+        Cone(Point center, double radius, double height);
 
         virtual Hit intersect(Ray const &ray);
 
