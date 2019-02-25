@@ -23,9 +23,10 @@ Hit Cone::intersect(Ray const &ray) {
 
     double r = ray.O.y + tHit * ray.D.y;
     if (r > center.y && r < center.y + height) {
-        r = sqrt((diff.x * diff.x) + (diff.z * diff.z));
         Point pHit = ray.at(tHit);
-        Vector N(pHit.x - center.x, r * (radius / height), pHit.z - center.z);
+        diff = pHit - center;
+        r = sqrt((diff.x * diff.x) + (diff.z * diff.z));
+        Vector N(diff.x, r * (radius / height), diff.z);
         N.normalize();
         return {tHit, N};
     }
