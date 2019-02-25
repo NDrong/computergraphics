@@ -5,7 +5,7 @@
 Hit Cone::intersect(Ray const &ray) {
     Point diff = ray.O - center;
 
-    double tan = (radius * height) / (radius * height);
+    double tan = (radius * radius) / (height * height);
 
     double deltaY = height - diff.y;
     double a = (ray.D.x * ray.D.x) + (ray.D.z * ray.D.z) - (tan * ray.D.y * ray.D.y);
