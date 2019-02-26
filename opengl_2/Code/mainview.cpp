@@ -78,7 +78,7 @@ void MainView::initializeGL() {
     createShaderProgram();
 
     lightPosition = {0, 1000, -1};
-    material = {0.2f, 0.8f, 0.2f};
+    material = {0.3f, 0.8f, 1.0f};
 }
 
 void MainView::createShaderProgram()
