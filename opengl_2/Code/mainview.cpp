@@ -70,27 +70,47 @@ void MainView::initializeGL() {
     glClearColor(0.2f, 0.5f, 0.7f, 0.0f);
 
     objects.push_back(std::make_unique<SceneObject>());
-    objects.push_back(std::make_unique<SceneObject>());
-    objects.push_back(std::make_unique<SceneObject>());
+//    objects.push_back(std::make_unique<SceneObject>());
+//    objects.push_back(std::make_unique<SceneObject>());
 
-    objects[0]->createCube();
-    objects[1]->createPyramid();
-    objects[2]->createFromModelResource(":/models/sphere.obj", {0, 0, -10});
+    objects[0]->createFromModelResource(":/models/cat.obj", {-1, -1, -5});
 
     createShaderProgram();
+
+    lightPosition = {0, 1000, -1};
+    material = {0.2, 0.8, 0.2};
 }
 
 void MainView::createShaderProgram()
 {
-    shaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex,
+    shaders[ShadingMode::NORMAL].addShaderFromSourceFile(QOpenGLShader::Vertex,
                                            ":/shaders/vertshader.glsl");
-    shaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment,
+    shaders[ShadingMode::NORMAL].addShaderFromSourceFile(QOpenGLShader::Fragment,
                                            ":/shaders/fragshader.glsl");
-    shaderProgram.link();
+    shaders[ShadingMode::NORMAL].link();
+
+    shaders[ShadingMode::PHONG].addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/vertshader_phong.glsl");
+    shaders[ShadingMode::PHONG].addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/fragshader_phong.glsl");
+    shaders[ShadingMode::PHONG].link();
+
+    shaders[ShadingMode::GOURAUD].addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/vertshader_gouraud.glsl");
+    shaders[ShadingMode::GOURAUD].addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/fragshader_gouraud.glsl");
+    shaders[ShadingMode::GOURAUD].link();
 
     // Link the variables to the shaders.
-    sLocModelTransform = shaderProgram.uniformLocation("modelTransform");
-    sLocProjectionTransform = shaderProgram.uniformLocation("projectionTransform");
+    sLocModelTransform[ShadingMode::NORMAL] = shaders[ShadingMode::NORMAL].uniformLocation("modelTransform");
+    sLocProjectionTransform[ShadingMode::NORMAL] = shaders[ShadingMode::NORMAL].uniformLocation("projectionTransform");
+    sLocNormal[ShadingMode::NORMAL] = shaders[ShadingMode::NORMAL].uniformLocation("normalTransform");
+
+    sLocModelTransform[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("modelTransform");
+    sLocProjectionTransform[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("projectionTransform");
+    sLocNormal[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("normalTransform");
+
+    sLocModelTransform[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("modelTransform");
+    sLocProjectionTransform[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("projectionTransform");
+    sLocNormal[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("normalTransform");
+    sLocMaterial[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("material");
+    sLocLightPosition[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("lightPosition");
 }
 
 // --- OpenGL drawing
@@ -105,18 +125,27 @@ void MainView::paintGL() {
     // Clear the screen before rendering
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    shaderProgram.bind();
+    qDebug() << "Using shader" << currentShadingMode << "\n";
+    shaders[currentShadingMode].bind();
 
-    glUniformMatrix4fv(sLocProjectionTransform, 1, false, projection.data());
+    glUniformMatrix4fv(sLocProjectionTransform[currentShadingMode], 1, false, projection.data());
+
+    if (currentShadingMode == ShadingMode::GOURAUD) {
+        glUniform3f(sLocMaterial[currentShadingMode], material.x(), material.y(), material.z());
+        glUniform3f(sLocLightPosition[currentShadingMode], lightPosition.x(), lightPosition.y(), lightPosition.z());
+    }
 
     // Draw here
     for (auto& object : objects) {
         object->bind();
-        glUniformMatrix4fv(sLocModelTransform, 1, false, object->transform.data());
+        QMatrix3x3 normals;
+        normals = object->transform.normalMatrix();
+        glUniformMatrix3fv(sLocNormal[currentShadingMode], 1, false, normals.data());
+        glUniformMatrix4fv(sLocModelTransform[currentShadingMode], 1, false, object->transform.data());
         glDrawArrays(GL_TRIANGLES, 0, GLsizei(object->numVertices()));
     }
 
-    shaderProgram.release();
+    shaders[currentShadingMode].release();
 }
 
 /**
@@ -154,7 +183,8 @@ void MainView::setScale(int scale)
 void MainView::setShadingMode(ShadingMode shading)
 {
     qDebug() << "Changed shading to" << shading;
-    Q_UNIMPLEMENTED();
+    currentShadingMode = shading;
+    update();
 }
 
 // --- Private helpers

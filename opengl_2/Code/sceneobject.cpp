@@ -32,91 +32,6 @@ void SceneObject::setRotation(float rX, float rY, float rZ) {
     updateTransformationMatrix();
 }
 
-void SceneObject::createCube() {
-    std::vector<ColoredVertex> cube;
-
-    // Define the vertices in counter-clockwise order as to allow backface culling.
-    cube.emplace_back( -1.0f,-1.0f,-1.0f,1,0,0);
-    cube.emplace_back( -1.0f,-1.0f, 1.0f,1,0,0);
-    cube.emplace_back( -1.0f, 1.0f, 1.0f,1,0,0);
-
-    cube.emplace_back( 1.0f, 1.0f,-1.0f, 1,0,0);
-    cube.emplace_back( -1.0f,-1.0f,-1.0f,1,0,0);
-    cube.emplace_back( -1.0f, 1.0f,-1.0f,1,0,0);
-
-    cube.emplace_back( 1.0f,-1.0f, 1.0f, 0,0,1);
-    cube.emplace_back( -1.0f,-1.0f,-1.0f,0,0,1);
-    cube.emplace_back( 1.0f,-1.0f,-1.0f, 0,0,1);
-
-    cube.emplace_back( 1.0f, 1.0f,-1.0f, 0,0,1);
-    cube.emplace_back( 1.0f,-1.0f,-1.0f, 0,0,1);
-    cube.emplace_back( -1.0f,-1.0f,-1.0f,0,0,1);
-
-    cube.emplace_back( -1.0f,-1.0f,-1.0f,0,1,0);
-    cube.emplace_back( -1.0f, 1.0f, 1.0f,0,1,0);
-    cube.emplace_back( -1.0f, 1.0f,-1.0f,0,1,0);
-
-    cube.emplace_back( 1.0f,-1.0f, 1.0f, 0,1,0);
-    cube.emplace_back( -1.0f,-1.0f, 1.0f,0,1,0);
-    cube.emplace_back( -1.0f,-1.0f,-1.0f,0,1,0);
-
-    cube.emplace_back( -1.0f, 1.0f, 1.0f,1,1,0);
-    cube.emplace_back( -1.0f,-1.0f, 1.0f,1,1,0);
-    cube.emplace_back( 1.0f,-1.0f, 1.0f, 1,1,0);
-
-    cube.emplace_back( 1.0f, 1.0f, 1.0f, 1,1,0);
-    cube.emplace_back( 1.0f,-1.0f,-1.0f, 1,1,0);
-    cube.emplace_back( 1.0f, 1.0f,-1.0f, 1,1,0);
-
-    cube.emplace_back( 1.0f,-1.0f,-1.0f, 1,0,1);
-    cube.emplace_back( 1.0f, 1.0f, 1.0f, 1,0,1);
-    cube.emplace_back( 1.0f,-1.0f, 1.0f, 1,0,1);
-
-    cube.emplace_back( 1.0f, 1.0f, 1.0f, 1,0,1);
-    cube.emplace_back( 1.0f, 1.0f,-1.0f, 1,0,1);
-    cube.emplace_back( -1.0f, 1.0f,-1.0f,1,0,1);
-
-    cube.emplace_back( 1.0f, 1.0f, 1.0f,0,1,1);
-    cube.emplace_back( -1.0f, 1.0f,-1.0f,0,1,1);
-    cube.emplace_back( -1.0f, 1.0f, 1.0f,0,1,1);
-
-    cube.emplace_back( 1.0f, 1.0f, 1.0f,0,1,1);
-    cube.emplace_back( -1.0f, 1.0f, 1.0f,0,1,1);
-    cube.emplace_back( 1.0f,-1.0f, 1.0f, 0,1,1);
-
-   createObject(cube, {2, 0, -6});
-}
-
-void SceneObject::createPyramid() {
-    std::vector<ColoredVertex> pyramid;
-
-    // Define the vertices in counter-clockwise order as to allow backface culling.
-    pyramid.emplace_back(0, 1, 0, 1, 0, 0);
-    pyramid.emplace_back(-1, -1, 1, 0, 1, 0);
-    pyramid.emplace_back(1, -1, 1, 0, 0, 1);
-
-    pyramid.emplace_back(0, 1, 0, 1, 0, 0);
-    pyramid.emplace_back(1, -1, 1, 0, 0, 1);
-    pyramid.emplace_back(1, -1, -1, 0, 1, 0);
-
-    pyramid.emplace_back(0, 1, 0, 1, 0, 0);
-    pyramid.emplace_back(1, -1, -1, 0, 1, 0);
-    pyramid.emplace_back(-1, -1, -1, 0, 0, 1);
-
-    pyramid.emplace_back(0, 1, 0, 1, 0, 0);
-    pyramid.emplace_back(-1, -1, -1, 0, 0, 1);
-    pyramid.emplace_back(-1, -1, 1, 0, 1, 0);
-
-    pyramid.emplace_back(-1, -1, 1, 1, 0, 0);
-    pyramid.emplace_back(-1, -1, -1, 0, 1, 0);
-    pyramid.emplace_back(1, -1, -1, 0, 0, 1);
-    pyramid.emplace_back(1, -1, -1, 0, 0, 1);
-    pyramid.emplace_back(1, -1, 1, 0, 1, 0);
-    pyramid.emplace_back(-1, -1, 1, 1, 0, 0);
-
-    createObject(pyramid, {-2, 0, -6});
-}
-
 void SceneObject::createObject(const std::vector<ColoredVertex>& vertices, const QVector3D& translation) {
     initializeOpenGLFunctions();
 
@@ -136,6 +51,9 @@ void SceneObject::createObject(const std::vector<ColoredVertex>& vertices, const
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ColoredVertex), reinterpret_cast<GLvoid*>(3 * sizeof(float)));
 
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(ColoredVertex), reinterpret_cast<GLvoid*>(6 * sizeof(float)));
+
     _numVertices = vertices.size();
     this->translation = translation;
     updateTransformationMatrix();
@@ -147,15 +65,19 @@ void SceneObject::createFromModelResource(QString filename, const QVector3D& tra
     Model model(filename);
     model.unitize();
     auto vertices = model.getVertices();
+    auto normals = model.getNormals();
 
     std::vector<ColoredVertex> object;
     float r, g, b;
+    int i = 0;
     for (auto const &vertex : vertices) {
         // Generate (pseudo)random colors for the vertices.
         r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         g = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         b = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-        object.emplace_back(vertex, r, g, b);
+        object.emplace_back(vertex, r, g, b, normals[i]);
+
+        i++;
     }
 
     createObject(object, translation);
