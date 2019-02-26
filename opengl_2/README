@@ -1,0 +1,14 @@
+OpenGL - Assignment 1
+------------------------
+For this assignment, we implemented all features mentioned in the requirements, namely:
+
+- Shape drawing
+- Transformations
+- Scaling and rotation
+- Object loading
+
+The three objects can be scaled and rotated using the controls provided in the GUI.
+We implemented these features mostly in our SceneObject class, such that code can be reused easily.
+
+Futhermore, as a bonus, we implemented unitization in the Model class, allowing models to be unitized
+automatically when loaded through our SceneObject class method createFromModelResource.
