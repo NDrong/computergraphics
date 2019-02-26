@@ -105,6 +105,8 @@ void MainView::createShaderProgram()
     sLocModelTransform[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("modelTransform");
     sLocProjectionTransform[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("projectionTransform");
     sLocNormal[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("normalTransform");
+    sLocMaterial[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("material");
+    sLocLightPosition[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("lightPosition");
 
     sLocModelTransform[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("modelTransform");
     sLocProjectionTransform[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("projectionTransform");
@@ -130,7 +132,7 @@ void MainView::paintGL() {
 
     glUniformMatrix4fv(sLocProjectionTransform[currentShadingMode], 1, false, projection.data());
 
-    if (currentShadingMode == ShadingMode::GOURAUD) {
+    if (currentShadingMode == ShadingMode::GOURAUD || currentShadingMode == ShadingMode::PHONG) {
         glUniform3f(sLocMaterial[currentShadingMode], material.x(), material.y(), material.z());
         glUniform3f(sLocLightPosition[currentShadingMode], lightPosition.x(), lightPosition.y(), lightPosition.z());
     }

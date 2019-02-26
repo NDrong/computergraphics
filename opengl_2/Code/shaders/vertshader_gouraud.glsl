@@ -35,6 +35,6 @@ void main()
     float Ia = 0.5;
     float I = material[0] * Ia + material[1] * Id + material[2] * Is;
 
-//    vertColor = vec3(I, I, I);
-    vertColor = (material[0] + material[1] * Id) * vertColor_in + material[2] * Is * vec3(1, 1, 1);
+    vertColor = vec3(I, I, I);
+//    vertColor = (material[0] + material[1] * Id) * vertColor_in + material[2] * Is * vec3(1, 1, 1);
 }
