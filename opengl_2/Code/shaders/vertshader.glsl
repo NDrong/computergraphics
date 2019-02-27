@@ -21,5 +21,5 @@ void main()
     // gl_Position is the output (a vec4) of the vertex shader
     // Currently without any transformation
     gl_Position = projectionTransform * modelTransform * vec4(vertCoordinates_in, 1.0);
-    vertNormal = normalize(normalTransform * ((vertNormal_in + 1) / 2));
+    vertNormal = (normalTransform * vertNormal_in + 1) / 2;
 }
