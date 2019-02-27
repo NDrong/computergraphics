@@ -70,15 +70,29 @@ void MainView::initializeGL() {
     glClearColor(0.2f, 0.5f, 0.7f, 0.0f);
 
     objects.push_back(std::make_unique<SceneObject>());
-//    objects.push_back(std::make_unique<SceneObject>());
-//    objects.push_back(std::make_unique<SceneObject>());
 
     objects[0]->createFromModelResource(":/models/cat.obj", {-1, -1, -5});
 
+    loadTextures();
     createShaderProgram();
 
     lightPosition = {0, 1000, -1};
     material = {0.2f, 0.8f, 0.2f};
+}
+
+void MainView::loadTextures() {
+    QImage img(":/textures/cat_diff.png");
+    qDebug() << img.width() << ", " << img.height() << "\n";
+    glGenTextures(1, textures);
+    glBindTexture(GL_TEXTURE_2D, textures[0]);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    auto imgBytes = imageToBytes(img);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, img.width(), img.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, imgBytes.data());
 }
 
 void MainView::createShaderProgram()
@@ -111,6 +125,7 @@ void MainView::createShaderProgram()
     sLocNormal[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("normalTransform");
     sLocMaterial[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("material");
     sLocLightPosition[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("lightPosition");
+    sLocSampler[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("samplerUniform");
 }
 
 // --- OpenGL drawing
@@ -140,6 +155,13 @@ void MainView::paintGL() {
         object->bind();
         QMatrix3x3 normals;
         normals = object->transform.normalMatrix();
+
+        if (currentShadingMode == ShadingMode::GOURAUD) {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, textures[0]);
+            glUniform1i(sLocSampler[currentShadingMode], 0);
+        }
+
         glUniformMatrix3fv(sLocNormal[currentShadingMode], 1, false, normals.data());
         glUniformMatrix4fv(sLocModelTransform[currentShadingMode], 1, false, object->transform.data());
         glDrawArrays(GL_TRIANGLES, 0, GLsizei(object->numVertices()));
@@ -175,7 +197,7 @@ void MainView::setRotation(int rotateX, int rotateY, int rotateZ)
 void MainView::setScale(int scale)
 {
     for (auto& object : objects) {
-        object->setScaling(scale / 100.0f);
+        object->setScaling(scale / 20.0f);
     }
     update();
 }

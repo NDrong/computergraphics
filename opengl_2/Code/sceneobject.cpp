@@ -54,6 +54,9 @@ void SceneObject::createObject(const std::vector<ColoredVertex>& vertices, const
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(ColoredVertex), reinterpret_cast<GLvoid*>(6 * sizeof(float)));
 
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(ColoredVertex), reinterpret_cast<GLvoid*>(9 * sizeof(float)));
+
     _numVertices = vertices.size();
     this->translation = translation;
     updateTransformationMatrix();
@@ -66,6 +69,7 @@ void SceneObject::createFromModelResource(QString filename, const QVector3D& tra
     model.unitize();
     auto vertices = model.getVertices();
     auto normals = model.getNormals();
+    auto textureCoords = model.getTextureCoords();
 
     std::vector<ColoredVertex> object;
     float r, g, b;
@@ -75,7 +79,7 @@ void SceneObject::createFromModelResource(QString filename, const QVector3D& tra
         r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         g = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
         b = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-        object.emplace_back(vertex, r, g, b, normals[i]);
+        object.emplace_back(vertex, r, g, b, normals[i], textureCoords[i]);
 
         i++;
     }

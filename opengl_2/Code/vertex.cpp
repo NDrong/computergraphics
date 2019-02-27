@@ -9,3 +9,8 @@ ColoredVertex::ColoredVertex(QVector3D const &vector, float r, float g, float b,
 {
 
 }
+
+ColoredVertex::ColoredVertex(QVector3D const &vector, float r, float g, float b, QVector3D normal, QVector2D textureCoord) : x(vector.x()), y(vector.y()), z(vector.z()), r(r), g(g), b(b), normal(normal), textureCoord(textureCoord)
+{
+
+}

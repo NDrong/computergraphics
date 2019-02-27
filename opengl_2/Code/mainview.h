@@ -37,8 +37,10 @@ public:
     void setScale(int scale);
     void setShadingMode(ShadingMode shading);
 
+    QVector<quint8> imageToBytes(QImage image);
+
     QMatrix4x4 projection;
-    GLint sLocModelTransform[3], sLocProjectionTransform[3], sLocNormal[3], sLocLightPosition[3], sLocMaterial[3];
+    GLint sLocModelTransform[3], sLocProjectionTransform[3], sLocNormal[3], sLocLightPosition[3], sLocMaterial[3], sLocSampler[3];
 
 protected:
     void initializeGL();
@@ -65,6 +67,9 @@ private:
     ShadingMode currentShadingMode = ShadingMode::PHONG;
     QVector3D lightPosition;
     QVector3D material;
+
+    GLuint textures[1];
+    void loadTextures();
 
 };
 

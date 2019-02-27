@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     user_input.cpp \
     model.cpp \
     vertex.cpp \
-    sceneobject.cpp
+    sceneobject.cpp \
+    utility.cpp
 
 HEADERS  += mainwindow.h \
     mainview.h \
