@@ -7,6 +7,7 @@
 layout (location = 0) in vec3 vertCoordinates_in;
 layout (location = 1) in vec3 vertColor_in;
 layout (location = 2) in vec3 vertNormal_in;
+layout (location = 3) in vec2 textureCoord_in;
 
 // Specify the Uniforms of the vertex shader
 uniform mat4 modelTransform;
@@ -17,6 +18,9 @@ uniform vec3 material;
 
 // Specify the output of the vertex stage
 out vec3 vertColor;
+out vec2 textureCoord;
+out float lIntensityDiff;
+out vec3 lSpecColor;
 
 void main()
 {
@@ -35,6 +39,8 @@ void main()
     float Ia = 0.5;
     float I = material[0] * Ia + material[1] * Id + material[2] * Is;
 
+    textureCoord = textureCoord_in;
+    lIntensityDiff = material[0] * Ia + material[1] * Id;
+    lSpecColor = material[2] * Is * vec3(1, 1, 1);
     vertColor = vec3(I, I, I);
-//    vertColor = (material[0] + material[1] * Id) * vertColor_in + material[2] * Is * vec3(1, 1, 1);
 }

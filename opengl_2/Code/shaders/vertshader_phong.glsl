@@ -7,6 +7,7 @@
 layout (location = 0) in vec3 vertCoordinates_in;
 layout (location = 1) in vec3 vertColor_in;
 layout (location = 2) in vec3 vertNormal_in;
+layout (location = 3) in vec2 textureCoord_in;
 
 // Specify the Uniforms of the vertex shader
 uniform mat4 modelTransform;
@@ -18,6 +19,7 @@ uniform vec3 lightPosition;
 out vec3 vertNormal;
 out vec3 vertPos;
 out vec3 lightPos;
+out vec2 textureCoord;
 
 void main()
 {
@@ -28,4 +30,5 @@ void main()
     vertPos = vec3(modelTransform * vec4(vertCoordinates_in, 1.0));
     lightPos = vec3(modelTransform * vec4(lightPosition, 1.0));
     vertNormal = normalize(normalTransform * vertNormal_in);
+    textureCoord = textureCoord_in;
 }

@@ -70,15 +70,14 @@ void MainView::initializeGL() {
     glClearColor(0.2f, 0.5f, 0.7f, 0.0f);
 
     objects.push_back(std::make_unique<SceneObject>());
-//    objects.push_back(std::make_unique<SceneObject>());
-//    objects.push_back(std::make_unique<SceneObject>());
 
     objects[0]->createFromModelResource(":/models/cat.obj", {-1, -1, -5});
+    objects[0]->texture.loadFromFile(":/textures/cat_diff.png");
 
     createShaderProgram();
 
     lightPosition = {0, 1000, -1};
-    material = {0.3f, 0.8f, 1.0f};
+    material = {0.5f, 0.8f, 0.3f};
 }
 
 void MainView::createShaderProgram()
@@ -107,12 +106,14 @@ void MainView::createShaderProgram()
     sLocNormal[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("normalTransform");
     sLocMaterial[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("material");
     sLocLightPosition[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("lightPosition");
+    sLocTextureSampler[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("textureSampler");
 
     sLocModelTransform[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("modelTransform");
     sLocProjectionTransform[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("projectionTransform");
     sLocNormal[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("normalTransform");
     sLocMaterial[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("material");
     sLocLightPosition[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("lightPosition");
+    sLocTextureSampler[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("textureSampler");
 }
 
 // --- OpenGL drawing
@@ -140,6 +141,13 @@ void MainView::paintGL() {
     // Draw here
     for (auto& object : objects) {
         object->bind();
+
+        if (currentShadingMode == ShadingMode::GOURAUD || currentShadingMode == ShadingMode::PHONG) {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, object->texture._texture);
+            glUniform1i(sLocTextureSampler[currentShadingMode], 0);
+        }
+
         QMatrix3x3 normals;
         normals = object->transform.normalMatrix();
         glUniformMatrix3fv(sLocNormal[currentShadingMode], 1, false, normals.data());

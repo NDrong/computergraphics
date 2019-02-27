@@ -7,6 +7,7 @@
 #include <QVector3D>
 #include <cmath>
 #include "vertex.h"
+#include "texture.h"
 
 class SceneObject : protected QOpenGLFunctions_3_3_Core
 {
@@ -26,6 +27,7 @@ public:
     size_t numVertices();
 
     QMatrix4x4 transform;
+    Texture texture;
 
     GLuint vbo, vao;
 private:
