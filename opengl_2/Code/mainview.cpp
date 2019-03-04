@@ -71,7 +71,7 @@ void MainView::initializeGL() {
 
     objects.push_back(std::make_unique<SceneObject>());
 
-    objects[0]->createFromModelResource(":/models/cat.obj", {-1, -1, -5});
+    objects[0]->createFromModelResource(":/models/cat.obj", {0, 0, -2});
     objects[0]->texture.loadFromFile(":/textures/cat_diff.png");
 
     createShaderProgram();
