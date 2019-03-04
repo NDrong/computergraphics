@@ -20,6 +20,6 @@ out vec4 fColor;
 
 void main()
 {
-    vec4 textureColor = texture2D(textureSampler, textureCoord);
+    vec4 textureColor = texture(textureSampler, textureCoord);
     fColor = vec4(lIntensityDiff * textureColor.xyz + lSpecColor, textureColor.w);
 }

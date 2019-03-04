@@ -31,7 +31,7 @@ void main()
     float diffuse = material[0] * Ia + material[1] * Id;
     vec3 spec = Is * vec3(1, 1, 1);
 
-    vec4 textureColor = texture2D(textureSampler, textureCoord);
+    vec4 textureColor = texture(textureSampler, textureCoord);
 
     fColor = vec4(diffuse * textureColor.xyz + spec, textureColor.w);
 }
