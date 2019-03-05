@@ -147,6 +147,9 @@ try
     auto maxRecursionDepth = jsonscene.find("MaxRecursionDepth");
     scene.setMaxRecursionDepth(maxRecursionDepth != jsonscene.end() ? int(*maxRecursionDepth) : 0);
 
+    auto superSamplingFactor = jsonscene.find("SuperSamplingFactor");
+    scene.setSuperSamplingFactor(superSamplingFactor != jsonscene.end() ? int(*superSamplingFactor) : 1);
+
     for (auto const &lightNode : jsonscene["Lights"])
         scene.addLight(parseLightNode(lightNode));
 

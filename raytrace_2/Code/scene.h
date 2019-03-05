@@ -18,6 +18,7 @@ class Scene
     Point eye;
     bool useShadows;
     int maxRecursionDepth;
+    int superSamplingFactor;
 
     Hit intersectsWithObject(const Ray& ray);
 
@@ -37,7 +38,9 @@ class Scene
         void setUseShadows(bool useShadows);
         void setMaxRecursionDepth(int maxRecursionDepth);
 
-        unsigned getNumObject();
+    void setSuperSamplingFactor(int superSamplingFactor);
+
+    unsigned getNumObject();
         unsigned getNumLights();
 };
 

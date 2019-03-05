@@ -19,9 +19,20 @@ void Scene::render(Image &img)
     {
         for (unsigned x = 0; x < w; ++x)
         {
-            Point pixel(x + 0.5, h - 1 - y + 0.5, 0);
-            Ray ray(eye, (pixel - eye).normalized());
-            Color col = trace(ray);
+            double step = 0.5 / superSamplingFactor;
+            double start = 0.5 - superSamplingFactor / 2.0 * step;
+
+            Color col;
+            for (unsigned sy = 0; sy < superSamplingFactor; sy++) {
+                for (unsigned sx = 0; sx < superSamplingFactor; sx++) {
+                    Point pixel(x + start + sx * step, h - 1 - y + start + sy * step, 0);
+                    Ray ray(eye, (pixel - eye).normalized());
+                    Color col2 = trace(ray);
+                    col += col2;
+                }
+            }
+            col /= superSamplingFactor * superSamplingFactor;
+
             col.clamp();
             img(x, y) = col;
         }
@@ -159,4 +170,8 @@ Color Scene::trace(Ray const &ray) {
     Color color;
     traceObjects(ray, maxRecursionDepth, color, hit);
     return color;
+}
+
+void Scene::setSuperSamplingFactor(int superSamplingFactor) {
+    this->superSamplingFactor = superSamplingFactor;
 }
