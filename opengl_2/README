@@ -1,0 +1,17 @@
+Wrapping
+----------
+The different wrapping settings define what OpenGL should do when the texture does not fit the model/verticex precisely.
+GL_MIRRORED_REPEAT and GL_REPEAT: can be used to create repeating patterns.
+GL_CLAMP_TO_EDGE: will ensure that the texture coords are clamped between 0 and 1. If a model has values outside of 0 and 1 then these will just repeat the outer edge of the texture
+GL_CLAMP_TO_BORDER: all coordinates outside of 0 and 1 will get a border color. You can set this using glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, theColor)
+
+Filtering
+----------
+The filter settings define how a texture coordinate should be scaled to a pixel.
+GL_NEAREST: selects the closest pixel to the texture coordinate. This result looks more pixelated.
+GL_LINEAR: uses the weighted average (based on distance) of the 4 pixels surrounding the texture coordinate. This results in a smoother image.
+
+Instructions
+---
+* Loading of vertices and storing them in a vao & vbo is done by the SceneObject class. The MainView stores a vector of SceneObjects. The SceneObject exposes a bind() method to bind that SceneObject to the OpenGL context
+* The loading of a texture gets done by the Texture class. A SceneObject has a Texture member. This member can be accessed to load a texture. Currently our code assumes that every SceneObject has a Texture but in the future we can easily refactor this. Texture related OpenGL settings can be found in the Texture class.
