@@ -44,3 +44,13 @@ Sphere::Sphere(Point const &pos, double radius)
     position(pos),
     r(radius)
 {}
+
+Point Sphere::getTextureCoords(Point pOnObject) {
+    Point pDiff = pOnObject - position;
+
+    double theta = std::acos(pDiff.z / r);
+    double phi = std::atan2(pDiff.y, pDiff.x);
+    if (phi < 0) phi += 2 * 3.14;
+
+    return Point(phi / (2 * 3.14), (3.14 - theta) / 3.14, 0.0);
+}

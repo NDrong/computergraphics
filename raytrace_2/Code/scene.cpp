@@ -23,8 +23,8 @@ void Scene::render(Image &img)
             double start = 0.5 - superSamplingFactor / 2.0 * step;
 
             Color col;
-            for (unsigned sy = 0; sy < superSamplingFactor; sy++) {
-                for (unsigned sx = 0; sx < superSamplingFactor; sx++) {
+            for (unsigned sy = 0; sy < (unsigned)superSamplingFactor; sy++) {
+                for (unsigned sx = 0; sx < (unsigned)superSamplingFactor; sx++) {
                     Point pixel(x + start + sx * step, h - 1 - y + start + sy * step, 0);
                     Ray ray(eye, (pixel - eye).normalized());
                     Color col2 = trace(ray);
@@ -62,7 +62,7 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
         return false;
     }
 
-    Material material = obj->material;          //the hit objects material
+    const Material& material = obj->material;          //the hit objects material
     hit = ray.at(min_hit.t);                 //the hit point
     Vector N = min_hit.N;                          //the normal at hit point
     Vector V = -ray.D;                             //the view vector
@@ -86,7 +86,13 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
     ****************************************************/
     Point displacedHit = hit + min_hit.N * 0.0001;
 
-    color = material.ka * material.color;
+    if (material.hasTexture()) {
+        Point uvw = obj->getTextureCoords(hit);
+        color = material.texture->colorAt(static_cast<float>(uvw.x), static_cast<float>(uvw.y));
+    } else {
+        color = material.ka * material.color;
+    }
+
     for (const auto& light : lights) {
         Vector L = (light->position - hit).normalized();
         Vector R =  -L - 2 * (-L).dot(N) * N;
@@ -112,9 +118,9 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
         Color reflectColor;
         bool foundReflect = traceObjects(Ray(displacedHit, eyeR), remainingRecursions - 1, reflectColor, reflectHit);
         if (foundReflect) {
-            Vector Lr = (reflectHit - hit).normalized();
-            Vector Rr = -Lr - 2 * (-Lr).dot(N) * N;
+            Vector Rr = -eyeR - 2 * (-eyeR).dot(N) * N;
             color += material.ks * pow(std::max(0.0, Rr.dot(V)), material.n) * reflectColor;
+
         }
     }
 

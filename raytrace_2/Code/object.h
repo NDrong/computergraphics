@@ -21,6 +21,7 @@ class Object
 
         virtual Hit intersect(Ray const &ray) = 0;  // must be implemented
                                                     // in derived class
+        virtual Point getTextureCoords(Point pOnObject);
 };
 
 #endif

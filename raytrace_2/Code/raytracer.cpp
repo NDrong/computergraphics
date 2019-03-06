@@ -116,11 +116,22 @@ Light Raytracer::parseLightNode(json const &node) const
 
 Material Raytracer::parseMaterialNode(json const &node) const
 {
-    Color color(node["color"]);
+    auto jColor = node.find("color");
+    Color color(0.0,0.0,0.0);
+    if (jColor != node.end()) {
+        color = Color(*jColor);
+    }
+
     double ka = node["ka"];
     double kd = node["kd"];
     double ks = node["ks"];
     double n  = node["n"];
+
+    auto texture = node.find("texture");
+    if (texture != node.end()) {
+        return Material(color, ka, kd, ks, n, *texture);
+    }
+
     return Material(color, ka, kd, ks, n);
 }
 

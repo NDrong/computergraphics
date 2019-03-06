@@ -9,6 +9,7 @@ class Sphere: public Object
         Sphere(Point const &pos, double radius);
 
         virtual Hit intersect(Ray const &ray);
+        virtual Point getTextureCoords(Point pOnObject);
 
         Point const position;
         double const r;
