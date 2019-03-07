@@ -11,20 +11,19 @@
 
 using namespace std;
 
-void Scene::render(Image &img)
-{
+void Scene::render(Image &img) {
     unsigned w = img.width();
     unsigned h = img.height();
-    for (unsigned y = 0; y < h; ++y)
-    {
-        for (unsigned x = 0; x < w; ++x)
-        {
+    #pragma omp parallel for collapse(2)
+    for (unsigned y = 0; y < h; ++y) {
+        for (unsigned x = 0; x < w; ++x) {
             double step = 0.5 / superSamplingFactor;
             double start = 0.5 - superSamplingFactor / 2.0 * step;
 
             Color col;
-            for (unsigned sy = 0; sy < (unsigned)superSamplingFactor; sy++) {
-                for (unsigned sx = 0; sx < (unsigned)superSamplingFactor; sx++) {
+            #pragma omp parallel for collapse(2)
+            for (unsigned sy = 0; sy < (unsigned) superSamplingFactor; sy++) {
+                for (unsigned sx = 0; sx < (unsigned) superSamplingFactor; sx++) {
                     Point pixel(x + start + sx * step, h - 1 - y + start + sy * step, 0);
                     Ray ray(eye, (pixel - eye).normalized());
                     Color col2 = trace(ray);
@@ -41,16 +40,13 @@ void Scene::render(Image &img)
 
 // --- Misc functions ----------------------------------------------------------
 
-bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, Point &hit)
-{
+bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, Point &hit) {
     // Find hit object and distance
     Hit min_hit(numeric_limits<double>::infinity(), Vector());
     ObjectPtr obj = nullptr;
-    for (unsigned idx = 0; idx != objects.size(); ++idx)
-    {
+    for (unsigned idx = 0; idx != objects.size(); ++idx) {
         Hit hit(objects[idx]->intersect(ray));
-        if (hit.t < min_hit.t)
-        {
+        if (hit.t < min_hit.t) {
             min_hit = hit;
             obj = objects[idx];
         }
@@ -58,11 +54,11 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
     // No hit? Return background color.
     if (!obj) {
         color = Color(0.0, 0.0, 0.0);
-        hit = Point(0,0,0);
+        hit = Point(0, 0, 0);
         return false;
     }
 
-    const Material& material = obj->material;          //the hit objects material
+    const Material &material = obj->material;          //the hit objects material
     hit = ray.at(min_hit.t);                 //the hit point
     Vector N = min_hit.N;                          //the normal at hit point
     Vector V = -ray.D;                             //the view vector
@@ -93,9 +89,9 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
         color = material.ka * material.color;
     }
 
-    for (const auto& light : lights) {
+    for (const auto &light : lights) {
         Vector L = (light->position - hit).normalized();
-        Vector R =  -L - 2 * (-L).dot(N) * N;
+        Vector R = -L - 2 * (-L).dot(N) * N;
 
         bool inShadow = false;
         if (useShadows) {
@@ -127,28 +123,23 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
     return true;
 }
 
-void Scene::addObject(ObjectPtr obj)
-{
+void Scene::addObject(ObjectPtr obj) {
     objects.push_back(obj);
 }
 
-void Scene::addLight(Light const &light)
-{
+void Scene::addLight(Light const &light) {
     lights.push_back(LightPtr(new Light(light)));
 }
 
-void Scene::setEye(Triple const &position)
-{
+void Scene::setEye(Triple const &position) {
     eye = position;
 }
 
-unsigned Scene::getNumObject()
-{
+unsigned Scene::getNumObject() {
     return objects.size();
 }
 
-unsigned Scene::getNumLights()
-{
+unsigned Scene::getNumLights() {
     return lights.size();
 }
 
@@ -157,8 +148,7 @@ void Scene::setUseShadows(bool useShadows) {
 }
 
 Hit Scene::intersectsWithObject(const Ray &ray) {
-    for (unsigned idx = 0; idx != objects.size(); ++idx)
-    {
+    for (unsigned idx = 0; idx != objects.size(); ++idx) {
         Hit hit(objects[idx]->intersect(ray));
         if (!isnan(hit.t)) {
             return hit;

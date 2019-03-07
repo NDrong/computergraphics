@@ -2,9 +2,9 @@
   "Eye": [200, 300, 1000],
   "Shadows": true,
   "MaxRecursionDepth": 2,
-  "SuperSamplingFactor": 1,
+  "SuperSamplingFactor": 2,
   "Lights": [{
-    "position": [-1000, 600, 500],
+    "position": [-600, 800, 200],
     "color": [1.0, 1.0, 1.0]
   }],
   "Objects": [{
@@ -24,7 +24,7 @@
     {
       "type": "sphere",
       "comment": "Sphere 1 (right of cone)",
-      "position": [290, 170, -0],
+      "position": [290, 170, 0],
       "radius": 20,
       "material": {
         "color": [0.5, 0.5, 0.0],
