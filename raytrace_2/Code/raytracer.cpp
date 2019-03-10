@@ -28,42 +28,39 @@
 using namespace std;        // no std:: required
 using json = nlohmann::json;
 
-bool Raytracer::parseObjectNode(json const &node)
-{
+bool Raytracer::parseObjectNode(json const &node) {
     ObjectPtr obj = nullptr;
 
 // =============================================================================
 // -- Determine type and parse object parametrers ------------------------------
 // =============================================================================
 
-    if (node["type"] == "sphere")
-    {
+    if (node["type"] == "sphere") {
         Point pos(node["position"]);
         double radius = node["radius"];
-        obj = ObjectPtr(new Sphere(pos, radius));
-    }
-    else if (node["type"] == "triangle")
-    {
+
+        auto rot = node.find("rotation");
+        auto angle = node.find("angle");
+        if ((rot != node.end()) && (angle != node.end()))
+            obj = ObjectPtr(new Sphere(pos, radius, Vector(*rot), *angle));
+        else
+            obj = ObjectPtr(new Sphere(pos, radius));
+    } else if (node["type"] == "triangle") {
         Point va(node["vertex_a"]);
         Point vb(node["vertex_b"]);
         Point vc(node["vertex_c"]);
         obj = ObjectPtr(new Triangle(va, vb, vc));
-    }
-    else if (node["type"] == "cylinder")
-    {
+    } else if (node["type"] == "cylinder") {
         Point position(node["position"]);
         double radius(node["radius"]);
         double height(node["height"]);
         obj = ObjectPtr(new Cylinder(position, radius, height));
-    }
-    else if (node["type"] == "cone")
-    {
+    } else if (node["type"] == "cone") {
         Point position(node["position"]);
         double radius(node["radius"]);
         double height(node["height"]);
         obj = ObjectPtr(new Cone(position, radius, height));
-    }
-    else if (node["type"] == "mesh") {
+    } else if (node["type"] == "mesh") {
         std::string filename = node["filename"];
         OBJLoader loader(filename);
         auto vertices = loader.vertex_data();
@@ -71,9 +68,9 @@ bool Raytracer::parseObjectNode(json const &node)
         for (size_t i = 0; i < vertices.size() / 3; i++) {
             double scale(node["scale"]);
             Point pos(node["position"]);
-            Point a(vertices[i*3].x, vertices[i*3].y, vertices[i*3].z);
-            Point b(vertices[i*3 + 1].x, vertices[i*3 + 1].y, vertices[i*3 + 1].z);
-            Point c(vertices[i*3 + 2].x, vertices[i*3 + 2].y, vertices[i*3 + 2].z);
+            Point a(vertices[i * 3].x, vertices[i * 3].y, vertices[i * 3].z);
+            Point b(vertices[i * 3 + 1].x, vertices[i * 3 + 1].y, vertices[i * 3 + 1].z);
+            Point c(vertices[i * 3 + 2].x, vertices[i * 3 + 2].y, vertices[i * 3 + 2].z);
 
             a *= scale;
             b *= scale;
@@ -88,9 +85,7 @@ bool Raytracer::parseObjectNode(json const &node)
             scene.addObject(o);
         }
         return true;
-    }
-    else
-    {
+    } else {
         cerr << "Unknown object type: " << node["type"] << ".\n";
     }
 
@@ -107,17 +102,15 @@ bool Raytracer::parseObjectNode(json const &node)
     return true;
 }
 
-Light Raytracer::parseLightNode(json const &node) const
-{
+Light Raytracer::parseLightNode(json const &node) const {
     Point pos(node["position"]);
     Color col(node["color"]);
     return Light(pos, col);
 }
 
-Material Raytracer::parseMaterialNode(json const &node) const
-{
+Material Raytracer::parseMaterialNode(json const &node) const {
     auto jColor = node.find("color");
-    Color color(0.0,0.0,0.0);
+    Color color(0.0, 0.0, 0.0);
     if (jColor != node.end()) {
         color = Color(*jColor);
     }
@@ -125,7 +118,7 @@ Material Raytracer::parseMaterialNode(json const &node) const
     double ka = node["ka"];
     double kd = node["kd"];
     double ks = node["ks"];
-    double n  = node["n"];
+    double n = node["n"];
 
     auto texture = node.find("texture");
     if (texture != node.end()) {
@@ -136,8 +129,7 @@ Material Raytracer::parseMaterialNode(json const &node) const
 }
 
 bool Raytracer::readScene(string const &ifname)
-try
-{
+try {
     // Read and parse input json file
     ifstream infile(ifname);
     if (!infile) throw runtime_error("Could not open input file for reading.");
@@ -177,14 +169,12 @@ try
 
     return true;
 }
-catch (exception const &ex)
-{
+catch (exception const &ex) {
     cerr << ex.what() << '\n';
     return false;
 }
 
-void Raytracer::renderToFile(string const &ofname)
-{
+void Raytracer::renderToFile(string const &ofname) {
     // TODO: the size may be a settings in your file
     Image img(400, 400);
     cout << "Tracing...\n";

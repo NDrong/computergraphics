@@ -5,8 +5,7 @@
 
 using namespace std;
 
-Hit Sphere::intersect(Ray const &ray)
-{
+Hit Sphere::intersect(Ray const &ray) {
     // Sphere formula: ||x - position||^2 = r^2
     // Line formula:   x = ray.O + t * ray.D
 
@@ -14,6 +13,7 @@ Hit Sphere::intersect(Ray const &ray)
     double a = ray.D.dot(ray.D);
     double b = 2 * ray.D.dot(L);
     double c = L.dot(L) - r * r;
+
 
     double t0;
     double t1;
@@ -39,11 +39,10 @@ Hit Sphere::intersect(Ray const &ray)
     return Hit(t0, N);
 }
 
-Sphere::Sphere(Point const &pos, double radius)
-:
-    position(pos),
-    r(radius)
-{}
+Sphere::Sphere(Point const &pos, double radius) : position(pos), r(radius) {}
+
+Sphere::Sphere(Point const &pos, double radius, Vector rot, int angle)
+        : position(pos), r(radius), rotationParams(rot), rotationAngle(angle) {}
 
 Point Sphere::getTextureCoords(Point pOnObject) {
     Point pDiff = pOnObject - position;
@@ -54,3 +53,9 @@ Point Sphere::getTextureCoords(Point pOnObject) {
 
     return Point(phi / (2 * 3.14), (3.14 - theta) / 3.14, 0.0);
 }
+
+void Sphere::rotate(Ray const &ray) {
+    // Rotate x
+}
+
+

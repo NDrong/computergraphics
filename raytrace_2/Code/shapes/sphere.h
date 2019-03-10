@@ -3,16 +3,23 @@
 
 #include "../object.h"
 
-class Sphere: public Object
-{
-    public:
-        Sphere(Point const &pos, double radius);
+class Sphere : public Object {
+public:
+    Sphere(Point const &pos, double radius);
 
-        virtual Hit intersect(Ray const &ray);
-        virtual Point getTextureCoords(Point pOnObject);
+    Sphere(Point const &pos, double radius, Point rotation, int angle);
 
-        Point const position;
-        double const r;
+    virtual Hit intersect(Ray const &ray);
+
+    virtual Point getTextureCoords(Point pOnObject);
+
+    void rotate(Ray const &ray);
+
+    Point const position;
+    double const r;
+
+    Vector rotationParams;
+    int rotationAngle;
 };
 
 #endif
