@@ -13,13 +13,14 @@ public:
 
     virtual Point getTextureCoords(Point pOnObject);
 
-    void rotate(Ray const &ray);
+    Vector rotate(Vector vec, Vector rot, int angle);
 
     Point const position;
     double const r;
 
     Vector rotationParams;
     int rotationAngle;
+    bool hasRotation;
 };
 
 #endif

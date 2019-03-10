@@ -14,7 +14,6 @@ Hit Sphere::intersect(Ray const &ray) {
     double b = 2 * ray.D.dot(L);
     double c = L.dot(L) - r * r;
 
-
     double t0;
     double t1;
     if (not Solvers::quadratic(a, b, c, t0, t1))
@@ -42,10 +41,13 @@ Hit Sphere::intersect(Ray const &ray) {
 Sphere::Sphere(Point const &pos, double radius) : position(pos), r(radius) {}
 
 Sphere::Sphere(Point const &pos, double radius, Vector rot, int angle)
-        : position(pos), r(radius), rotationParams(rot), rotationAngle(angle) {}
+        : position(pos), r(radius), rotationParams(rot), rotationAngle(angle) {
+    hasRotation = true;
+}
 
 Point Sphere::getTextureCoords(Point pOnObject) {
     Point pDiff = pOnObject - position;
+    if (hasRotation) pDiff = rotate(pDiff, rotationParams, rotationAngle);
 
     double theta = std::acos(pDiff.z / r);
     double phi = std::atan2(pDiff.y, pDiff.x);
@@ -54,8 +56,13 @@ Point Sphere::getTextureCoords(Point pOnObject) {
     return Point(phi / (2 * 3.14), (3.14 - theta) / 3.14, 0.0);
 }
 
-void Sphere::rotate(Ray const &ray) {
-    // Rotate x
+Vector Sphere::rotate(Vector vec, Vector rot, int angle) {
+    double radAngle = angle * M_PI / 180.0;
+    // Rodrigues' rotation formula.
+    Vector term1 = vec * cos(radAngle);
+    Vector term2 = rot.cross(vec) * sin(radAngle);
+    Vector term3 = rot * rot.dot(vec) * (1 - cos(radAngle));
+    return Vector(term1 + term2 + term3);
 }
 
 
