@@ -61,12 +61,12 @@
             "comment": "Earth sphere",
             "position": [140, 220, 400],
             "radius": 50,
-            "rotation": [0,1,0.7],
+            "rotation": [0, 1, 0.7],
             "angle": 90,
             "material":
             {
                 "comment": "image is relative to scene file here!",
-                "texture": "../Scenes/earthmap1k.png",
+                "texture": "../Scenes/bluegrid.png",
                 "ka": 0.2,
                 "kd": 0.8,
                 "ks": 0.0,
