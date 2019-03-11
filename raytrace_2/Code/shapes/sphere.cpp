@@ -39,16 +39,18 @@ Hit Sphere::intersect(Ray const &ray) {
     return Hit(t0, N);
 }
 
-Sphere::Sphere(Point const &pos, double radius) : position(pos), r(radius) {}
+Sphere::Sphere(Point const &pos, double radius) : position(pos), r(radius), hasRotation(false) {}
 
-Sphere::Sphere(Point const &pos, double radius, Vector rot, int angle)
-        : position(pos), r(radius), rotationParams(rot), rotationAngle(angle) {
+Sphere::Sphere(Point const &pos, double radius, Vector rotAxis, double rotAngle)
+        : Sphere(pos, radius) {
+    Sphere::rotAxis = rotAxis.normalized();
+    Sphere::rotAngle = rotAngle;
     hasRotation = true;
 }
 
 Point Sphere::getTextureCoords(Point pOnObject) {
     Point pDiff = pOnObject - position;
-    if (hasRotation) pDiff = rotate(pDiff, rotationParams.normalized(), rotationAngle);
+    if (hasRotation) pDiff = rotate(pDiff, rotAxis, rotAngle);
 
     double theta = std::acos(pDiff.z / r);
     double phi = std::atan2(pDiff.y, pDiff.x);
@@ -57,7 +59,7 @@ Point Sphere::getTextureCoords(Point pOnObject) {
     return Point(phi / (2 * 3.14), (3.14 - theta) / 3.14, 0.0);
 }
 
-Vector Sphere::rotate(Vector vec, Vector rot, int angle) {
+Vector Sphere::rotate(Vector vec, Vector rot, double angle) {
     double radAngle = angle * M_PI / 180.0;
     // Rodrigues' rotation formula.
     Vector term1 = vec * cos(radAngle);

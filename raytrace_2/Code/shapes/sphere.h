@@ -7,20 +7,21 @@ class Sphere : public Object {
 public:
     Sphere(Point const &pos, double radius);
 
-    Sphere(Point const &pos, double radius, Point rotation, int angle);
+    Sphere(Point const &pos, double radius, Vector rotAxis, double rotAngle);
 
     virtual Hit intersect(Ray const &ray);
 
     virtual Point getTextureCoords(Point pOnObject);
 
-    Vector rotate(Vector vec, Vector rot, int angle);
-
     Point const position;
     double const r;
 
-    Vector rotationParams;
-    int rotationAngle;
+private:
+    Vector rotAxis;
+    double rotAngle;
     bool hasRotation;
+
+    Vector rotate(Vector vec, Vector rot, double angle);
 };
 
 #endif
