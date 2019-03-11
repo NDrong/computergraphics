@@ -44,7 +44,7 @@ Sphere::Sphere(Point const &pos, double radius) : position(pos), r(radius), hasR
 Sphere::Sphere(Point const &pos, double radius, Vector rotAxis, double rotAngle)
         : Sphere(pos, radius) {
     Sphere::rotAxis = rotAxis.normalized();
-    Sphere::rotAngle = rotAngle;
+    Sphere::rotAngle = rotAngle * M_PI / 180;
     hasRotation = true;
 }
 
@@ -60,11 +60,10 @@ Point Sphere::getTextureCoords(Point pOnObject) {
 }
 
 Vector Sphere::rotate(Vector vec, Vector rot, double angle) {
-    double radAngle = angle * M_PI / 180.0;
     // Rodrigues' rotation formula.
-    Vector term1 = vec * cos(radAngle);
-    Vector term2 = rot.cross(vec) * sin(radAngle);
-    Vector term3 = rot * rot.dot(vec) * (1 - cos(radAngle));
+    Vector term1 = vec * cos(angle);
+    Vector term2 = rot.cross(vec) * sin(angle);
+    Vector term3 = rot * rot.dot(vec) * (1 - cos(angle));
     return Vector(term1 + term2 + term3);
 }
 
