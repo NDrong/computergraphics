@@ -54,9 +54,9 @@ Point Sphere::getTextureCoords(Point pOnObject) {
 
     double theta = std::acos(pDiff.z / r);
     double phi = std::atan2(pDiff.y, pDiff.x);
-    if (phi < 0) phi += 2 * 3.14;
+    if (phi < 0) phi += 2 * M_PI;
 
-    return Point(phi / (2 * 3.14), (3.14 - theta) / 3.14, 0.0);
+    return Point(phi / (2 * M_PI), (M_PI - theta) / M_PI, 0.0);
 }
 
 Vector Sphere::rotate(Vector vec, Vector rot, double angle) {
