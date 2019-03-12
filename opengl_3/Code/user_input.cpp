@@ -67,7 +67,7 @@ void MainView::mousePressEvent(QMouseEvent *ev)
 // Triggered when releasing any mouse button
 void MainView::mouseReleaseEvent(QMouseEvent *ev)
 {
-    qDebug() << "Mouse button released" << ev->button();
+    qDebug() << "Mouse button released " << ev->button();
 
     update();
 }
