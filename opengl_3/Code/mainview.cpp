@@ -6,6 +6,8 @@
 
 #include <animations/rotationanimation.h>
 #include <animations/scaleanimation.h>
+#include <animations/translationanimation.h>
+#include <animations/sequentialanimation.h>
 
 /**
  * @brief MainView::MainView
@@ -82,8 +84,18 @@ void MainView::initializeGL() {
     lightPosition = {0, 1000, -1};
     material = {0.5f, 0.8f, 0.3f};
 
-    animationController.addAnimation(objects[0].get(), std::make_unique<RotationAnimation>(360, QVector3D(1.0f, 0, 0)));
-    animationController.addAnimation(objects[0].get(), std::make_unique<ScaleAnimation>(180, 0.5f, 2.0f));
+//    animationController.addAnimation(objects[0].get(), std::make_unique<RotationAnimation>(360, QVector3D(1.0f, 0, 0)));
+//    animationController.addAnimation(objects[0].get(), std::make_unique<ScaleAnimation>(180, 0.5f, 2.0f));
+//    animationController.addAnimation(objects[0].get(), std::make_unique<TranslationAnimation>(720, QVector3D(-5, 0, -10), QVector3D(5, 0, -10)));
+    auto seq = new SequentialAnimation();
+    seq->addAnimationNL(std::make_unique<RotationAnimation>(360, QVector3D(1.0f, 0, 0)));
+    seq->addAnimationNL(std::make_unique<RotationAnimation>(360, QVector3D(0, 1.0f, 0)));
+    seq->addAnimationNL(std::make_unique<RotationAnimation>(360, QVector3D(0, 0, 1.0f)));
+    animationController.addAnimation(objects[0].get(), std::unique_ptr<Animation>(seq));
+    animationController.addAnimation(objects[0].get(), std::make_unique<TranslationAnimation>(720, QVector3D(-5, 0, -10), QVector3D(5, 0, -10)));
+    animationController.addAnimation(objects[0].get(), std::make_unique<ScaleAnimation>(180, 1.5f, 2.0f));
+
+    view.setToIdentity();
 
     timer.start(1000 / 60);
 }
@@ -114,6 +126,7 @@ void MainView::createShaderProgram()
     sLocModelTransform[ShadingMode::NORMAL] = shaders[ShadingMode::NORMAL].uniformLocation("modelTransform");
     sLocProjectionTransform[ShadingMode::NORMAL] = shaders[ShadingMode::NORMAL].uniformLocation("projectionTransform");
     sLocNormal[ShadingMode::NORMAL] = shaders[ShadingMode::NORMAL].uniformLocation("normalTransform");
+    sLocViewTransform[ShadingMode::NORMAL] = shaders[ShadingMode::NORMAL].uniformLocation("viewTransform");
 
     sLocModelTransform[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("modelTransform");
     sLocProjectionTransform[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("projectionTransform");
@@ -121,6 +134,7 @@ void MainView::createShaderProgram()
     sLocMaterial[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("material");
     sLocLightPosition[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("lightPosition");
     sLocTextureSampler[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("textureSampler");
+    sLocViewTransform[ShadingMode::PHONG] = shaders[ShadingMode::PHONG].uniformLocation("viewTransform");
 
     sLocModelTransform[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("modelTransform");
     sLocProjectionTransform[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("projectionTransform");
@@ -128,6 +142,7 @@ void MainView::createShaderProgram()
     sLocMaterial[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("material");
     sLocLightPosition[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("lightPosition");
     sLocTextureSampler[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("textureSampler");
+    sLocViewTransform[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("viewTransform");
 }
 
 // --- OpenGL drawing
@@ -145,6 +160,7 @@ void MainView::paintGL() {
     shaders[currentShadingMode].bind();
 
     glUniformMatrix4fv(sLocProjectionTransform[currentShadingMode], 1, false, projection.data());
+    glUniformMatrix4fv(sLocViewTransform[currentShadingMode], 1, false, view.data());
 
     if (currentShadingMode == ShadingMode::GOURAUD || currentShadingMode == ShadingMode::PHONG) {
         glUniform3f(sLocMaterial[currentShadingMode], material.x(), material.y(), material.z());

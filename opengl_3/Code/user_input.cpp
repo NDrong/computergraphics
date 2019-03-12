@@ -5,8 +5,14 @@
 // Triggered by pressing a key
 void MainView::keyPressEvent(QKeyEvent *ev)
 {
+    float step = 0.5;
     switch(ev->key()) {
-    case 'A': qDebug() << "A pressed"; break;
+    case 'A': view.translate(step, 0, 0); break;
+    case 'S': view.translate(0, 0, -step); break;
+    case 'D': view.translate(-step, 0, 0); break;
+    case 'W': view.translate(0, 0, step); break;
+    case Qt::Key::Key_Shift: view.translate(0, step, 0); break;
+    case Qt::Key::Key_Space: view.translate(0, -step, 0); break;
     default:
         // ev->key() is an integer. For alpha numeric characters keys it equivalent with the char value ('A' == 65, '1' == 49)
         // Alternatively, you could use Qt Key enums, see http://doc.qt.io/qt-5/qt.html#Key-enum
@@ -70,7 +76,7 @@ void MainView::mouseReleaseEvent(QMouseEvent *ev)
 void MainView::wheelEvent(QWheelEvent *ev)
 {
     // Implement something
-    qDebug() << "Mouse wheel:" << ev->delta();
+    view.rotate(ev->delta() < 0 ? -1 : 1, QVector3D(0, 1, 0));
 
     update();
 }

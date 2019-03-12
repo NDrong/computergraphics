@@ -5,6 +5,10 @@ AnimationController::AnimationController() : currentTick(0)
 
 }
 
+AnimationController::~AnimationController() {
+
+}
+
 void AnimationController::addAnimation(SceneObject *obj, std::unique_ptr<Animation> animation)
 {
     animations[obj].push_back(std::move(animation));

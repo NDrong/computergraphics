@@ -25,6 +25,7 @@ public:
     void setRotation(float rX, float rY, float rZ);
     QVector3D getRotation() const;
     void setScaling(float s);
+    void setTranslation(QVector3D translation);
 
     size_t numVertices();
 

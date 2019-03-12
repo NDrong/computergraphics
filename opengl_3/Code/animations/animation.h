@@ -14,12 +14,14 @@ public:
         LINEAR
     };
     InterpolationMode interpolationMode;
+    bool shouldLoopBack;
 
     Animation(double cycleTime);
     Animation(double cycleTime, InterpolationMode interpolationMode);
     virtual ~Animation();
 
     void doUpdate(unsigned long currentTick, SceneObject* obj);
+    double getCycleTime() const;
 
 };
 

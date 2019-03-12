@@ -27,6 +27,12 @@ void SceneObject::setScaling(float s) {
     updateTransformationMatrix();
 }
 
+void SceneObject::setTranslation(QVector3D translation)
+{
+    SceneObject::translation = translation;
+    updateTransformationMatrix();
+}
+
 void SceneObject::setRotation(float rX, float rY, float rZ) {
     while (rX > 360) rX -= 360;
     while (rY > 360) rY -= 360;

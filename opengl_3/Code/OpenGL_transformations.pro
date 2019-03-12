@@ -23,7 +23,9 @@ SOURCES += main.cpp\
     animations/animation.cpp \
     animations/rotationanimation.cpp \
     animations/animationcontroller.cpp \
-    animations/scaleanimation.cpp
+    animations/scaleanimation.cpp \
+    animations/translationanimation.cpp \
+    animations/sequentialanimation.cpp
 
 HEADERS  += mainwindow.h \
     mainview.h \
@@ -34,7 +36,9 @@ HEADERS  += mainwindow.h \
     animations/animation.h \
     animations/rotationanimation.h \
     animations/animationcontroller.h \
-    animations/scaleanimation.h
+    animations/scaleanimation.h \
+    animations/translationanimation.h \
+    animations/sequentialanimation.h
 
 FORMS    += mainwindow.ui
 

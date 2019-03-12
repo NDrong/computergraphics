@@ -37,8 +37,9 @@ public:
     void setScale(int scale);
     void setShadingMode(ShadingMode shading);
 
-    QMatrix4x4 projection;
+    QMatrix4x4 projection, view;
     GLint sLocModelTransform[3], sLocProjectionTransform[3], sLocNormal[3], sLocLightPosition[3], sLocMaterial[3], sLocTextureSampler[3], sLocNormalSampler[3];
+    GLint sLocViewTransform[3];
 
 protected:
     void initializeGL();

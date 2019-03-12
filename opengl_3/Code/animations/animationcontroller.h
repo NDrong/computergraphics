@@ -5,15 +5,17 @@
 
 class AnimationController
 {
+protected:
     std::map<SceneObject*, std::vector<std::unique_ptr<Animation>>> animations;
     unsigned long currentTick;
 
 public:
     AnimationController();
+    virtual ~AnimationController();
 
     void addAnimation(SceneObject* obj, std::unique_ptr<Animation> animation);
 
-    void tick();
+    virtual void tick();
 };
 
 #endif // ANIMATIONCONTROLLER_H

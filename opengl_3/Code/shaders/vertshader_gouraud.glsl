@@ -11,6 +11,7 @@ layout (location = 3) in vec2 textureCoord_in;
 
 // Specify the Uniforms of the vertex shader
 uniform mat4 modelTransform;
+uniform mat4 viewTransform;
 uniform mat4 projectionTransform;
 uniform mat3 normalTransform;
 uniform vec3 lightPosition;
@@ -24,7 +25,7 @@ out vec3 lSpecColor;
 
 void main()
 {
-    gl_Position = projectionTransform * modelTransform * vec4(vertCoordinates_in, 1.0);
+    gl_Position = projectionTransform * viewTransform * modelTransform * vec4(vertCoordinates_in, 1.0);
 
     vec3 lightPos = vec3(modelTransform * vec4(lightPosition, 1.0));
 
