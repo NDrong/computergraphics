@@ -106,7 +106,7 @@
       <widget class="QGroupBox" name="shadingBox">
        <property name="geometry">
         <rect>
-         <x>15</x>
+         <x>10</x>
          <y>300</y>
          <width>205</width>
          <height>131</height>
