@@ -21,12 +21,12 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
     QOpenGLDebugLogger *debugLogger{};
     QTimer timer; // timer used for animation
 
-    QOpenGLShaderProgram shaders[3];
+    QOpenGLShaderProgram shaders[4];
 
 public:
     enum ShadingMode : GLuint
     {
-        PHONG = 0, NORMAL, GOURAUD
+        PHONG = 0, NORMAL, GOURAUD, WATER,
     };
 
     MainView(QWidget *parent = nullptr);
@@ -37,10 +37,10 @@ public:
     void setScale(int scale);
     void setShadingMode(ShadingMode shading);
 
-    QMatrix4x4 projection;
     QVector3D cameraPosition, cameraViewAngles;
-    GLint sLocModelTransform[3], sLocProjectionTransform[3], sLocNormal[3], sLocLightPosition[3], sLocMaterial[3], sLocTextureSampler[3], sLocNormalSampler[3];
-    GLint sLocViewTransform[3];
+    QMatrix4x4 projection, view;
+    GLint sLocModelTransform[4], sLocProjectionTransform[4], sLocNormal[4], sLocLightPosition[3], sLocMaterial[3], sLocTextureSampler[3], sLocNormalSampler[3];
+    GLint sLocViewTransform[4];
 
     std::map<int, bool> keysDown;
     QVector2D lastMousePosition;
@@ -69,7 +69,7 @@ private:
     void createShaderProgram();
     AnimationController animationController;
     std::vector<std::unique_ptr<SceneObject>> objects;
-    ShadingMode currentShadingMode = ShadingMode::PHONG;
+    ShadingMode currentShadingMode = ShadingMode::WATER;
     QVector3D lightPosition;
     QVector3D material;
 
