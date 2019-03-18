@@ -7,12 +7,16 @@ void MainView::keyPressEvent(QKeyEvent *ev)
 {
     float step = 0.5;
     switch(ev->key()) {
-    case 'A': view.translate(step, 0, 0); break;
-    case 'S': view.translate(0, 0, -step); break;
-    case 'D': view.translate(-step, 0, 0); break;
-    case 'W': view.translate(0, 0, step); break;
-    case Qt::Key::Key_Shift: view.translate(0, step, 0); break;
-    case Qt::Key::Key_Space: view.translate(0, -step, 0); break;
+    case 'A':
+    case 'S':
+    case 'D':
+    case 'W':
+    case Qt::Key::Key_Shift:
+    case Qt::Key::Key_Space:
+        if (!ev->isAutoRepeat()) {
+            keysDown[ev->key()] = true;
+        }
+        break;
     default:
         // ev->key() is an integer. For alpha numeric characters keys it equivalent with the char value ('A' == 65, '1' == 49)
         // Alternatively, you could use Qt Key enums, see http://doc.qt.io/qt-5/qt.html#Key-enum
@@ -28,7 +32,16 @@ void MainView::keyPressEvent(QKeyEvent *ev)
 void MainView::keyReleaseEvent(QKeyEvent *ev)
 {
     switch(ev->key()) {
-    case 'A': qDebug() << "A released"; break;
+    case 'A':
+    case 'S':
+    case 'D':
+    case 'W':
+    case Qt::Key::Key_Shift:
+    case Qt::Key::Key_Space:
+        if (!ev->isAutoRepeat()) {
+            keysDown[ev->key()] = false;
+        }
+        break;
     default:
         qDebug() << ev->key() << "released";
         break;
@@ -49,15 +62,21 @@ void MainView::mouseDoubleClickEvent(QMouseEvent *ev)
 // Triggered when moving the mouse inside the window (only when the mouse is clicked!)
 void MainView::mouseMoveEvent(QMouseEvent *ev)
 {
-    qDebug() << "x" << ev->x() << "y" << ev->y();
+    float dX = ev->x() - lastMousePosition.x();
+    float scale = 10.0f;
 
-    update();
+    cameraViewAngles.setX(cameraViewAngles.x() + dX / scale);
+
+    lastMousePosition.setX(ev->x());
+    lastMousePosition.setY(ev->y());
 }
 
 // Triggered when pressing any mouse button
 void MainView::mousePressEvent(QMouseEvent *ev)
 {
     qDebug() << "Mouse button pressed:" << ev->button();
+    lastMousePosition.setX(ev->x());
+    lastMousePosition.setY(ev->y());
 
     update();
     // Do not remove the line below, clicking must focus on this widget!
@@ -76,7 +95,7 @@ void MainView::mouseReleaseEvent(QMouseEvent *ev)
 void MainView::wheelEvent(QWheelEvent *ev)
 {
     // Implement something
-    view.rotate(ev->delta() < 0 ? -1 : 1, QVector3D(0, 1, 0));
+//    view.rotate(ev->delta() < 0 ? -1 : 1, QVector3D(0, 1, 0));
 
     update();
 }

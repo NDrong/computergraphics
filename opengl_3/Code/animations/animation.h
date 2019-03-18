@@ -1,6 +1,7 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
+#include <memory>
 #include <sceneobject.h>
 
 class Animation

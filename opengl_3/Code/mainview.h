@@ -37,9 +37,13 @@ public:
     void setScale(int scale);
     void setShadingMode(ShadingMode shading);
 
-    QMatrix4x4 projection, view;
+    QMatrix4x4 projection;
+    QVector3D cameraPosition, cameraViewAngles;
     GLint sLocModelTransform[3], sLocProjectionTransform[3], sLocNormal[3], sLocLightPosition[3], sLocMaterial[3], sLocTextureSampler[3], sLocNormalSampler[3];
     GLint sLocViewTransform[3];
+
+    std::map<int, bool> keysDown;
+    QVector2D lastMousePosition;
 
 protected:
     void initializeGL();

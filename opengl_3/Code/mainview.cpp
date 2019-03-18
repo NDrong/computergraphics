@@ -91,17 +91,34 @@ void MainView::initializeGL() {
     seq->addAnimationNL(std::make_unique<RotationAnimation>(360, QVector3D(1.0f, 0, 0)));
     seq->addAnimationNL(std::make_unique<RotationAnimation>(360, QVector3D(0, 1.0f, 0)));
     seq->addAnimationNL(std::make_unique<RotationAnimation>(360, QVector3D(0, 0, 1.0f)));
-    animationController.addAnimation(objects[0].get(), std::unique_ptr<Animation>(seq));
-    animationController.addAnimation(objects[0].get(), std::make_unique<TranslationAnimation>(720, QVector3D(-5, 0, -10), QVector3D(5, 0, -10)));
+    //animationController.addAnimation(objects[0].get(), std::unique_ptr<Animation>(seq));
+    //animationController.addAnimation(objects[0].get(), std::make_unique<TranslationAnimation>(720, QVector3D(-5, 0, -10), QVector3D(5, 0, -10)));
     animationController.addAnimation(objects[0].get(), std::make_unique<ScaleAnimation>(180, 1.5f, 2.0f));
-
-    view.setToIdentity();
 
     timer.start(1000 / 60);
 }
 
 void MainView::timerTick() {
     animationController.tick();
+
+    if (keysDown[(int)'A']) {
+        cameraPosition.setX(cameraPosition.x() + 0.25f);
+    }
+    if (keysDown[(int)'D']) {
+        cameraPosition.setX(cameraPosition.x() - 0.25f);
+    }
+    if (keysDown[(int)'W']) {
+        cameraPosition.setZ(cameraPosition.z() + 0.25f);
+    }
+    if (keysDown[(int)'S']) {
+        cameraPosition.setZ(cameraPosition.z() - 0.25f);
+    }
+    if (keysDown[Qt::Key::Key_Space]) {
+        cameraPosition.setY(cameraPosition.y() - 0.25f);
+    }
+    if (keysDown[Qt::Key::Key_Shift]) {
+        cameraPosition.setY(cameraPosition.y() + 0.25f);
+    }
 
     update();
 }
@@ -160,6 +177,9 @@ void MainView::paintGL() {
     shaders[currentShadingMode].bind();
 
     glUniformMatrix4fv(sLocProjectionTransform[currentShadingMode], 1, false, projection.data());
+
+    QMatrix4x4 view;
+    view.lookAt(cameraPosition, QVector3D(0, 0, 0), upDirection);
     glUniformMatrix4fv(sLocViewTransform[currentShadingMode], 1, false, view.data());
 
     if (currentShadingMode == ShadingMode::GOURAUD || currentShadingMode == ShadingMode::PHONG) {
