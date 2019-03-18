@@ -63,9 +63,12 @@ void MainView::mouseDoubleClickEvent(QMouseEvent *ev)
 void MainView::mouseMoveEvent(QMouseEvent *ev)
 {
     float dX = ev->x() - lastMousePosition.x();
-    float scale = 10.0f;
+    float dY = ev->y() - lastMousePosition.y();
 
-    cameraViewAngles.setX(cameraViewAngles.x() + dX / scale);
+    dX *= 0.05f;
+    dY *= 0.05f;
+
+    setYawPitch(yaw + dX, pitch + dY);
 
     lastMousePosition.setX(ev->x());
     lastMousePosition.setY(ev->y());

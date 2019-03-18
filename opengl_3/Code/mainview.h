@@ -37,13 +37,16 @@ public:
     void setScale(int scale);
     void setShadingMode(ShadingMode shading);
 
-    QVector3D cameraPosition, cameraViewAngles;
+    QVector3D cameraPosition, cameraFront, cameraUp;
     QMatrix4x4 projection, view;
     GLint sLocModelTransform[4], sLocProjectionTransform[4], sLocNormal[4], sLocLightPosition[3], sLocMaterial[3], sLocTextureSampler[3], sLocNormalSampler[3];
     GLint sLocViewTransform[4];
 
     std::map<int, bool> keysDown;
     QVector2D lastMousePosition;
+
+    float yaw, pitch;
+    void setYawPitch(float yaw, float pitch);
 
 protected:
     void initializeGL();

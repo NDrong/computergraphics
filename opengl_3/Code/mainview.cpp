@@ -3,6 +3,7 @@
 #include "vertex.h"
 
 #include <QDateTime>
+#include <QtMath>
 
 #include <animations/rotationanimation.h>
 #include <animations/scaleanimation.h>
@@ -76,14 +77,18 @@ void MainView::initializeGL() {
 
     objects.push_back(std::make_unique<SceneObject>());
 
-    objects[0]->createFromModelResource(":/models/grid.obj", {0, 0, -2});
+    objects[0]->createFromModelResource(":/models/cat.obj", {0, 0, -2});
 
     createShaderProgram();
+
+    cameraPosition = QVector3D(0, 0, 0);
+    cameraUp = QVector3D(0, 1, 0);
+    setYawPitch(0, 45);
 
     lightPosition = {0, 1000, -1};
     material = {0.5f, 0.8f, 0.3f};
 
-    /*
+
     auto seq = new SequentialAnimation();
     seq->addAnimationNL(std::make_unique<RotationAnimation>(360, QVector3D(1.0f, 0, 0)));
     seq->addAnimationNL(std::make_unique<RotationAnimation>(360, QVector3D(0, 1.0f, 0)));
@@ -91,32 +96,33 @@ void MainView::initializeGL() {
     //animationController.addAnimation(objects[0].get(), std::unique_ptr<Animation>(seq));
     //animationController.addAnimation(objects[0].get(), std::make_unique<TranslationAnimation>(720, QVector3D(-5, 0, -10), QVector3D(5, 0, -10)));
     animationController.addAnimation(objects[0].get(), std::make_unique<ScaleAnimation>(180, 1.5f, 2.0f));
-    */
+
     view.setToIdentity();
 
     timer.start(1000 / 60);
 }
 
 void MainView::timerTick() {
+    float tickSpeed = 0.1f;
     animationController.tick();
 
     if (keysDown[(int)'A']) {
-        cameraPosition.setX(cameraPosition.x() + 0.25f);
+        cameraPosition -= tickSpeed * QVector3D::crossProduct(cameraFront, cameraUp).normalized();
     }
     if (keysDown[(int)'D']) {
-        cameraPosition.setX(cameraPosition.x() - 0.25f);
+        cameraPosition += tickSpeed * QVector3D::crossProduct(cameraFront, cameraUp).normalized();
     }
     if (keysDown[(int)'W']) {
-        cameraPosition.setZ(cameraPosition.z() + 0.25f);
+        cameraPosition += tickSpeed * cameraFront;
     }
     if (keysDown[(int)'S']) {
-        cameraPosition.setZ(cameraPosition.z() - 0.25f);
+        cameraPosition -= tickSpeed * cameraFront;
     }
     if (keysDown[Qt::Key::Key_Space]) {
-        cameraPosition.setY(cameraPosition.y() - 0.25f);
+        cameraPosition += tickSpeed * cameraUp;
     }
     if (keysDown[Qt::Key::Key_Shift]) {
-        cameraPosition.setY(cameraPosition.y() + 0.25f);
+        cameraPosition -= tickSpeed * cameraUp;
     }
 
     update();
@@ -188,7 +194,9 @@ void MainView::paintGL() {
     glUniformMatrix4fv(sLocProjectionTransform[currentShadingMode], 1, false, projection.data());
 
     QMatrix4x4 view;
-    view.lookAt(cameraPosition, QVector3D(0, 0, 0), upDirection);
+    view.lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
+    //view.setToIdentity();
+    //view.translate(cameraPosition);
     glUniformMatrix4fv(sLocViewTransform[currentShadingMode], 1, false, view.data());
 
     if (currentShadingMode == ShadingMode::GOURAUD || currentShadingMode == ShadingMode::PHONG) {
@@ -254,6 +262,26 @@ void MainView::setShadingMode(ShadingMode shading)
     qDebug() << "Changed shading to" << shading;
     currentShadingMode = shading;
     update();
+}
+
+void MainView::setYawPitch(float yaw, float pitch)
+{
+    if (pitch > 89.99f) {
+        pitch = 89.99f;
+    }
+    if (pitch < -89.99f) {
+        pitch = -89.99f;
+    }
+
+    float dirX = cosf(qDegreesToRadians(pitch)) * cosf(qDegreesToRadians(yaw));
+    float dirY = sinf(qDegreesToRadians(pitch));
+    float dirZ = cosf(qDegreesToRadians(pitch)) * sinf(qDegreesToRadians(yaw));
+    QVector3D dir(dirX, dirY, dirZ);
+
+    cameraFront = dir.normalized();
+
+    MainView::yaw = yaw;
+    MainView::pitch = pitch;
 }
 
 // --- Private helpers
