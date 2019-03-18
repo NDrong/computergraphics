@@ -76,8 +76,7 @@ void MainView::initializeGL() {
 
     objects.push_back(std::make_unique<SceneObject>());
 
-    objects[0]->createFromModelResource(":/models/cat.obj", {0, 0, -2});
-    objects[0]->texture.loadFromFile(":/textures/cat_diff.png");
+    objects[0]->createFromModelResource(":/models/grid.obj", {0, 0, -2});
 
     createShaderProgram();
 
@@ -87,6 +86,7 @@ void MainView::initializeGL() {
 //    animationController.addAnimation(objects[0].get(), std::make_unique<RotationAnimation>(360, QVector3D(1.0f, 0, 0)));
 //    animationController.addAnimation(objects[0].get(), std::make_unique<ScaleAnimation>(180, 0.5f, 2.0f));
 //    animationController.addAnimation(objects[0].get(), std::make_unique<TranslationAnimation>(720, QVector3D(-5, 0, -10), QVector3D(5, 0, -10)));
+    /*
     auto seq = new SequentialAnimation();
     seq->addAnimationNL(std::make_unique<RotationAnimation>(360, QVector3D(1.0f, 0, 0)));
     seq->addAnimationNL(std::make_unique<RotationAnimation>(360, QVector3D(0, 1.0f, 0)));
@@ -94,7 +94,7 @@ void MainView::initializeGL() {
     animationController.addAnimation(objects[0].get(), std::unique_ptr<Animation>(seq));
     animationController.addAnimation(objects[0].get(), std::make_unique<TranslationAnimation>(720, QVector3D(-5, 0, -10), QVector3D(5, 0, -10)));
     animationController.addAnimation(objects[0].get(), std::make_unique<ScaleAnimation>(180, 1.5f, 2.0f));
-
+    */
     view.setToIdentity();
 
     timer.start(1000 / 60);
@@ -122,6 +122,11 @@ void MainView::createShaderProgram()
     shaders[ShadingMode::GOURAUD].addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/fragshader_gouraud.glsl");
     shaders[ShadingMode::GOURAUD].link();
 
+    shaders[ShadingMode::WATER].addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shaders/vertshader_water.glsl");
+    shaders[ShadingMode::WATER].addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shaders/fragshader_water.glsl");
+    shaders[ShadingMode::WATER].link();
+
+
     // Link the variables to the shaders.
     sLocModelTransform[ShadingMode::NORMAL] = shaders[ShadingMode::NORMAL].uniformLocation("modelTransform");
     sLocProjectionTransform[ShadingMode::NORMAL] = shaders[ShadingMode::NORMAL].uniformLocation("projectionTransform");
@@ -143,6 +148,11 @@ void MainView::createShaderProgram()
     sLocLightPosition[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("lightPosition");
     sLocTextureSampler[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("textureSampler");
     sLocViewTransform[ShadingMode::GOURAUD] = shaders[ShadingMode::GOURAUD].uniformLocation("viewTransform");
+
+    sLocModelTransform[ShadingMode::WATER] = shaders[ShadingMode::WATER].uniformLocation("modelTransform");
+    sLocProjectionTransform[ShadingMode::WATER] = shaders[ShadingMode::WATER].uniformLocation("projectionTransform");
+    sLocNormal[ShadingMode::WATER] = shaders[ShadingMode::WATER].uniformLocation("normalTransform");
+    sLocViewTransform[ShadingMode::WATER] = shaders[ShadingMode::WATER].uniformLocation("viewTransform");
 }
 
 // --- OpenGL drawing

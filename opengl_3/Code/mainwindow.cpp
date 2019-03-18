@@ -86,3 +86,12 @@ void MainWindow::on_GouraudButton_toggled(bool checked)
         ui->mainView->update();
     }
 }
+
+void MainWindow::on_WaterButton_toggled(bool checked)
+{
+    if (checked)
+    {
+        ui->mainView->setShadingMode(MainView::WATER);
+        ui->mainView->update();
+    }
+}
