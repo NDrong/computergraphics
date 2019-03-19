@@ -108,6 +108,12 @@ void SceneObject::bind() {
     glBindVertexArray(this->vao);
 }
 
+void SceneObject::setWaveParameters(size_t index, float amplitude, float frequency, float phase) {
+    waveAmplitudes[index] = amplitude;
+    waveFrequencies[index] = frequency;
+    wavePhases[index] = phase;
+}
+
 size_t SceneObject::numVertices() {
     return _numVertices;
 }

@@ -77,18 +77,21 @@ void MainView::initializeGL() {
 
     objects.push_back(std::make_unique<SceneObject>());
 
-    objects[0]->createFromModelResource(":/models/cat.obj", {0, 0, -2});
+    objects[0]->createFromModelResource(":/models/grid.obj", {0, 0, -2});
+
+    objects[0]->setWaveParameters(0, 0.1f, float(8.0 * M_PI), float(0.5 * M_PI));
+    objects[0]->setWaveParameters(1, 0.15f, float(2.0 * M_PI), float(-1.0 * M_PI));
 
     createShaderProgram();
 
     cameraPosition = QVector3D(0, 0, 0);
     cameraUp = QVector3D(0, 1, 0);
-    setYawPitch(0, 45);
+    setYawPitch(0, 0);
 
     lightPosition = {0, 1000, -1};
     material = {0.5f, 0.8f, 0.3f};
 
-
+    /*
     auto seq = new SequentialAnimation();
     seq->addAnimationNL(std::make_unique<RotationAnimation>(360, QVector3D(1.0f, 0, 0)));
     seq->addAnimationNL(std::make_unique<RotationAnimation>(360, QVector3D(0, 1.0f, 0)));
@@ -96,7 +99,7 @@ void MainView::initializeGL() {
     //animationController.addAnimation(objects[0].get(), std::unique_ptr<Animation>(seq));
     //animationController.addAnimation(objects[0].get(), std::make_unique<TranslationAnimation>(720, QVector3D(-5, 0, -10), QVector3D(5, 0, -10)));
     animationController.addAnimation(objects[0].get(), std::make_unique<ScaleAnimation>(180, 1.5f, 2.0f));
-
+    */
     view.setToIdentity();
 
     timer.start(1000 / 60);
@@ -126,6 +129,8 @@ void MainView::timerTick() {
     }
 
     update();
+
+    ticks += 0.1f;
 }
 
 void MainView::createShaderProgram()
@@ -175,6 +180,10 @@ void MainView::createShaderProgram()
     sLocProjectionTransform[ShadingMode::WATER] = shaders[ShadingMode::WATER].uniformLocation("projectionTransform");
     sLocNormal[ShadingMode::WATER] = shaders[ShadingMode::WATER].uniformLocation("normalTransform");
     sLocViewTransform[ShadingMode::WATER] = shaders[ShadingMode::WATER].uniformLocation("viewTransform");
+    sLocWaveAmplitudes = shaders[ShadingMode::WATER].uniformLocation("waveAmplitudes[0]");
+    sLocWaveFrequencies = shaders[ShadingMode::WATER].uniformLocation("waveFrequencies[0]");
+    sLocWavePhases = shaders[ShadingMode::WATER].uniformLocation("wavePhases[0]");
+    sLocTime = shaders[ShadingMode::WATER].uniformLocation("time");
 }
 
 // --- OpenGL drawing
@@ -199,7 +208,7 @@ void MainView::paintGL() {
     //view.translate(cameraPosition);
     glUniformMatrix4fv(sLocViewTransform[currentShadingMode], 1, false, view.data());
 
-    if (currentShadingMode == ShadingMode::GOURAUD || currentShadingMode == ShadingMode::PHONG) {
+    if (currentShadingMode == ShadingMode::GOURAUD || currentShadingMode == ShadingMode::PHONG || currentShadingMode == ShadingMode::WATER) {
         glUniform3f(sLocMaterial[currentShadingMode], material.x(), material.y(), material.z());
         glUniform3f(sLocLightPosition[currentShadingMode], lightPosition.x(), lightPosition.y(), lightPosition.z());
     }
@@ -212,6 +221,11 @@ void MainView::paintGL() {
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, object->texture._texture);
             glUniform1i(sLocTextureSampler[currentShadingMode], 0);
+        } else if (currentShadingMode == ShadingMode::WATER) {
+            glUniform1fv(sLocWaveAmplitudes, 2, object->waveAmplitudes);
+            glUniform1fv(sLocWaveFrequencies, 2, object->waveFrequencies);
+            glUniform1fv(sLocWavePhases, 2, object->wavePhases);
+            glUniform1fv(sLocTime, 1, &ticks);
         }
 
         QMatrix3x3 normals;

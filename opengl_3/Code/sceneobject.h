@@ -26,6 +26,7 @@ public:
     QVector3D getRotation() const;
     void setScaling(float s);
     void setTranslation(QVector3D translation);
+    void setWaveParameters(size_t index, float amplitude, float frequency, float phase);
 
     size_t numVertices();
 
@@ -33,6 +34,8 @@ public:
     Texture texture;
 
     GLuint vbo, vao;
+
+    GLfloat waveAmplitudes[2], waveFrequencies[2], wavePhases[2];
 
 private:
     size_t _numVertices;

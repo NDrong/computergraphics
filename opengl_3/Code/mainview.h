@@ -41,11 +41,12 @@ public:
     QMatrix4x4 projection, view;
     GLint sLocModelTransform[4], sLocProjectionTransform[4], sLocNormal[4], sLocLightPosition[3], sLocMaterial[3], sLocTextureSampler[3], sLocNormalSampler[3];
     GLint sLocViewTransform[4];
+    GLint sLocWaveAmplitudes, sLocWaveFrequencies, sLocWavePhases, sLocTime;
 
     std::map<int, bool> keysDown;
     QVector2D lastMousePosition;
 
-    float yaw, pitch;
+    float yaw, pitch, ticks;
     void setYawPitch(float yaw, float pitch);
 
 protected:
