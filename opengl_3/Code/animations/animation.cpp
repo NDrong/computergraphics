@@ -6,7 +6,7 @@ Animation::Animation(double cycleTime) : Animation(cycleTime, InterpolationMode:
 
 }
 
-Animation::Animation(double cycleTime, Animation::InterpolationMode interpolationMode) : cycleTime(cycleTime), shouldLoopBack(true), interpolationMode(interpolationMode)
+Animation::Animation(double cycleTime, Animation::InterpolationMode interpolationMode) : cycleTime(cycleTime), shouldLoopBack(false), interpolationMode(interpolationMode)
 {
 
 }

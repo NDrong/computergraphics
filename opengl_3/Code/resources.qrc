@@ -17,5 +17,10 @@
         <file>models/grid.obj</file>
         <file>shaders/fragshader_water.glsl</file>
         <file>shaders/vertshader_water.glsl</file>
+        <file>textures/EyesWhite.jpg</file>
+        <file>models/bmax2.mtl</file>
+        <file>models/bmax2.obj</file>
+        <file>models/PenguinBaseMesh.obj</file>
+        <file>textures/Penguin Diffuse Color.png</file>
     </qresource>
 </RCC>

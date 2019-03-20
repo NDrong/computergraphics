@@ -71,6 +71,8 @@ Model::Model(const QString& filename) {
         // Allign all vertex indices with the right normal/texturecoord indices
         alignData();
     }
+
+    qDebug() << ":: Loaded" << vertices.size() << "vertices";
 }
 
 /**

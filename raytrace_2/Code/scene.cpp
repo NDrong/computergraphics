@@ -27,6 +27,7 @@ void Scene::render(Image &img) {
                     Point pixel(x + start + sx * step, h - 1 - y + start + sy * step, 0);
                     Ray ray(eye, (pixel - eye).normalized());
                     Color col2 = trace(ray);
+                    col2.clamp(1.0);
                     col += col2;
                 }
             }
@@ -80,7 +81,6 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
     *        Color * Color      dito
     *        pow(a,b)           a to the power of b
     ****************************************************/
-    Point displacedHit = hit + min_hit.N * 0.0001;
 
     if (material.hasTexture()) {
         Point uvw = obj->getTextureCoords(hit);
@@ -96,8 +96,10 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
         bool inShadow = false;
         if (useShadows) {
             // Prevent shadow acne
+            Point displacedHit = hit + L * 0.0001;
             Ray lightRay(displacedHit, L);
-            inShadow = !isnan(intersectsWithObject(lightRay).t);
+            auto shadowHit = intersectsWithObject(lightRay);
+            inShadow = !isnan(shadowHit.t) && shadowHit.t < (light->position - hit).length();
         }
 
         if (!inShadow) {
@@ -112,11 +114,11 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
         Vector eyeR = (ray.D) - 2 * (ray.D).dot(N) * N;
         Point reflectHit;
         Color reflectColor;
+        Point displacedHit = hit + eyeR * 0.0001;
         bool foundReflect = traceObjects(Ray(displacedHit, eyeR), remainingRecursions - 1, reflectColor, reflectHit);
         if (foundReflect) {
             Vector Rr = -eyeR - 2 * (-eyeR).dot(N) * N;
             color += material.ks * pow(std::max(0.0, Rr.dot(V)), material.n) * reflectColor;
-
         }
     }
 

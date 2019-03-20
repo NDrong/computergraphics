@@ -5,13 +5,17 @@
 
 class RotationAnimation : public Animation
 {
-    QVector3D axis;
 
 public:
-    RotationAnimation(double cycleTime, QVector3D axis, InterpolationMode interpolationMode = InterpolationMode::LINEAR);
+    enum Axis { X, Y, Z };
+    RotationAnimation(double cycleTime, Axis axis, float fromDegree, float toDegree, InterpolationMode interpolationMode = InterpolationMode::LINEAR);
 
 protected:
     void update(float pointInCycle, SceneObject* obj) override;
+
+private:
+    Axis axis;
+    float fromDegree, toDegree;
 };
 
 #endif // ROTATIONANIMATION_H

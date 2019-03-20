@@ -73,7 +73,7 @@ private:
     void createShaderProgram();
     AnimationController animationController;
     std::vector<std::unique_ptr<SceneObject>> objects;
-    ShadingMode currentShadingMode = ShadingMode::WATER;
+    ShadingMode currentShadingMode = ShadingMode::PHONG;
     QVector3D lightPosition;
     QVector3D material;
 

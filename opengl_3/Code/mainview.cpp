@@ -67,7 +67,7 @@ void MainView::initializeGL() {
     glEnable(GL_DEPTH_TEST);
 
     // Enable backface culling
-    // glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
 
     // Default is GL_LESS
     glDepthFunc(GL_LEQUAL);
@@ -76,20 +76,72 @@ void MainView::initializeGL() {
     glClearColor(0.2f, 0.5f, 0.7f, 0.0f);
 
     objects.push_back(std::make_unique<SceneObject>());
+    objects.push_back(std::make_unique<SceneObject>());
+    objects.push_back(std::make_unique<SceneObject>());
+    objects.push_back(std::make_unique<SceneObject>());
 
-    objects[0]->createFromModelResource(":/models/grid.obj", {0, 0, -2});
+    objects[0]->createFromModelResource(":/models/PenguinBaseMesh.obj", {0, 0, -20});
+    objects[0]->texture.loadFromFile(":/textures/Penguin Diffuse Color.png");
+    objects[0]->setScaling(5);
 
-    objects[0]->setWaveParameters(0, 0.1f, float(8.0 * M_PI), float(0.5 * M_PI));
-    objects[0]->setWaveParameters(1, 0.15f, float(2.0 * M_PI), float(-1.0 * M_PI));
+    objects[1]->createFromModelResource(":/models/cat.obj", {10, 0, -20});
+    objects[1]->texture.loadFromFile(":/textures/cat_diff.png");
+    objects[1]->setScaling(1.5f);
+    objects[1]->setRotation(0, 170, 0);
+
+    objects[2]->createFromModelResource(":/models/cat.obj", {-10, 0, -30});
+    objects[2]->texture.loadFromFile(":/textures/cat_diff.png");
+    objects[2]->setScaling(1.5f);
+    objects[2]->setRotation(0, 290, 0);
+
+    objects[3]->createFromModelResource(":/models/cat.obj", {0, 0, -10});
+    objects[3]->texture.loadFromFile(":/textures/cat_diff.png");
+    objects[3]->setScaling(1.5f);
+    objects[3]->setRotation(0, 50, 0);
 
     createShaderProgram();
 
-    cameraPosition = QVector3D(0, 0, 0);
+    cameraPosition = QVector3D(0.6f, 5.1f, -2.5f);
     cameraUp = QVector3D(0, 1, 0);
-    setYawPitch(0, 0);
+    setYawPitch(270, -10);
 
     lightPosition = {0, 1000, -1};
     material = {0.5f, 0.8f, 0.3f};
+
+    float animSpeed = 400;
+    auto seq1 = new SequentialAnimation();
+    seq1->addAnimationNL(std::make_unique<TranslationAnimation>(animSpeed, QVector3D(10, 0, -20), QVector3D(-10, 0, -30)));
+    seq1->addAnimationNL(std::make_unique<RotationAnimation>(20, RotationAnimation::Axis::Y, 170, 290));
+    seq1->addAnimationNL(std::make_unique<TranslationAnimation>(animSpeed, QVector3D(-10, 0, -30), QVector3D(0, 0, -10)));
+    seq1->addAnimationNL(std::make_unique<RotationAnimation>(20, RotationAnimation::Axis::Y, 290, 410));
+    seq1->addAnimationNL(std::make_unique<TranslationAnimation>(animSpeed, QVector3D(0, 0, -10), QVector3D(10, 0, -20)));
+    seq1->addAnimationNL(std::make_unique<RotationAnimation>(20, RotationAnimation::Axis::Y, 50, 170));
+    animationController.addAnimation(objects[1].get(), std::unique_ptr<Animation>(seq1));
+
+    auto seq2 = new SequentialAnimation();
+    seq2->addAnimationNL(std::make_unique<TranslationAnimation>(animSpeed, QVector3D(-10, 0, -30), QVector3D(0, 0, -10)));
+    seq2->addAnimationNL(std::make_unique<RotationAnimation>(20, RotationAnimation::Axis::Y, 290, 410));
+    seq2->addAnimationNL(std::make_unique<TranslationAnimation>(animSpeed, QVector3D(0, 0, -10), QVector3D(10, 0, -20)));
+    seq2->addAnimationNL(std::make_unique<RotationAnimation>(20, RotationAnimation::Axis::Y, 50, 170));
+    seq2->addAnimationNL(std::make_unique<TranslationAnimation>(animSpeed, QVector3D(10, 0, -20), QVector3D(-10, 0, -30)));
+    seq2->addAnimationNL(std::make_unique<RotationAnimation>(20, RotationAnimation::Axis::Y, 170, 290));
+    animationController.addAnimation(objects[2].get(), std::unique_ptr<Animation>(seq2));
+
+    auto seq3 = new SequentialAnimation();
+    seq3->addAnimationNL(std::make_unique<TranslationAnimation>(animSpeed, QVector3D(0, 0, -10), QVector3D(10, 0, -20)));
+    seq3->addAnimationNL(std::make_unique<RotationAnimation>(20, RotationAnimation::Axis::Y, 50, 170));
+    seq3->addAnimationNL(std::make_unique<TranslationAnimation>(animSpeed, QVector3D(10, 0, -20), QVector3D(-10, 0, -30)));
+    seq3->addAnimationNL(std::make_unique<RotationAnimation>(20, RotationAnimation::Axis::Y, 170, 290));
+    seq3->addAnimationNL(std::make_unique<TranslationAnimation>(animSpeed, QVector3D(-10, 0, -30), QVector3D(0, 0, -10)));
+    seq3->addAnimationNL(std::make_unique<RotationAnimation>(20, RotationAnimation::Axis::Y, 290, 410));
+    animationController.addAnimation(objects[3].get(), std::unique_ptr<Animation>(seq3));
+
+    animationController.addAnimation(objects[0].get(), std::make_unique<RotationAnimation>(100, RotationAnimation::Axis::Y, 360, 0));
+    animationController.addAnimation(objects[0].get(), std::make_unique<ScaleAnimation>(100, 5, 6));
+    auto pickAnim = new RotationAnimation(10, RotationAnimation::Axis::X, 0, 45);
+    pickAnim->shouldLoopBack = true;
+    animationController.addAnimation(objects[0].get(), std::unique_ptr<RotationAnimation>(pickAnim));
+    // animationController.addAnimation(objects[0].get(), std::make_unique<ScaleAnimation>(animSpeed * 3, 5, 6));
 
     /*
     auto seq = new SequentialAnimation();
@@ -256,7 +308,6 @@ void MainView::resizeGL(int newWidth, int newHeight)
 
 void MainView::setRotation(int rotateX, int rotateY, int rotateZ)
 {
-    qDebug() << rotateX << "\n";
     for (auto& object : objects) {
         object->setRotation(rotateX, rotateY, rotateZ);
     }
