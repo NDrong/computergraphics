@@ -1,4 +1,4 @@
-#Raytracer - Demo
+# Raytracer - Demo
 
 We have extended the raytracer code from the assignments with the following items:
 - Interpolating normals for a mesh
