@@ -15,6 +15,7 @@ using namespace std;
 
 void Scene::render(Image &img) {
     tree = std::make_unique<KdTree>(objects, 0);
+    std::cout << "KdTree depth: " << tree->depth << "\n";
 
     auto timeStart = std::chrono::steady_clock::now();
 

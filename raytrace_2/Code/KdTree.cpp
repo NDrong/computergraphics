@@ -1,8 +1,16 @@
 #include "KdTree.h"
 #include <algorithm>
 
-KdTree::KdTree(std::vector<std::shared_ptr<Object>> &objects, int depth) : depth(depth) {
+KdTree::KdTree(std::vector<std::shared_ptr<Object>> &objects, int depth) : depth(1) {
     int axis = depth % 3; // 0 = x, 1 = y, 2 = z
+
+//    if (objects.size() <= 10) {
+//        center.insert(center.end(), objects.begin(), objects.end());
+//        for (const auto& obj : center) {
+//            bb += obj->bb;
+//        }
+//        return;
+//    }
 
     std::sort(objects.begin(), objects.end(), [this, axis](const std::shared_ptr<Object> a, const std::shared_ptr<Object> b) {
         return getP(a->bb.getTopLeft(), axis) < getP(b->bb.getTopLeft(), axis);
@@ -21,6 +29,8 @@ KdTree::KdTree(std::vector<std::shared_ptr<Object>> &objects, int depth) : depth
         right = std::make_unique<KdTree>(objR, depth + 1);
         bb += left->bb;
         bb += right->bb;
+
+        KdTree::depth = std::max(left->depth, right->depth) + 1;
     }
 }
 
