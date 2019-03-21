@@ -9,11 +9,14 @@
 #include <cmath>
 #include <limits>
 #include <iostream>
+#include <chrono>
 
 using namespace std;
 
 void Scene::render(Image &img) {
     tree = std::make_unique<KdTree>(objects, 0);
+
+    auto timeStart = std::chrono::steady_clock::now();
 
     unsigned w = img.width();
     unsigned h = img.height();
@@ -40,6 +43,9 @@ void Scene::render(Image &img) {
             img(x, y) = col;
         }
     }
+
+    auto timeEnd = std::chrono::steady_clock::now();
+    std::cout << "Time: " << std::chrono::duration_cast<chrono::milliseconds>(timeEnd - timeStart).count() << "\n";
 }
 
 // --- Misc functions ----------------------------------------------------------
@@ -48,13 +54,6 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
     // Find hit object and distance
     Hit min_hit(numeric_limits<double>::infinity(), Vector());
     ObjectPtr obj = nullptr;
-//    for (unsigned idx = 0; idx != objects.size(); ++idx) {
-//        Hit hit(objects[idx]->intersect(ray));
-//        if (hit.t < min_hit.t) {
-//            min_hit = hit;
-//            obj = objects[idx];
-//        }
-//    }
 
     std::vector<KdTree*> treesLeft;
     treesLeft.push_back(tree.get());
@@ -106,12 +105,13 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
     *        pow(a,b)           a to the power of b
     ****************************************************/
 
+    auto theColor = material.color;
     if (material.hasTexture()) {
         Point uvw = obj->getTextureCoords(hit);
-        color = material.texture->colorAt(static_cast<float>(uvw.x), static_cast<float>(uvw.y));
-    } else {
-        color = material.ka * material.color;
+        theColor = material.texture->colorAt(static_cast<float>(uvw.x), static_cast<float>(uvw.y));
     }
+
+    color = material.ka * material.color;
 
     for (const auto &light : lights) {
         Vector L = (light->position - hit).normalized();
@@ -128,7 +128,7 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
 
         if (!inShadow) {
             // Diffuse component
-            color += material.kd * std::max(0.0, N.dot(L)) * material.color * light->color;
+            color += material.kd * std::max(0.0, N.dot(L)) * theColor * light->color;
             // Specular component
             color += material.ks * pow(std::max(0.0, R.dot(V)), material.n) * light->color;
         }
@@ -174,12 +174,25 @@ void Scene::setUseShadows(bool useShadows) {
 }
 
 Hit Scene::intersectsWithObject(const Ray &ray) {
-    for (unsigned idx = 0; idx != objects.size(); ++idx) {
-        Hit hit(objects[idx]->intersect(ray));
-        if (!isnan(hit.t)) {
-            return hit;
+    std::vector<KdTree*> treesLeft;
+    treesLeft.push_back(tree.get());
+    while (!treesLeft.empty()) {
+        auto ct = *treesLeft.rbegin();
+        treesLeft.pop_back();
+
+        if (ct->bb.intersects(ray)) {
+            for (const auto& co : ct->center) {
+                Hit hit(co->intersect(ray));
+                if (!isnan(hit.t)) {
+                    return hit;
+                }
+            }
+
+            if (ct->left) treesLeft.push_back(ct->left.get());
+            if (ct->right) treesLeft.push_back(ct->right.get());
         }
     }
+
     return Hit::NO_HIT();
 }
 

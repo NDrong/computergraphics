@@ -39,7 +39,9 @@ Hit Sphere::intersect(Ray const &ray) {
     return Hit(t0, N);
 }
 
-Sphere::Sphere(Point const &pos, double radius) : position(pos), r(radius), hasRotation(false) {}
+Sphere::Sphere(Point const &pos, double radius) : position(pos), r(radius), hasRotation(false) {
+    bb = BoundingBox(pos - radius, pos + radius);
+}
 
 Sphere::Sphere(Point const &pos, double radius, Vector rotAxis, double rotAngle)
         : Sphere(pos, radius) {

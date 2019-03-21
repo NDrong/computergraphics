@@ -1,3 +1,4 @@
+#define RT_USE_BILINEAR_TEXTURE_FILTERING
 #include "raytracer.h"
 
 #include <iostream>

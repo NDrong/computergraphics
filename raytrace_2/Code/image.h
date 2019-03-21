@@ -32,7 +32,7 @@ class Image
 
         // Normalized accessors, unsignederval is (0...1, 0...1)
         // usefull for texture access
-        Color const &colorAt(float x, float y) const;
+        Color const colorAt(float x, float y) const;
 
         void write_png(std::string const &filename) const;
         void read_png(std::string const &filename);
@@ -40,7 +40,8 @@ class Image
     private:
         inline unsigned index(unsigned x, unsigned y) const
         {
-            return y * d_width + x;
+            auto asd = y * d_width + x;
+            return asd;
         }
 
         inline unsigned findex(float x, float y) const

@@ -57,9 +57,27 @@ unsigned Image::size() const
 
 // Normalized accessors, unsignederval is (0...1, 0...1)
 // usefull for texture access
-Color const &Image::colorAt(float x, float y) const
+Color const Image::colorAt(float x, float y) const
 {
+#ifdef RT_USE_BILINEAR_TEXTURE_FILTERING
+    x = x * d_width - 0.5;
+    y = y * d_height - 0.5;
+
+    auto rx = int(x);
+    auto ry = int(y);
+
+    double u_ratio = x - rx;
+    double v_ratio = y - ry;
+    double u_opposite = 1 - u_ratio;
+    double v_opposite = 1 - v_ratio;
+
+    Triple result = (d_pixels.at(index(rx, ry)) * u_opposite + d_pixels.at(index(rx + 1, ry)) * u_ratio) * v_opposite +
+            (d_pixels.at(index(rx, ry + 1)) * u_opposite + d_pixels.at(index(rx + 1, ry + 1)) * u_ratio) * v_ratio;
+
+    return result;
+#else
     return d_pixels.at(findex(x, y));
+#endif
 }
 
 void Image::write_png(std::string const &filename) const

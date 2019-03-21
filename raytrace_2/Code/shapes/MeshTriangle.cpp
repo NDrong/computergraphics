@@ -16,9 +16,9 @@ MeshTriangle::MeshTriangle(Vertex const &v0, Vertex const &v1, Vertex const &v2)
     n1 = Point(v1.nx, v1.ny, v1.nz);
     n2 = Point(v2.nx, v2.ny, v2.nz);
 
-    t0 = Point(v0.u, v0.v, 0);
-    t1 = Point(v1.u, v1.v, 0);
-    t2 = Point(v2.u, v2.v, 0);
+    t0 = Point(v0.u, 1.0 - v0.v, 0);
+    t1 = Point(v1.u, 1.0 - v1.v, 0);
+    t2 = Point(v2.u, 1.0 - v2.v, 0);
 
     bb += p0;
     bb += p1;
