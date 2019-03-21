@@ -17,7 +17,7 @@ The point of impact from the ray gets converted to barycentric coordinates and t
 # Bilinear filtering
 The `Image` class has been modified to be able to use bilinear texture filtering.
 
-You can enable/disable this feature by defining `RT_USE_BILINEAR_TEXTURE_FILTERING`
+You can enable/disable this feature by defining `RT_USE_BILINEAR_TEXTURE_FILTERING` (In cmake file `-DRT_USE_BILINEAR_TEXTURE_FILTERING`)
 
 ![No bilinear filtering](Screenshots/a.png) ![Bilinear filtering](Screenshots/b.png)
 
