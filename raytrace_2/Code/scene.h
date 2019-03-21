@@ -4,6 +4,7 @@
 #include "light.h"
 #include "object.h"
 #include "triple.h"
+#include "KdTree.h"
 
 #include <vector>
 
@@ -14,6 +15,7 @@ class Image;
 class Scene
 {
     std::vector<ObjectPtr> objects;
+    std::unique_ptr<KdTree> tree;
     std::vector<LightPtr> lights;   // no ptr needed, but kept for consistency
     Point eye;
     bool useShadows;

@@ -31,7 +31,7 @@ Hit Triangle::intersect(Ray const &ray)
 
     // determine orientation of the normal
     Vector normal = getNormal(ray.at(t));
-    if (N.dot(ray.D) > 0)
+    if (normal.dot(ray.D) > 0)
         normal = -normal;
 
     return Hit(t, normal);

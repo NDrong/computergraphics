@@ -5,6 +5,7 @@
 #include "MeshTriangle.h"
 #include <cfloat>   // DBL_EPSILON
 #include <cmath>
+#include <cassert>
 
 MeshTriangle::MeshTriangle(Vertex const &v0, Vertex const &v1, Vertex const &v2) {
     p0 = Point(v0.x, v0.y, v0.z);
@@ -18,13 +19,17 @@ MeshTriangle::MeshTriangle(Vertex const &v0, Vertex const &v1, Vertex const &v2)
     t0 = Point(v0.u, v0.v, 0);
     t1 = Point(v1.u, v1.v, 0);
     t2 = Point(v2.u, v2.v, 0);
+
+    bb += p0;
+    bb += p1;
+    bb += p2;
 }
 
 Point MeshTriangle::getBaryCentricCoordinates(const Point &p) const {
     Vector d0 = p1 - p0;
     Vector d1 = p2 - p0;
     Vector d2 = p - p0;
-    double d00 = p.dot(d0);
+    double d00 = d0.dot(d0);
     double d01 = d0.dot(d1);
     double d11 = d1.dot(d1);
     double d20 = d2.dot(d0);
@@ -68,9 +73,17 @@ Hit MeshTriangle::intersect(Ray const &ray) {
     if (normal.dot(ray.D) > 0)
         normal = -normal;
 
-    return Hit(t, normal);
+    return {t, normal};
 }
 
-Vector MeshTriangle::getNormal(const Point &bc) const {
-    return bc.x * n0 + bc.y * n1 + bc.z * n2;
+Vector MeshTriangle::getNormal(const Point &point) const {
+    auto bc = getBaryCentricCoordinates(point);
+
+    return (bc.x * n0 + bc.y * n1 + bc.z * n2).normalized();
+}
+
+Point MeshTriangle::getTextureCoords(Point pOnObject) {
+    auto bc = getBaryCentricCoordinates(pOnObject);
+
+    return bc.x * t0 + bc.y * t1 + bc.z * t2;
 }

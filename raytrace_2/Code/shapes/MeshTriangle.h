@@ -22,6 +22,8 @@ public:
 
     virtual Hit intersect(Ray const &ray);
 
+    Point getTextureCoords(Point pOnObject) override;
+
     Point p0, p1, p2, n0, n1, n2, t0, t1, t2;
 
 };

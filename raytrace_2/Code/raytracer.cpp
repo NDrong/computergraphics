@@ -5,6 +5,7 @@
 #include "material.h"
 #include "triple.h"
 #include "objloader.h"
+#include <omp.h>
 
 // =============================================================================
 // -- Include all your shapes here ---------------------------------------------
@@ -21,6 +22,7 @@
 // =============================================================================
 
 #include "json/json.h"
+#include "KdTree.h"
 
 #include <exception>
 #include <fstream>
@@ -64,28 +66,21 @@ bool Raytracer::parseObjectNode(json const &node) {
     } else if (node["type"] == "mesh") {
         std::string filename = node["filename"];
         OBJLoader loader(filename);
-        const auto vertices = loader.vertex_data();
+        auto vertices = loader.vertex_data();
+        Material objMaterial = parseMaterialNode(node["material"]);
 
         for (size_t i = 0; i < vertices.size() / 3; i++) {
             double scale(node["scale"]);
             Point pos(node["position"]);
-            Point a(vertices[i * 3].x, vertices[i * 3].y, vertices[i * 3].z);
-            Point b(vertices[i * 3 + 1].x, vertices[i * 3 + 1].y, vertices[i * 3 + 1].z);
-            Point c(vertices[i * 3 + 2].x, vertices[i * 3 + 2].y, vertices[i * 3 + 2].z);
-            Point na(vertices[i * 3].nx, vertices[i * 3].ny, vertices[i * 3].nz);
-            Point nb(vertices[i * 3 + 1].nx, vertices[i * 3 + 1].ny, vertices[i * 3 + 1].nz);
-            Point nc(vertices[i * 3 + 2].nx, vertices[i * 3 + 2].ny, vertices[i * 3 + 2].nz);
 
-            a *= scale;
-            b *= scale;
-            c *= scale;
-
-            a += pos;
-            b += pos;
-            c += pos;
+            for (int bla = 0; bla < 3; bla++) {
+                vertices[i * 3 + bla].x = static_cast<float>(scale * vertices[i * 3 + bla].x + pos.x);
+                vertices[i * 3 + bla].y = static_cast<float>(scale * vertices[i * 3 + bla].y + pos.y);
+                vertices[i * 3 + bla].z = static_cast<float>(scale * vertices[i * 3 + bla].z + pos.z);
+            }
 
             ObjectPtr o(new MeshTriangle(vertices[i * 3], vertices[i * 3 + 1], vertices[i * 3 + 2]));
-            o->material = parseMaterialNode(node["material"]);
+            o->material = objMaterial;
             scene.addObject(o);
         }
         return true;
@@ -181,7 +176,7 @@ catch (exception const &ex) {
 void Raytracer::renderToFile(string const &ofname) {
     // TODO: the size may be a settings in your file
     Image img(400, 400);
-    cout << "Tracing...\n";
+    cout << "Tracing on " << omp_get_max_threads() << " threads...\n";
     scene.render(img);
     cout << "Writing image to " << ofname << "...\n";
     img.write_png(ofname);

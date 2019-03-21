@@ -22,7 +22,7 @@
             "scale": 350,
             "material":
             {
-                "color": [1.0, 0.8, 0.0],
+                "texture": "../../opengl_1/Code/textures/cat_diff.png",
                 "ka": 0.2,
                 "kd": 0.8,
                 "ks": 0.2,

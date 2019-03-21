@@ -4,6 +4,7 @@
 #include "image.h"
 #include "material.h"
 #include "ray.h"
+#include "KdTree.h"
 
 #include <cmath>
 #include <limits>
@@ -12,6 +13,8 @@
 using namespace std;
 
 void Scene::render(Image &img) {
+    tree = std::make_unique<KdTree>(objects, 0);
+
     unsigned w = img.width();
     unsigned h = img.height();
     #pragma omp parallel for collapse(2)
@@ -45,13 +48,34 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
     // Find hit object and distance
     Hit min_hit(numeric_limits<double>::infinity(), Vector());
     ObjectPtr obj = nullptr;
-    for (unsigned idx = 0; idx != objects.size(); ++idx) {
-        Hit hit(objects[idx]->intersect(ray));
-        if (hit.t < min_hit.t) {
-            min_hit = hit;
-            obj = objects[idx];
+//    for (unsigned idx = 0; idx != objects.size(); ++idx) {
+//        Hit hit(objects[idx]->intersect(ray));
+//        if (hit.t < min_hit.t) {
+//            min_hit = hit;
+//            obj = objects[idx];
+//        }
+//    }
+
+    std::vector<KdTree*> treesLeft;
+    treesLeft.push_back(tree.get());
+    while (!treesLeft.empty()) {
+        auto ct = *treesLeft.rbegin();
+        treesLeft.pop_back();
+
+        if (ct->bb.intersects(ray)) {
+            for (const auto& co : ct->center) {
+                Hit hit(co->intersect(ray));
+                if (hit.t < min_hit.t) {
+                    min_hit = hit;
+                    obj = co;
+                }
+            }
+
+            if (ct->left) treesLeft.push_back(ct->left.get());
+            if (ct->right) treesLeft.push_back(ct->right.get());
         }
     }
+
     // No hit? Return background color.
     if (!obj) {
         color = Color(0.0, 0.0, 0.0);

@@ -7,6 +7,7 @@
 #include "hit.h"
 #include "ray.h"
 #include "triple.h"
+#include "BoundingBox.h"
 
 #include <memory>
 class Object;
@@ -16,6 +17,7 @@ class Object
 {
     public:
         Material material;
+        BoundingBox bb;
 
         virtual ~Object() = default;
 

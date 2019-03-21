@@ -1,0 +1,78 @@
+{
+  "Eye": [200, 300, 1000],
+  "Lights": [{
+    "position": [-1000, 600, 500],
+    "color": [1.0, 1.0, 1.0]
+  }],
+  "Objects": [{
+    "type": "mesh",
+    "comment": "Meow",
+    "filename": "../Code/models/cat.obj",
+    "position": [200, 100, 100],
+    "scale": 350,
+    "material": {
+      "texture": "../../opengl_1/Code/textures/cat_diff.png",
+      "ka": 0.2,
+      "kd": 0.8,
+      "ks": 0.5,
+      "n": 1
+    }
+  },
+    {
+      "type": "mesh",
+      "comment": "Meow",
+      "filename": "../Code/models/cat.obj",
+      "position": [200, 100, 200],
+      "scale": 500,
+      "material": {
+        "color": [0.8, 0.4, 0.7],
+        "ka": 0.2,
+        "kd": 0.8,
+        "ks": 0.5,
+        "n": 1
+      }
+    },
+    {
+      "type": "mesh",
+      "comment": "Meow",
+      "filename": "../Code/models/cat.obj",
+      "position": [200, 100, 0],
+      "scale": 100,
+      "material": {
+        "color": [0, 0.8, 0.7],
+        "ka": 0.2,
+        "kd": 0.8,
+        "ks": 0.5,
+        "n": 1
+      }
+    },
+    {
+      "type": "mesh",
+      "comment": "Meow",
+      "filename": "../Code/models/cat.obj",
+      "position": [300, 100, 0],
+      "scale": 100,
+      "material": {
+        "color": [0, 0.8, 0.7],
+        "ka": 0.2,
+        "kd": 0.8,
+        "ks": 0.5,
+        "n": 1
+      }
+    },
+    {
+      "type": "mesh",
+      "comment": "Meow",
+      "filename": "../Code/models/cat.obj",
+      "position": [50, 100, 0],
+      "scale": 100,
+      "material": {
+        "color": [0, 0.8, 0.7],
+        "ka": 0.2,
+        "kd": 0.8,
+        "ks": 0.5,
+        "n": 1
+      }
+    }
+  ]
+}

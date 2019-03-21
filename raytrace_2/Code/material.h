@@ -11,7 +11,7 @@ public:
     double kd;          // diffuse intensity
     double ks;          // specular intensity
     double n;           // exponent for specular highlight size
-    std::unique_ptr<Image> texture;
+    std::shared_ptr<Image> texture;
 
     Material() = default;
 
@@ -32,7 +32,7 @@ public:
             ks(ks),
             n(n),
             texture(nullptr) {
-        texture = std::make_unique<Image>(texturePath);
+        texture = std::make_shared<Image>(texturePath);
     }
 
     bool hasTexture() const {
