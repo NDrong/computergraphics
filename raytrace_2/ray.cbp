@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="ray"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="L:/Uni/computergraphics/raytrace_2"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ray">
+				<Option output="L:/Uni/computergraphics/raytrace_2/ray.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="L:/Uni/computergraphics/raytrace_2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="L:/Program Files/mingw-w64/x86_64-6.3.0-posix-seh-rt_v5-rev2/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/6.3.0/include/c++"/>
+					<Add directory="L:/Program Files/mingw-w64/x86_64-6.3.0-posix-seh-rt_v5-rev2/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/6.3.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="L:/Program Files/mingw-w64/x86_64-6.3.0-posix-seh-rt_v5-rev2/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="L:/Program Files/mingw-w64/x86_64-6.3.0-posix-seh-rt_v5-rev2/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/6.3.0/include"/>
+					<Add directory="L:/Program Files/mingw-w64/x86_64-6.3.0-posix-seh-rt_v5-rev2/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/6.3.0/include-fixed"/>
+					<Add directory="L:/Program Files/mingw-w64/x86_64-6.3.0-posix-seh-rt_v5-rev2/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/6.3.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 ray"/>
+					<CompileFile command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ray/fast">
+				<Option output="L:/Uni/computergraphics/raytrace_2/ray.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="L:/Uni/computergraphics/raytrace_2"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="L:/Program Files/mingw-w64/x86_64-6.3.0-posix-seh-rt_v5-rev2/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/6.3.0/include/c++"/>
+					<Add directory="L:/Program Files/mingw-w64/x86_64-6.3.0-posix-seh-rt_v5-rev2/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/6.3.0/include/c++/x86_64-w64-mingw32"/>
+					<Add directory="L:/Program Files/mingw-w64/x86_64-6.3.0-posix-seh-rt_v5-rev2/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/6.3.0/include/c++/backward"/>
+					<Add directory="L:/Program Files/mingw-w64/x86_64-6.3.0-posix-seh-rt_v5-rev2/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/6.3.0/include"/>
+					<Add directory="L:/Program Files/mingw-w64/x86_64-6.3.0-posix-seh-rt_v5-rev2/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/6.3.0/include-fixed"/>
+					<Add directory="L:/Program Files/mingw-w64/x86_64-6.3.0-posix-seh-rt_v5-rev2/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/6.3.0/../../../../x86_64-w64-mingw32/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 ray/fast"/>
+					<CompileFile command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="L:/Uni/computergraphics/raytrace_2"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="L:/Uni/computergraphics/raytrace_2"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="L:/PROGRA~1/MINGW-~1/X86_64~1.0-P/mingw64/bin/mingw32-make.exe -f &quot;L:/Uni/computergraphics/raytrace_2/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/BoundingBox.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/BoundingBox.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/KdTree.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/KdTree.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/image.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/image.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/lode/lodepng.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/lode/lodepng.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/main.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/object.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/object.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/objloader.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/objloader.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/raytracer.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/raytracer.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/scene.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/scene.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/MeshTriangle.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/MeshTriangle.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/MirrorPlane.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/MirrorPlane.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/cone.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/cone.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/cylinder.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/cylinder.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/example.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/example.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/solvers.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/solvers.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/sphere.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/sphere.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/triangle.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/shapes/triangle.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/triple.cpp">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/Code/triple.h">
+			<Option target="ray"/>
+		</Unit>
+		<Unit filename="L:/Uni/computergraphics/raytrace_2/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

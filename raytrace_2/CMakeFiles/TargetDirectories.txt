@@ -1,3 +1,3 @@
-/mnt/c/Users/Julius van Dijk/Desktop/Uni/CG/computergraphics/raytrace_2/CMakeFiles/rebuild_cache.dir
-/mnt/c/Users/Julius van Dijk/Desktop/Uni/CG/computergraphics/raytrace_2/CMakeFiles/ray.dir
-/mnt/c/Users/Julius van Dijk/Desktop/Uni/CG/computergraphics/raytrace_2/CMakeFiles/edit_cache.dir
+L:/Uni/computergraphics/raytrace_2/CMakeFiles/ray.dir
+L:/Uni/computergraphics/raytrace_2/CMakeFiles/edit_cache.dir
+L:/Uni/computergraphics/raytrace_2/CMakeFiles/rebuild_cache.dir

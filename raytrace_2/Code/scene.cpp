@@ -10,6 +10,8 @@
 #include <limits>
 #include <iostream>
 #include <chrono>
+#include <omp.h>
+#include <iomanip>
 
 using namespace std;
 
@@ -21,7 +23,11 @@ void Scene::render(Image &img) {
 
     unsigned w = img.width();
     unsigned h = img.height();
-    #pragma omp parallel for collapse(2)
+
+    unsigned raysToSend = h * w;
+    unsigned raysComplete = 0;
+
+    #pragma omp parallel for collapse(2) private(raysComplete)
     for (unsigned y = 0; y < h; ++y) {
         for (unsigned x = 0; x < w; ++x) {
             double step = 0.5 / superSamplingFactor;
@@ -38,10 +44,17 @@ void Scene::render(Image &img) {
                     col += col2;
                 }
             }
+
             col /= superSamplingFactor * superSamplingFactor;
 
             col.clamp();
             img(x, y) = col;
+
+            raysComplete++;
+
+            if (omp_get_thread_num() == 1 && raysComplete % 500 == 0) {
+                std::cout << std::fixed << std::setprecision(2) << (raysComplete * omp_get_max_threads() / (double)raysToSend * 100) << "% completed.\n";
+            }
         }
     }
 
@@ -101,7 +114,7 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
             }
         }
 
-        color = Color(1, 1, 1);
+        color = Color(0.9, 0.9, 0.9);
         return false;
     }
 
@@ -136,13 +149,13 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
         Vector R = -L - 2 * (-L).dot(N) * N;
 
         bool inShadow = false;
-//        if (useShadows) {
-//            // Prevent shadow acne
-//            Point displacedHit = hit + L * 0.0001;
-//            Ray lightRay(displacedHit, L);
-//            auto shadowHit = intersectsWithObject(lightRay);
-//            inShadow = !isnan(shadowHit.t) && shadowHit.t < (light->position - hit).length();
-//        }
+        if (useShadows) {
+            // Prevent shadow acne
+            Point displacedHit = hit + L * 0.0001;
+            Ray lightRay(displacedHit, L);
+            auto shadowHit = intersectsWithObject(lightRay);
+            inShadow = !isnan(shadowHit.t) && shadowHit.t < (light->position - hit).length();
+        }
 
         if (!inShadow) {
             // Diffuse component

@@ -1,17 +1,17 @@
 {
   "Eye": [
-    800,
-    800,
+    1600,
+    1600,
     1000
   ],
   "Shadows": false,
-  "MaxRecursionDepth": 4,
-  "SuperSamplingFactor": 1,
+  "MaxRecursionDepth": 64,
+  "SuperSamplingFactor": 4,
   "Lights": [
     {
       "position": [
         0,
-        1600,
+        3200,
         0
       ],
       "color": [
@@ -22,8 +22,8 @@
     },
     {
       "position": [
-        1600,
-        1600,
+        3200,
+        3200,
         0
       ],
       "color": [
@@ -35,8 +35,8 @@
     {
       "position": [
         0,
-        1600,
-        1600
+        3200,
+        3200
       ],
       "color": [
         0.75,
@@ -46,9 +46,9 @@
     },
     {
       "position": [
-        1600,
-        1600,
-        1600
+        3200,
+        3200,
+        3200
       ],
       "color": [
         0.75,
@@ -63,11 +63,11 @@
       "comment": "Meow",
       "filename": "../Code/models/cat.obj",
       "position": [
-        800,
-        401,
+        1600,
+        801,
         150
       ],
-      "scale": 400,
+      "scale": 1000,
       "material": {
         "texture": "../../opengl_1/Code/textures/cat_diff.png",
         "ka": 0.2,
@@ -79,13 +79,67 @@
     {
       "type": "mesh",
       "comment": "Meow",
+      "filename": "../gull_t.obj",
+      "position": [
+        1200,
+        1700,
+        400
+      ],
+      "scale": 750,
+      "material": {
+        "texture": "../GULL.png",
+        "ka": 0.2,
+        "kd": 0.8,
+        "ks": 0,
+        "n": 1
+      }
+    },
+    {
+      "type": "mesh",
+      "comment": "Meow",
+      "filename": "../gull_t.obj",
+      "position": [
+        1750,
+        1600,
+        700
+      ],
+      "scale": 750,
+      "material": {
+        "texture": "../GULL.png",
+        "ka": 0.2,
+        "kd": 0.8,
+        "ks": 0,
+        "n": 1
+      }
+    },
+    {
+      "type": "mesh",
+      "comment": "Meow",
+      "filename": "../gull_t.obj",
+      "position": [
+        1600,
+        2000,
+        0
+      ],
+      "scale": 500,
+      "material": {
+        "texture": "../GULL.png",
+        "ka": 0.2,
+        "kd": 0.8,
+        "ks": 0,
+        "n": 1
+      }
+    },
+    {
+      "type": "mesh",
+      "comment": "Pinguin 1",
       "filename": "../../opengl_3/Code/models/PenguinBaseMesh.obj",
       "position": [
-        600,
-        401,
-        325
+        1300,
+        801,
+        350
       ],
-      "scale": 75,
+      "scale": 200,
       "material": {
         "texture": "../../opengl_3/Code/textures/Penguin Diffuse Color.png",
         "ka": 0.2,
@@ -96,14 +150,14 @@
     },
     {
       "type": "mesh",
-      "comment": "Meow",
+      "comment": "Pinguin 2",
       "filename": "../../opengl_3/Code/models/PenguinBaseMesh.obj",
       "position": [
-        1000,
-        401,
-        325
+        2000,
+        801,
+        350
       ],
-      "scale": 75,
+      "scale": 200,
       "material": {
         "texture": "../../opengl_3/Code/textures/Penguin Diffuse Color.png",
         "ka": 0.2,
@@ -115,8 +169,8 @@
     {
       "type": "mplane",
       "comment": "Onderkant",
-      "center": [0, 400, 0],
-      "size": 2500,
+      "center": [0, 800, 0],
+      "size": 10000,
       "normal": [0, -1, 0],
       "material":
       {
@@ -131,8 +185,8 @@
     {
       "type": "mplane",
       "comment": "Bovenkant",
-      "center": [0, 1000, 0],
-      "size": 2500,
+      "center": [0, 2400, 0],
+      "size": 10000,
       "normal": [0, 1, 0],
       "material":
       {
@@ -147,8 +201,8 @@
     {
       "type": "mplane",
       "comment": "Links",
-      "center": [300, 0, 0],
-      "size": 2500,
+      "center": [800, 0, 0],
+      "size": 10000,
       "normal": [-1, 0, 0],
       "material":
       {
@@ -163,8 +217,8 @@
     {
       "type": "mplane",
       "comment": "Rechts",
-      "center": [1300, 0, 0],
-      "size": 2500,
+      "center": [2400, 0, 0],
+      "size": 10000,
       "normal": [1, 0, 0],
       "material":
       {
@@ -180,7 +234,7 @@
       "type": "mplane",
       "comment": "Achterkant",
       "center": [0, 0, -300],
-      "size": 2500,
+      "size": 10000,
       "normal": [0, 0, -1],
       "material":
       {
@@ -197,7 +251,7 @@
       "comment": "Voorkant",
       "center": [0, 0, 1000],
       "normal": [0, 0, 1],
-      "size": 2500,
+      "size": 10000,
       "material":
       {
         "mirror": true,

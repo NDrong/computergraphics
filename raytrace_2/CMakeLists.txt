@@ -8,7 +8,7 @@ project(ray)
 IF (APPLE)
     set(CMAKE_CXX_FLAGS "-DRT_USE_BILINEAR_TEXTURE_FILTERING -Xpreprocessor -fopenmp -Wall -O3 --std=c++14 -g -lomp")
 ELSE ()
-    set(CMAKE_CXX_FLAGS "-DRT_USE_BILINEAR_TEXTURE_FILTERING -Xpreprocessor -Wall -O3 --std=c++14 -g ${OpenMP_CXX_FLAGS}")
+    set(CMAKE_CXX_FLAGS "-DRT_USE_BILINEAR_TEXTURE_FILTERING -Xpreprocessor -Wall -O3 --std=c++14 -g -fopenmp")
 ENDIF ()
 
 

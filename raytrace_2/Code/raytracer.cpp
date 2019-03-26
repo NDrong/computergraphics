@@ -84,6 +84,9 @@ bool Raytracer::parseObjectNode(json const &node) {
             o->material = objMaterial;
             scene.addObject(o);
         }
+
+        std::cout << "Loaded " << vertices.size() << " vertices\n";
+
         return true;
     } else if (node["type"] == "mplane") {
         Point center(node["center"]);
@@ -183,7 +186,7 @@ catch (exception const &ex) {
 
 void Raytracer::renderToFile(string const &ofname) {
     // TODO: the size may be a settings in your file
-    Image img(1600, 1600);
+    Image img(3200, 3200);
     cout << "Tracing on " << omp_get_max_threads() << " threads...\n";
     scene.render(img);
     cout << "Writing image to " << ofname << "...\n";

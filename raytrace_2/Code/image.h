@@ -5,6 +5,7 @@
 
 #include <string>
 #include <vector>
+#include <algorithm>
 
 class Image
 {
@@ -41,7 +42,7 @@ class Image
         inline unsigned index(unsigned x, unsigned y) const
         {
             auto asd = y * d_width + x;
-            return asd;
+            return asd < d_pixels.size() ? asd : (d_pixels.size() - 1);
         }
 
         inline unsigned findex(float x, float y) const
