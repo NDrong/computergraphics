@@ -15,6 +15,9 @@ Executing the large scene (`scene08_big.json`) takes 50-60 mins on a Ryzen 7 170
 
 You can also try the smaller demo with the name `scene08_big_1600.json`.
 
+## Where to find the code
+Code is in [raytracer_2](raytrace_2).
+
 # Changes for the competition?
 We have extended the raytracer code from the assignments with the following items:
 - Interpolating normals for a mesh
@@ -36,6 +39,6 @@ The `Image` class has been modified to be able to use bilinear texture filtering
 
 You can enable/disable this feature by defining `RT_USE_BILINEAR_TEXTURE_FILTERING` (In cmake file `-DRT_USE_BILINEAR_TEXTURE_FILTERING`)
 
-![No bilinear filtering](Screenshots/a.png) ![Bilinear filtering](Screenshots/b.png)
+![No bilinear filtering](raytrace_2/Screenshots/a.png) ![Bilinear filtering](raytrace_2/Screenshots/b.png)
 
 (left: no bilinear filtering, right: bilinear filtering enabled)
