@@ -16,6 +16,7 @@
 #include "shapes/cylinder.h"
 #include "shapes/cone.h"
 #include "shapes/MeshTriangle.h"
+#include "shapes/MirrorPlane.h"
 
 // =============================================================================
 // -- End of shape includes ----------------------------------------------------
@@ -84,6 +85,11 @@ bool Raytracer::parseObjectNode(json const &node) {
             scene.addObject(o);
         }
         return true;
+    } else if (node["type"] == "mplane") {
+        Point center(node["center"]);
+        double size(node["size"]);
+        Vector N(node["normal"]);
+        obj = ObjectPtr(new MirrorPlane(center, size, N));
     } else {
         cerr << "Unknown object type: " << node["type"] << ".\n";
     }
@@ -121,10 +127,12 @@ Material Raytracer::parseMaterialNode(json const &node) const {
 
     auto texture = node.find("texture");
     if (texture != node.end()) {
-        return Material(color, ka, kd, ks, n, *texture);
+        return Material(color, ka, kd, ks, n, *texture, false);
     }
 
-    return Material(color, ka, kd, ks, n);
+    bool isMirror = node.find("mirror") != node.end() && bool(*node.find("mirror"));
+
+    return Material(color, ka, kd, ks, n, isMirror);
 }
 
 bool Raytracer::readScene(string const &ifname)

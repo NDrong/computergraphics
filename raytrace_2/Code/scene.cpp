@@ -88,6 +88,23 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
     Vector N = min_hit.N;                          //the normal at hit point
     Vector V = -ray.D;                             //the view vector
 
+    if (material.isMirror) {
+        Vector reflection = -V - 2 * (-V).dot(N) * N;
+        Point reflectHit;
+        Color reflectColor;
+        Point displacedHit = hit + reflection * 0.0001;
+        if (remainingRecursions > 0) {
+            bool foundReflect = traceObjects(Ray(displacedHit, reflection), remainingRecursions - 1, reflectColor, reflectHit);
+            if (foundReflect) {
+                color = reflectColor;
+                return true;
+            }
+        }
+
+        color = Color(1, 1, 1);
+        return false;
+    }
+
     /****************************************************
     * This is where you should insert the color
     * calculation (Phong model).
@@ -119,13 +136,13 @@ bool Scene::traceObjects(Ray const &ray, int remainingRecursions, Color &color, 
         Vector R = -L - 2 * (-L).dot(N) * N;
 
         bool inShadow = false;
-        if (useShadows) {
-            // Prevent shadow acne
-            Point displacedHit = hit + L * 0.0001;
-            Ray lightRay(displacedHit, L);
-            auto shadowHit = intersectsWithObject(lightRay);
-            inShadow = !isnan(shadowHit.t) && shadowHit.t < (light->position - hit).length();
-        }
+//        if (useShadows) {
+//            // Prevent shadow acne
+//            Point displacedHit = hit + L * 0.0001;
+//            Ray lightRay(displacedHit, L);
+//            auto shadowHit = intersectsWithObject(lightRay);
+//            inShadow = !isnan(shadowHit.t) && shadowHit.t < (light->position - hit).length();
+//        }
 
         if (!inShadow) {
             // Diffuse component

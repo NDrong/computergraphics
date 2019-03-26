@@ -6,6 +6,7 @@
 #include <cfloat>   // DBL_EPSILON
 #include <cmath>
 #include <cassert>
+#include <iostream>
 
 MeshTriangle::MeshTriangle(Vertex const &v0, Vertex const &v1, Vertex const &v2) {
     p0 = Point(v0.x, v0.y, v0.z);

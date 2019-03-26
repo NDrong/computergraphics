@@ -1,0 +1,212 @@
+{
+  "Eye": [
+    200,
+    200,
+    1000
+  ],
+  "Shadows": false,
+  "MaxRecursionDepth": 16,
+  "SuperSamplingFactor": 1,
+  "Lights": [
+    {
+      "position": [
+        0,
+        400,
+        0
+      ],
+      "color": [
+        0.75,
+        0.72,
+        0.66
+      ]
+    },
+    {
+      "position": [
+        400,
+        400,
+        0
+      ],
+      "color": [
+        0.75,
+        0.72,
+        0.66
+      ]
+    },
+    {
+      "position": [
+        0,
+        400,
+        400
+      ],
+      "color": [
+        0.75,
+        0.72,
+        0.66
+      ]
+    },
+    {
+      "position": [
+        400,
+        400,
+        400
+      ],
+      "color": [
+        0.75,
+        0.72,
+        0.66
+      ]
+    }
+  ],
+  "Objects": [
+    {
+      "type": "mesh",
+      "comment": "Meow",
+      "filename": "../Code/models/cat.obj",
+      "position": [
+        200,
+        150,
+        300
+      ],
+      "scale": 100,
+      "material": {
+        "texture": "../../opengl_1/Code/textures/cat_diff.png",
+        "ka": 0.2,
+        "kd": 0.8,
+        "ks": 0.15,
+        "n": 1
+      }
+    },
+    {
+      "type": "mesh",
+      "comment": "Meow",
+      "filename": "../../opengl_3/Code/models/PenguinBaseMesh.obj",
+      "position": [
+        150,
+        150,
+        350
+      ],
+      "scale": 20,
+      "material": {
+        "texture": "../../opengl_3/Code/textures/Penguin Diffuse Color.png",
+        "ka": 0.2,
+        "kd": 0.8,
+        "ks": 0,
+        "n": 1
+      }
+    },
+    {
+      "type": "mesh",
+      "comment": "Meow",
+      "filename": "../../opengl_3/Code/models/PenguinBaseMesh.obj",
+      "position": [
+        250,
+        150,
+        350
+      ],
+      "scale": 20,
+      "material": {
+        "texture": "../../opengl_3/Code/textures/Penguin Diffuse Color.png",
+        "ka": 0.2,
+        "kd": 0.8,
+        "ks": 0,
+        "n": 1
+      }
+    },
+    {
+      "type": "mplane",
+      "comment": "Onderkant",
+      "center": [0, 150, 0],
+      "size": 2500,
+      "normal": [0, -1, 0],
+      "material":
+      {
+        "mirror": true,
+        "color": [0, 1.0, 1.0],
+        "ka": 1,
+        "kd": 0.5,
+        "ks": 0.0,
+        "n": 50
+      }
+    },
+    {
+      "type": "mplane",
+      "comment": "Onderkant",
+      "center": [0, 275, 0],
+      "size": 2500,
+      "normal": [0, 1, 0],
+      "material":
+      {
+        "mirror": true,
+        "color": [0, 1.0, 1.0],
+        "ka": 1,
+        "kd": 0.5,
+        "ks": 0.0,
+        "n": 50
+      }
+    },
+    {
+      "type": "mplane",
+      "comment": "Links",
+      "center": [125, 0, 0],
+      "size": 2500,
+      "normal": [-1, 0, 0],
+      "material":
+      {
+        "mirror": true,
+        "color": [1.0, 1.0, 0],
+        "ka": 1,
+        "kd": 0,
+        "ks": 0.8,
+        "n": 50
+      }
+    },
+    {
+      "type": "mplane",
+      "comment": "Rechts",
+      "center": [275, 0, 0],
+      "size": 2500,
+      "normal": [1, 0, 0],
+      "material":
+      {
+        "mirror": true,
+        "color": [0, 0, 1.0],
+        "ka": 1,
+        "kd": 0,
+        "ks": 0.8,
+        "n": 50
+      }
+    },
+    {
+      "type": "mplane",
+      "comment": "Achterkant",
+      "center": [0, 0, 0],
+      "size": 2500,
+      "normal": [0, 0, -1],
+      "material":
+      {
+        "mirror": true,
+        "color": [0, 1, 0],
+        "ka": 1,
+        "kd": 0,
+        "ks": 0.8,
+        "n": 50
+      }
+    },
+    {
+      "type": "mplane",
+      "comment": "Voorkant",
+      "center": [0, 0, 1000],
+      "normal": [0, 0, 1],
+      "size": 2500,
+      "material":
+      {
+        "mirror": true,
+        "color": [1.0, 0, 0],
+        "ka": 1,
+        "kd": 0,
+        "ks": 0.8,
+        "n": 50
+      }
+    }
+  ]
+}
