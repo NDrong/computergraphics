@@ -34,6 +34,15 @@ The interpolation for both the coordinates and normals happen using barycentric 
 
 The point of impact from the ray gets converted to barycentric coordinates and then these are used to get a weighted average of the normals and texture coordinates.
 
+No normal interpolation
+
+![No normal interpolation](raytrace_2/Scenes/scene03-old.png) 
+
+
+Using normal interpolation (Due to two lights being present the cat is a bit too bright)
+
+![Normal interpolation](raytrace_2/Scenes/scene03-smooth.png)
+
 ## Bilinear filtering
 The `Image` class has been modified to be able to use bilinear texture filtering.
 
